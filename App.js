@@ -4,6 +4,7 @@ import React from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo';
 import Header from './Header';
+import Classes from './Classes';
 
 export default class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ export default class App extends React.Component {
         >
           <Header.NotificationsBtn />
         </Header>
+        <Classes />
       </LinearGradient>
     );
   }
