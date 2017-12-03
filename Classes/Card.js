@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { LinearGradient } from 'expo';
 
-const Card = () => (
+const Card = ({ title }) => (
   <LinearGradient
     start={[0, 0]}
     colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
@@ -32,8 +32,9 @@ const Card = () => (
             fontWeight: 'bold',
             marginBottom: 4,
           }}
+          numberOfLines={2}
         >
-          Photography
+          {title}
         </Text>
         <Text
           style={{
