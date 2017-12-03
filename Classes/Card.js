@@ -69,7 +69,7 @@ const Card = () => (
     <View style={{ flexDirection: 'row' }}>
       <LinearGradient
         start={[0, 1]}
-        locations={[0, 1]}
+        end={[1, 1]}
         colors={['#EFC7DE', '#B77EF1']}
         style={{
           padding: 8,

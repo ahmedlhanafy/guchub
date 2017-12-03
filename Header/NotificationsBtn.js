@@ -7,6 +7,7 @@ const NotificationsBtn = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <LinearGradient
       start={[0, 0]}
+      colors={['rgba(190,190,190,0.3)', 'rgba(160,160,160,0.25)']}
       style={{
         width: 40,
         height: 40,
@@ -14,7 +15,6 @@ const NotificationsBtn = ({ onPress }) => (
         justifyContent: 'center',
         alignItems: 'center',
       }}
-      colors={['rgba(190,190,190,0.3)', 'rgba(160,160,160,0.25)']}
     >
       <View
         style={{

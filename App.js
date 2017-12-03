@@ -1,10 +1,11 @@
 /* @flow */
 
 import React from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo';
 import Header from './Header';
 import Classes from './Classes';
+import Actions from './Actions';
 
 export default class App extends React.Component {
   render() {
@@ -15,14 +16,17 @@ export default class App extends React.Component {
         style={styles.container}
       >
         <StatusBar barStyle="light-content" />
-        <Header
-          title="Ahmed Elhanafy"
-          position="Engineering Student"
-          profilePicUrl="https://randomuser.me/api/portraits/men/27.jpg"
-        >
-          <Header.NotificationsBtn />
-        </Header>
-        <Classes />
+        <ScrollView>
+          <Header
+            title="Ahmed Elhanafy"
+            position="Engineering Student"
+            profilePicUrl="https://randomuser.me/api/portraits/men/27.jpg"
+          >
+            <Header.NotificationsBtn />
+          </Header>
+          <Classes />
+          <Actions />
+        </ScrollView>
       </LinearGradient>
     );
   }

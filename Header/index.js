@@ -9,7 +9,7 @@ const Header = ({ title, position, profilePicUrl, children }) => (
       paddingHorizontal: 16,
       paddingVertical: 8,
       flexDirection: 'row',
-      marginTop: Constants.statusBarHeight,
+      marginTop: Constants.statusBarHeight + 10,
       alignItems: 'center',
     }}
   >
