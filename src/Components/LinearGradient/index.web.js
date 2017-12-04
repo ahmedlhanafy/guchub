@@ -1,2 +1,2 @@
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from 'react-native-web-linear-gradient';
 export default LinearGradient;

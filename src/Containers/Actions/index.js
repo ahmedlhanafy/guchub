@@ -1,26 +1,15 @@
 /* @flow */
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Card from './Card';
 
 const Actions = () => (
-  <View style={{ marginTop: 24 }}>
-    <Text
-      style={{
-        paddingLeft: 16,
-        backgroundColor: 'transparent',
-        color: 'rgba(255,255,255,0.8)',
-        fontSize: 19,
-        fontWeight: 'bold',
-        marginBottom: 16,
-      }}
-    >
-      Actions
-    </Text>
+  <View style={styles.container}>
+    <Text style={styles.title}>Actions</Text>
     <ScrollView
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingLeft: 16 }}
+      contentContainerStyle={styles.scrollViewContainer}
       horizontal
     >
       <Card title="My Grades" colors={['#FCD5AC', '#F1837B']} />
@@ -29,5 +18,18 @@ const Actions = () => (
     </ScrollView>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: { marginTop: 24 },
+  scrollViewContainer: { paddingLeft: 16 },
+  title: {
+    paddingLeft: 16,
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 19,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+});
 
 export default Actions;
