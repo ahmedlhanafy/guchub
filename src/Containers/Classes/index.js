@@ -1,34 +1,36 @@
 /* @flow */
 
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Card from './Card';
 
 const Classes = () => (
-  <View style={{ marginTop: 24 }}>
-    <Text
-      style={{
-        paddingLeft: 16,
-        backgroundColor: 'transparent',
-        color: 'rgba(255,255,255,0.8)',
-        fontSize: 19,
-        fontWeight: 'bold',
-        marginBottom: 16,
-      }}
-    >
-      Today Classes
-    </Text>
+  <View style={styles.container}>
+    <Text style={styles.title}>Today Classes</Text>
     <ScrollView
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingLeft: 16 }}
+      contentContainerStyle={styles.scrollViewContainerStyle}
       horizontal
     >
-      <Card title={'Artificial Intelligence'} />
-      <Card title={'Human Computer Interaction'} />
-      <Card title={'Natural Language Processing'} />
+      <Card title="Artificial Intelligence" />
+      <Card title="Human Computer Interaction" />
+      <Card title="Natural Language Processing" />
     </ScrollView>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: { marginTop: 24 },
+  title: {
+    paddingLeft: 16,
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 19,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  scrollViewContainerStyle: { paddingLeft: 16 },
+});
 
 // const SCHEDULE_QUERY = gql`
 //   {

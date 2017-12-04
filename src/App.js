@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink, InMemoryCache } from 'apollo-client-preset';
 import Header from './Components/Header';
 import Classes from './Containers/Classes';
 import Actions from './Containers/Actions';
-import { LinearGradient } from './Components';
 
 const client = new ApolloClient({
   link: new HttpLink({
