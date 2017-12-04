@@ -98,10 +98,11 @@ const styles = StyleSheet.create({
     height: Platform.select({ web: 160, ios: 140, android: 140 }),
     borderRadius: 4,
     shadowColor: 'black',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: {
       height: 2,
+      width: 0,
     },
     marginRight: 16,
   },

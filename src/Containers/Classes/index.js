@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.8)',
     fontSize: 19,
     fontWeight: 'bold',
-    marginBottom: 16,
   },
-  scrollViewContainerStyle: { paddingLeft: 16 },
+  scrollViewContainerStyle: { paddingLeft: 16, paddingVertical: 16 },
 });
 
 // const SCHEDULE_QUERY = gql`

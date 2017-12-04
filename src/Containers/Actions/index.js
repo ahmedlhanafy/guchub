@@ -20,15 +20,14 @@ const Actions = () => (
 );
 
 const styles = StyleSheet.create({
-  container: { marginTop: 24 },
-  scrollViewContainer: { paddingLeft: 16 },
+  container: { marginTop: 8 },
+  scrollViewContainer: { paddingLeft: 16, marginVertical: 16 },
   title: {
     paddingLeft: 16,
     backgroundColor: 'transparent',
     color: 'rgba(255,255,255,0.8)',
     fontSize: 19,
     fontWeight: 'bold',
-    marginBottom: 16,
   },
 });
 

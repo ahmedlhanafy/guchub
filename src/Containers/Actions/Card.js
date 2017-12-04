@@ -56,10 +56,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 4,
     shadowColor: 'black',
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: {
       height: 2,
+      width: 0,
     },
     marginRight: 16,
     justifyContent: 'flex-end',
