@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from '../../Components';
 
 const Card = ({ title, colors }) => (
   <LinearGradient
-    start={[0, 1]}
-    end={[1, 1]}
+    start={{ x: 0, y: 1 }}
+    end={{ x: 1, y: 1 }}
     colors={colors}
     style={{
       width: 180,

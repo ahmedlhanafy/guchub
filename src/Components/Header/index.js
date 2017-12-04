@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
-import { Constants } from 'expo';
+// import { Constants } from 'expo';
 import NotificationsBtn from './NotificationsBtn';
 
 const Header = ({ title, position, profilePicUrl, children }) => (
@@ -9,7 +9,7 @@ const Header = ({ title, position, profilePicUrl, children }) => (
       paddingHorizontal: 16,
       paddingVertical: 8,
       flexDirection: 'row',
-      marginTop: Constants.statusBarHeight + 10,
+      marginTop: 22 + 10,
       alignItems: 'center',
     }}
   >

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { LinearGradient } from 'expo';
 import Card from './Card';
 
 const Actions = () => (

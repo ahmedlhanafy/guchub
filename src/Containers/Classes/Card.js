@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { LinearGradient } from 'expo';
+import { View, Text, Platform } from 'react-native';
+import { LinearGradient } from '../../Components';
 
 const Card = ({ title }) => (
   <LinearGradient
-    start={[0, 0]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
     colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
     style={{
       width: 320,
       paddingVertical: 14,
       paddingBottom: 18,
       paddingHorizontal: 16,
-      height: 140,
+      height: Platform.select({ web: 160, ios: 140, android: 140 }),
       borderRadius: 4,
       shadowColor: 'black',
       shadowOpacity: 0.3,
@@ -69,8 +70,8 @@ const Card = ({ title }) => (
     </View>
     <View style={{ flexDirection: 'row' }}>
       <LinearGradient
-        start={[0, 1]}
-        end={[1, 1]}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
         colors={['#EFC7DE', '#B77EF1']}
         style={{
           padding: 8,
