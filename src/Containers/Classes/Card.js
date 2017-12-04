@@ -1,37 +1,93 @@
-import React from 'react';
-import { View, Text, Platform, StyleSheet } from 'react-native';
+/* @flow */
+
+import React, { PureComponent } from 'react';
+import {
+  View,
+  Text,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Easing,
+} from 'react-native';
 import { LinearGradient } from 'expo';
 
-const Card = ({ title }: { title: string }) => (
-  <LinearGradient
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
-    style={styles.container}
-  >
-    <View style={styles.topSection}>
-      <View style={styles.textWrapper}>
-        <Text style={styles.title} numberOfLines={2}>
-          {title}
-        </Text>
-        <Text style={styles.profName}>Prof. Nettie Mathis</Text>
-      </View>
-      <View style={styles.timeContainer}>
-        <Text style={styles.time}>19:25 - 20:05</Text>
-      </View>
-    </View>
-    <View style={styles.tagsContainer}>
-      <LinearGradient
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 1 }}
-        colors={['#EFC7DE', '#B77EF1']}
-        style={styles.tag}
-      >
-        <Text style={styles.tagText}>PROJECT</Text>
-      </LinearGradient>
-    </View>
-  </LinearGradient>
-);
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
+
+type Props = {
+  title: string,
+  onPress: ?func,
+};
+
+class Card extends PureComponent<Props> {
+  state = {
+    textAnimatedValue: new Animated.Value(0),
+    tagAnimatedValue: new Animated.Value(0),
+  };
+  componentDidMount() {
+    Animated.timing(this.state.textAnimatedValue, {
+      toValue: 1,
+      duration: 1600,
+      useNativeDriver: true,
+      easing: Easing.ease,
+    }).start();
+    Animated.timing(this.state.tagAnimatedValue, {
+      toValue: 1,
+      duration: 1300,
+      useNativeDriver: true,
+      easing: Easing.bounce,
+    }).start();
+  }
+
+  render() {
+    const { title, onPress } = this.props;
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <AnimatedLinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
+          style={[styles.container]}
+        >
+          <Animated.View
+            style={[
+              styles.topSection,
+              { opacity: this.state.textAnimatedValue },
+            ]}
+          >
+            <View style={styles.textWrapper}>
+              <Text style={styles.title} numberOfLines={2}>
+                {title}
+              </Text>
+              <Text style={styles.profName}>Prof. Nettie Mathis</Text>
+            </View>
+            <View style={styles.timeContainer}>
+              <Text style={styles.time}>19:25 - 20:05</Text>
+            </View>
+          </Animated.View>
+          <View style={styles.tagsContainer}>
+            <TouchableOpacity onPress={onPress}>
+              <AnimatedLinearGradient
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                colors={['#EFC7DE', '#B77EF1']}
+                style={[
+                  styles.tag,
+                  {
+                    opacity: this.state.textAnimatedValue,
+                    transform: [{ scale: this.state.tagAnimatedValue }],
+                  },
+                ]}
+              >
+                <Text style={styles.tagText}>PROJECT</Text>
+              </AnimatedLinearGradient>
+            </TouchableOpacity>
+          </View>
+        </AnimatedLinearGradient>
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
