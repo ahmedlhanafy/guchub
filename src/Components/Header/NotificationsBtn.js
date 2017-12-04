@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
+import { LinearGradient, Icon } from '../';
 
 const NotificationsBtn = ({ onPress }) => (
   <TouchableOpacity onPress={onPress}>
     <LinearGradient
-      start={[0, 0]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
       colors={['rgba(190,190,190,0.3)', 'rgba(160,160,160,0.25)']}
       style={{
         width: 40,
@@ -16,6 +16,14 @@ const NotificationsBtn = ({ onPress }) => (
         alignItems: 'center',
       }}
     >
+      <Icon
+        size={22}
+        style={{
+          backgroundColor: 'transparent',
+          color: 'rgba(255,255,255,0.7)',
+        }}
+        name="notifications-none"
+      />
       <View
         style={{
           backgroundColor: '#4CE4CA',
@@ -28,14 +36,6 @@ const NotificationsBtn = ({ onPress }) => (
           borderWidth: 3,
           borderColor: '#38434F',
         }}
-      />
-      <MaterialIcons
-        size={22}
-        style={{
-          backgroundColor: 'transparent',
-          color: 'rgba(255,255,255,0.7)',
-        }}
-        name="notifications-none"
       />
     </LinearGradient>
   </TouchableOpacity>
