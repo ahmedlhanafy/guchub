@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.7)',
   },
   dot: {
-    backgroundColor: '#4CE4CA',
+    backgroundColor: 'red',
     width: 16,
     height: 16,
     borderRadius: 16 / 2,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     top: -5,
     right: -5,
     borderWidth: 3,
-    borderColor: '#38434F',
+    borderColor: '#032E46',
   },
 });
 

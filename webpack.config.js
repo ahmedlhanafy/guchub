@@ -11,17 +11,30 @@ const babelLoaderConfiguration = {
       path.resolve(__dirname, 'node_modules/react-native-uncompiled'),
       path.resolve(__dirname, 'node_modules/react-native'),
       path.resolve(__dirname, 'node_modules/react-native-web-linear-gradient'),
+      path.resolve(__dirname, 'node_modules/react-native-gifted-chat'),
+      path.resolve(__dirname, 'node_modules/react-clone-referenced-element'),
+      path.resolve(__dirname, 'node_modules/react-navigation'),
     ],
   },
   use: {
     loader: 'babel-loader',
     options: {
       cacheDirectory: true,
-      presets: ['react-native'],
-      // This aliases 'react-native' to 'react-native-web' and includes only
-      // the modules needed by the app
-      plugins: [require('./node_modules/react-native-web/babel')],
-      // The 'react-native' preset is recommended (or use your own .babelrc)
+      plugins: [
+        [
+          'react-transform',
+          {
+            transforms: [
+              {
+                transform: 'react-transform-hmr',
+                imports: ['react'],
+                // this is important for Webpack HMR:
+                locals: ['module'],
+              },
+            ],
+          },
+        ],
+      ],
     },
   },
 };
@@ -38,8 +51,13 @@ const imageLoaderConfiguration = {
 };
 
 module.exports = {
+  devtool: 'eval',
+  entry: [
+    'webpack-hot-middleware/client',
+    'babel-polyfill',
+    __dirname + '/App.web.js',
+  ],
   // ...the rest of your config
-  entry: __dirname + '/App.web.js',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
@@ -60,12 +78,16 @@ module.exports = {
   },
 
   plugins: [
-    // `process.env.NODE_ENV === 'production'` must be `true` for production
-    // builds to eliminate development checks and reduce build size. You may
-    // wish to include additional optimizations.
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        __DEV__: JSON.stringify('true'),
+        PLATFORM_ENV: JSON.stringify('web'),
+      },
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
   ],
 
   resolve: {
@@ -73,6 +95,11 @@ module.exports = {
       'react-native': 'react-native-web',
       expo: path.resolve(__dirname, 'shims/expo'),
       '@expo/vector-icons': path.resolve(__dirname, 'shims/@expo/vector-icons'),
+      '@expo/react-native-action-sheet': path.resolve(
+        __dirname,
+        'shims/@expo/react-native-action-sheet'
+      ),
+      'react-navigation': path.resolve(__dirname, 'shims/react-navigation'),
     },
     extensions: ['.web.js', '.js', '.json'],
   },

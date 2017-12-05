@@ -21,7 +21,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default class App extends React.Component {
+class Home extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
@@ -34,7 +34,7 @@ export default class App extends React.Component {
           <StatusBar barStyle="light-content" />
           <ScrollView>
             <Header
-              title="Ahmed Elhanafy"
+              title="Abdelrahman Maged"
               position="Engineering Student"
               profilePicUrl="https://randomuser.me/api/portraits/men/27.jpg"
             >
@@ -55,3 +55,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#032E46',
   },
 });
+
+export default Home;

@@ -9,7 +9,7 @@ import {
   Easing,
 } from 'react-native';
 import { LinearGradient } from 'expo';
-
+import { withNavigation } from 'react-navigation';
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 type Props = {
@@ -31,10 +31,14 @@ class Card extends PureComponent<Props> {
     }).start();
   }
 
+  _goToDetails = () => {
+    this.props.navigation.navigate('Details');
+  };
+
   render() {
     const { title, colors, onPress } = this.props;
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={this._goToDetails}>
         <AnimatedLinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
@@ -79,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default withNavigation(Card);

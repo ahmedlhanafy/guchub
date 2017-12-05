@@ -12,9 +12,9 @@ const Classes = () => (
       contentContainerStyle={styles.scrollViewContainerStyle}
       horizontal
     >
-      <Card title="Artificial Intelligence" />
-      <Card title="Human Computer Interaction" />
-      <Card title="Natural Language Processing" />
+      <Card title="Artificial Intelligence" venue="H12" />
+      <Card title="Human Computer Interaction" venue="C7.205" />
+      <Card title="Natural Language Processing" venue="C7.305" />
     </ScrollView>
   </View>
 );

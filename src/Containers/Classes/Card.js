@@ -17,6 +17,7 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 type Props = {
   title: string,
   onPress: ?func,
+  venue: string,
 };
 
 class Card extends PureComponent<Props> {
@@ -40,7 +41,7 @@ class Card extends PureComponent<Props> {
   }
 
   render() {
-    const { title, onPress } = this.props;
+    const { title, onPress, venue } = this.props;
     return (
       <TouchableOpacity onPress={onPress}>
         <AnimatedLinearGradient
@@ -65,24 +66,26 @@ class Card extends PureComponent<Props> {
               <Text style={styles.time}>19:25 - 20:05</Text>
             </View>
           </Animated.View>
-          <View style={styles.tagsContainer}>
-            <TouchableOpacity onPress={onPress}>
-              <AnimatedLinearGradient
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1, y: 1 }}
-                colors={['#EFC7DE', '#B77EF1']}
-                style={[
-                  styles.tag,
-                  {
-                    opacity: this.state.textAnimatedValue,
-                    transform: [{ scale: this.state.tagAnimatedValue }],
-                  },
-                ]}
-              >
-                <Text style={styles.tagText}>PROJECT</Text>
-              </AnimatedLinearGradient>
-            </TouchableOpacity>
-          </View>
+          {venue && (
+            <View style={styles.tagsContainer}>
+              <TouchableOpacity onPress={onPress}>
+                <AnimatedLinearGradient
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  colors={['#EFC7DE', '#B77EF1']}
+                  style={[
+                    styles.tag,
+                    {
+                      opacity: this.state.textAnimatedValue,
+                      transform: [{ scale: this.state.tagAnimatedValue }],
+                    },
+                  ]}
+                >
+                  <Text style={styles.tagText}>{venue}</Text>
+                </AnimatedLinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
         </AnimatedLinearGradient>
       </TouchableOpacity>
     );
