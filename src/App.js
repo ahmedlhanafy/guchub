@@ -28,7 +28,7 @@ class Home extends React.Component {
         <LinearGradient
           start={{ x: 0.2, y: 0.2 }}
           end={{ x: 1, y: 1 }}
-          colors={['rgba(200,200,200,0.2)', 'transparent']}
+          colors={['rgba(200,200,200,0.3)', 'transparent']}
           style={styles.container}
         >
           <StatusBar barStyle="light-content" />
@@ -52,7 +52,7 @@ class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#032E46',
+    backgroundColor: 'black',
   },
 });
 

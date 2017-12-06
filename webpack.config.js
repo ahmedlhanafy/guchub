@@ -28,7 +28,6 @@ const babelLoaderConfiguration = {
               {
                 transform: 'react-transform-hmr',
                 imports: ['react'],
-                // this is important for Webpack HMR:
                 locals: ['module'],
               },
             ],
@@ -49,18 +48,20 @@ const imageLoaderConfiguration = {
     },
   },
 };
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   entry: [
-    'webpack-hot-middleware/client',
     'babel-polyfill',
+    'react-hot-loader/patch',
     __dirname + '/App.web.js',
   ],
   // ...the rest of your config
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
+    publicPath: ASSET_PATH,
   },
   module: {
     rules: [
@@ -71,7 +72,7 @@ module.exports = {
         loader: 'url-loader', // or directly file-loader
         include: path.resolve(
           __dirname,
-          'node_modules/react-native-vector-icons'
+          'node_modules/react-native-vector-icons',
         ),
       },
     ],
@@ -89,7 +90,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
-
+  devServer: {
+    port: 3000,
+    contentBase: path.resolve(__dirname, 'public'),
+    hot: true,
+    inline: true,
+  },
   resolve: {
     alias: {
       'react-native': 'react-native-web',
@@ -97,7 +103,7 @@ module.exports = {
       '@expo/vector-icons': path.resolve(__dirname, 'shims/@expo/vector-icons'),
       '@expo/react-native-action-sheet': path.resolve(
         __dirname,
-        'shims/@expo/react-native-action-sheet'
+        'shims/@expo/react-native-action-sheet',
       ),
       'react-navigation': path.resolve(__dirname, 'shims/react-navigation'),
     },

@@ -1,11 +1,23 @@
-// index.web.js
-
+import React from 'react';
 import { AppRegistry } from 'react-native';
 import iconFont from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
+import { AppContainer } from 'react-hot-loader';
 import App from './src/App';
 
 // register the app
-AppRegistry.registerComponent('App', () => App);
+const render = App =>
+  AppRegistry.registerComponent('App', () => () => (
+    <AppContainer>
+      <App />
+    </AppContainer>
+  ));
+
+render(App);
+// Webpack Hot Module Replacement API
+
+if (module.hot) {
+  import('./src/App.js').then(() => render(App));
+}
 
 AppRegistry.runApplication('App', {
   initialProps: {},
