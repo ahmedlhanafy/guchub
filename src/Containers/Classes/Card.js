@@ -1,15 +1,7 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Easing,
-} from 'react-native';
+import { View, Text, Platform, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
@@ -48,14 +40,8 @@ class Card extends PureComponent<Props> {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
-          style={[styles.container]}
-        >
-          <Animated.View
-            style={[
-              styles.topSection,
-              { opacity: this.state.textAnimatedValue },
-            ]}
-          >
+          style={[styles.container]}>
+          <Animated.View style={[styles.topSection, { opacity: this.state.textAnimatedValue }]}>
             <View style={styles.textWrapper}>
               <Text style={styles.title} numberOfLines={2}>
                 {title}
@@ -79,8 +65,7 @@ class Card extends PureComponent<Props> {
                       opacity: this.state.textAnimatedValue,
                       transform: [{ scale: this.state.tagAnimatedValue }],
                     },
-                  ]}
-                >
+                  ]}>
                   <Text style={styles.tagText}>{venue}</Text>
                 </AnimatedLinearGradient>
               </TouchableOpacity>

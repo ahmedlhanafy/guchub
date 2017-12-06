@@ -1,15 +1,9 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Easing,
-} from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo';
-import { withNavigation } from 'react-navigation';
+
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 type Props = {
@@ -31,20 +25,15 @@ class Card extends PureComponent<Props> {
     }).start();
   }
 
-  _goToDetails = () => {
-    this.props.navigation.navigate('Details');
-  };
-
   render() {
     const { title, colors, onPress } = this.props;
     return (
-      <TouchableOpacity onPress={this._goToDetails}>
+      <TouchableOpacity onPress={onPress}>
         <AnimatedLinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 1 }}
           colors={colors}
-          style={[styles.container, { opacity: this.state.opacityAnimation }]}
-        >
+          style={[styles.container, { opacity: this.state.opacityAnimation }]}>
           <Text style={styles.title}>{title}</Text>
         </AnimatedLinearGradient>
       </TouchableOpacity>
@@ -83,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Card);
+export default Card;

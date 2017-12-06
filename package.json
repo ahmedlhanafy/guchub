@@ -2,11 +2,14 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "deploy": "now",
-    "now-build": "npm run web:build",
+    "native:dev": "exp start",
+    "native:run-ios": "exp ios",
+    "native:run-android": "exp android",
+    "web:dev": "webpack-dev-server -d --config config/web/webpack.config.dev.js",
+    "web:build": "webpack -p --config webpack.config.js",
+    "web:publish": "now --public",
     "now-start": "serve -p 80 ./public",
-    "web:dev": "webpack-dev-server -d --config webpack.config.js",
-    "web:build": "webpack -p --config webpack.config.js"
+    "now-build": "npm run web:build"
   },
   "dependencies": {
     "apollo-client-preset": "^1.0.4",
@@ -17,35 +20,24 @@
     "react-apollo": "^2.0.1",
     "react-dom": "^16.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
-    "react-native-gifted-chat": "^0.3.0",
-    "react-native-router-flux": "^4.0.0-beta.24",
     "react-native-web": "^0.1.16",
-    "react-native-web-linear-gradient": "^1.0.2",
-    "react-navigation": "^1.0.0-beta.21"
+    "react-native-web-linear-gradient": "^1.0.2"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-react-transform": "^3.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.10",
-    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react-native": "^4.0.0",
-    "eslint": "^4.7.2",
-    "eslint-config-prettier": "^2.6.0",
-    "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-flowtype": "^2.36.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-react-native": "^3.1.0",
-    "prettier": "^1.8.2",
+    "eslint": "^4.12.1",
+    "eslint-config-expo": "^6.0.0-rc.5",
+    "eslint-loader": "^1.9.0",
+    "exp": "^46.0.6",
+    "prettier": "^1.9.1",
     "react-hot-loader": "^3.1.3",
-    "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
-    "serve": "^6.4.1",
+    "redbox-react": "^1.5.0",
     "url-loader": "^0.6.2",
-    "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.5",
     "webpack-hot-middleware": "^2.21.0"
   }
 }

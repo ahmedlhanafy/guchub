@@ -11,8 +11,7 @@ const NotificationsBtn = ({ onPress }: { onPress: func }) => (
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       colors={['rgba(190,190,190,0.3)', 'rgba(160,160,160,0.25)']}
-      style={styles.container}
-    >
+      style={styles.container}>
       <MaterialIcons size={22} style={styles.icon} name="notifications-none" />
       <View style={styles.dot} />
     </LinearGradient>
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.7)',
   },
   dot: {
-    backgroundColor: '#1abc9c',
+    backgroundColor: 'red',
     width: 16,
     height: 16,
     borderRadius: 16 / 2,

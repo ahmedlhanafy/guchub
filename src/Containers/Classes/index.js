@@ -10,8 +10,7 @@ const Classes = () => (
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainerStyle}
-      horizontal
-    >
+      horizontal>
       <Card title="Artificial Intelligence" venue="H12" />
       <Card title="Human Computer Interaction" venue="C7.205" />
       <Card title="Natural Language Processing" venue="C7.305" />

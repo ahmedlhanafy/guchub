@@ -1,22 +1,25 @@
+/* @flow */
+
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import iconFont from 'react-native-vector-icons/Fonts/MaterialIcons.ttf';
+import Redbox from 'redbox-react';
 import { AppContainer } from 'react-hot-loader';
-import App from './src/App';
+import App from '../../src/App';
 
-// register the app
+const CustomErrorReporter = ({ error }: { error: Object }) => <Redbox error={error} />;
+
 const render = App =>
   AppRegistry.registerComponent('App', () => () => (
-    <AppContainer>
+    <AppContainer errorReporter={CustomErrorReporter}>
       <App />
     </AppContainer>
   ));
 
 render(App);
-// Webpack Hot Module Replacement API
 
 if (module.hot) {
-  import('./src/App.js').then(() => render(App));
+  import('../../src/App').then(() => render(App));
 }
 
 AppRegistry.runApplication('App', {
