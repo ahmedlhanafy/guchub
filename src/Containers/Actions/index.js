@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Card from './Card';
+import { SequenceAnimator } from '../../components';
 
 const Actions = () => (
   <View style={styles.container}>
@@ -11,9 +12,11 @@ const Actions = () => (
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainer}
       horizontal>
-      <Card index={0} title="My Grades" colors={['#FCD5AC', '#F1837B']} />
-      <Card index={1} title="Schedule" colors={['#49B4F1', '#8863F0']} />
-      <Card index={2} title="Transcript" colors={['pink', 'purple']} />
+      <SequenceAnimator>
+        <Card index={0} title="My Grades" colors={['#FCD5AC', '#F1837B']} />
+        <Card index={1} title="Schedule" colors={['#49B4F1', '#8863F0']} />
+        <Card index={2} title="Transcript" colors={['pink', 'purple']} />
+      </SequenceAnimator>
     </ScrollView>
   </View>
 );

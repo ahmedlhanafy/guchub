@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View, Text, Platform, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
+import LinesEllipsis from 'react-lines-ellipsis';
 import { LinearGradient } from 'expo';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
@@ -33,7 +34,7 @@ class Card extends PureComponent<Props> {
   }
 
   render() {
-    const { title, onPress, venue } = this.props;
+    const { title, onPress, venue, type } = this.props;
     return (
       <TouchableOpacity onPress={onPress}>
         <AnimatedLinearGradient
@@ -43,22 +44,34 @@ class Card extends PureComponent<Props> {
           style={[styles.container]}>
           <Animated.View style={[styles.topSection, { opacity: this.state.textAnimatedValue }]}>
             <View style={styles.textWrapper}>
-              <Text style={styles.title} numberOfLines={2}>
-                {title}
-              </Text>
+              {Platform.OS === 'web' ? (
+                <View style={styles.title}>
+                  <LinesEllipsis
+                    text={title}
+                    maxLine="2"
+                    ellipsis="..."
+                    trimRight
+                    basedOn="letters"
+                  />
+                </View>
+              ) : (
+                <Text style={styles.title} numberOfLines={2}>
+                  {title}
+                </Text>
+              )}
               <Text style={styles.profName}>Prof. Nettie Mathis</Text>
             </View>
             <View style={styles.timeContainer}>
               <Text style={styles.time}>19:25 - 20:05</Text>
             </View>
           </Animated.View>
-          {venue && (
+          {(venue || type) && (
             <View style={styles.tagsContainer}>
               <TouchableOpacity onPress={onPress}>
                 <AnimatedLinearGradient
                   start={{ x: 0, y: 1 }}
                   end={{ x: 1, y: 1 }}
-                  colors={['#EFC7DE', '#B77EF1']}
+                  colors={venue ? ['#C4E0E5', '#4CA1AF'] : ['#FFC371', '#FF5F6D']}
                   style={[
                     styles.tag,
                     {
@@ -66,7 +79,7 @@ class Card extends PureComponent<Props> {
                       transform: [{ scale: this.state.tagAnimatedValue }],
                     },
                   ]}>
-                  <Text style={styles.tagText}>{venue}</Text>
+                  <Text style={styles.tagText}>{venue || type}</Text>
                 </AnimatedLinearGradient>
               </TouchableOpacity>
             </View>

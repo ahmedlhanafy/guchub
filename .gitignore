@@ -1,5 +1,5 @@
 node_modules/**/*
 .expo/*
 npm-debug.*
-build/bundle.js
+public/bundle.js
 .DS_Store

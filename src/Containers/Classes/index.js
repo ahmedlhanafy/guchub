@@ -2,18 +2,20 @@
 
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import gql from 'graphql-tag';
 import Card from './Card';
+import { SequenceAnimator } from '../../components';
 
-const Classes = () => (
+const Classes = ({ data, title }) => (
   <View style={styles.container}>
-    <Text style={styles.title}>Today Classes</Text>
+    <Text style={styles.title}>{title}</Text>
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainerStyle}
       horizontal>
-      <Card title="Artificial Intelligence" venue="H12" />
-      <Card title="Human Computer Interaction" venue="C7.205" />
-      <Card title="Natural Language Processing" venue="C7.305" />
+      <SequenceAnimator>
+        {data.map(({ course, venue, type }) => <Card title={course} venue={venue} type={type} />)}
+      </SequenceAnimator>
     </ScrollView>
   </View>
 );
@@ -30,15 +32,28 @@ const styles = StyleSheet.create({
   scrollViewContainerStyle: { paddingLeft: 16, paddingVertical: 16 },
 });
 
-// const SCHEDULE_QUERY = gql`
-//   {
-//     student(username: "ahmed.elhanafy", password: "Mymy12345") {
-//       examsSchedule {
-//         course
-//         dateTime
-//       }
-//     }
-//   }
-// `;
+Classes.fragments = {
+  schedule: gql`
+    fragment Schedule on Student {
+      schedule {
+        course
+        type
+        weekday
+        slot
+        group
+      }
+    }
+  `,
+  examsSchedule: gql`
+    fragment ExamsSchedule on Student {
+      examsSchedule {
+        course
+        dateTime
+        seat
+        venue
+      }
+    }
+  `,
+};
 
 export default Classes;
