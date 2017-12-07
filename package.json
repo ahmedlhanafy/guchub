@@ -5,8 +5,9 @@
     "native:dev": "exp start",
     "native:run-ios": "exp ios",
     "native:run-android": "exp android",
+    "native:publish": "exp publish",
     "web:dev": "webpack-dev-server -d --config config/web/webpack.config.dev.js",
-    "web:build": "webpack -p --config webpack.config.js",
+    "web:build": "webpack -p --config config/web/webpack.config.prod.js",
     "web:publish": "now --public",
     "now-start": "serve -p 80 ./public",
     "now-build": "npm run web:build"
@@ -19,6 +20,7 @@
     "react": "^16.2.0",
     "react-apollo": "^2.0.1",
     "react-dom": "^16.2.0",
+    "react-lines-ellipsis": "^0.10.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
     "react-native-web": "^0.1.16",
     "react-native-web-linear-gradient": "^1.0.2"
