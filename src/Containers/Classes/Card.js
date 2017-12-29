@@ -41,7 +41,7 @@ class Card extends PureComponent<Props> {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
-          style={[styles.container]}>
+          style={styles.container}>
           <Animated.View style={[styles.topSection, { opacity: this.state.textAnimatedValue }]}>
             <View style={styles.textWrapper}>
               {Platform.OS === 'web' ? (

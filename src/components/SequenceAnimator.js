@@ -15,7 +15,7 @@ class OpacityAnimation extends PureComponent {
   }
   render() {
     return (
-      <Animated.View style={[{ opacity: this.state.animation }]}>
+      <Animated.View style={{ opacity: this.state.animation }}>
         {this.props.children}
       </Animated.View>
     );
@@ -24,7 +24,7 @@ class OpacityAnimation extends PureComponent {
 
 const SequenceAnimator = ({ animationDelay = 500, children }) =>
   Children.map(children, (child, index) => (
-    <OpacityAnimation delay={animationDelay} delayMultiplier={index}>
+    <OpacityAnimation key={index} delay={animationDelay} delayMultiplier={index}>
       {child}
     </OpacityAnimation>
   ));

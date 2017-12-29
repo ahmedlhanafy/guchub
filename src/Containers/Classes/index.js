@@ -14,7 +14,9 @@ const Classes = ({ data, title }) => (
       contentContainerStyle={styles.scrollViewContainerStyle}
       horizontal>
       <SequenceAnimator>
-        {data.map(({ course, venue, type }) => <Card title={course} venue={venue} type={type} />)}
+        {data.map(({ course: { name }, venue, type }, index) => (
+          <Card key={index} title={name} venue={venue} type={type} />
+        ))}
       </SequenceAnimator>
     </ScrollView>
   </View>
@@ -36,11 +38,11 @@ Classes.fragments = {
   schedule: gql`
     fragment Schedule on Student {
       schedule {
-        course
+        course {
+          name
+        }
         type
-        weekday
-        slot
-        group
+        venue
       }
     }
   `,
