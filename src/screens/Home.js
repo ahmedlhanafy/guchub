@@ -5,7 +5,7 @@ import { StatusBar, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import gql from 'graphql-tag';
 import graphql from 'react-apollo/graphql';
-import { Header, HomeLoading, SequenceAnimator } from '../components';
+import { Header, LoadingLayout, SequenceAnimator } from '../components';
 import Classes from '../containers/Classes';
 import Actions from '../containers/Actions';
 
@@ -30,7 +30,7 @@ export default graphql(gql`
         profilePicUrl="https://randomuser.me/api/portraits/men/10.jpg">
         <Header.NotificationsBtn />
       </Header>
-      {loading ? <HomeLoading /> : null}
+      {loading ? <LoadingLayout /> : null}
       {student ? (
         <SequenceAnimator animationDelay={900}>
           <Classes data={student.schedule} title="Today Classes" />
