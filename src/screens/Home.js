@@ -3,33 +3,47 @@
 import React from 'react';
 import { StatusBar, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
+import { withTheme } from 'styled-components';
 import gql from 'graphql-tag';
 import graphql from 'react-apollo/graphql';
-import { Header, LoadingLayout, SequenceAnimator } from '../components';
+import color from 'color';
+import { LoadingLayout, SequenceAnimator, Header } from '../components';
 import Classes from '../containers/Classes';
 import Actions from '../containers/Actions';
 
-export default graphql(gql`
+const QUERY = gql`
   {
-    student(username: "ahmed.elhanafy", password: "Mymy12345") {
+    student(username: "ahmed.elhanafy", password: "Fyfy12345") {
       ...Schedule
     }
   }
   ${Classes.fragments.schedule}
-`)(({ data: { loading, student } }) => (
+`;
+
+const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
   <LinearGradient
     start={{ x: 0.2, y: 0.2 }}
     end={{ x: 1, y: 1 }}
-    colors={['rgba(200,200,200,0.3)', 'transparent']}
+    colors={[
+      theme.backgroundColor,
+      color(theme.backgroundColor)
+        .darken(theme.type === 'dark'? 0.3 : 0.1)
+        .rgb()
+        .string(),
+    ]}
     style={styles.container}>
-    <StatusBar barStyle="light-content" />
+    <StatusBar barStyle={theme.type === 'light' ? 'dark-content' : 'light-content'} />
+    <Header>
+      <Header.title>Feed</Header.title>
+      <Header.notifBtn onPress={toggleTheme} />
+    </Header>
     <ScrollView>
-      <Header
+      {/* <Header
         title="Abdelrahman Maged"
         position="Engineering Student"
         profilePicUrl="https://randomuser.me/api/portraits/men/10.jpg">
         <Header.NotificationsBtn />
-      </Header>
+      </Header> */}
       {loading ? <LoadingLayout /> : null}
       {student ? (
         <SequenceAnimator animationDelay={900}>
@@ -40,7 +54,7 @@ export default graphql(gql`
       ) : null}
     </ScrollView>
   </LinearGradient>
-));
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -48,3 +62,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
 });
+
+export default graphql(QUERY)(withTheme(Home));

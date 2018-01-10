@@ -1,8 +1,10 @@
 /* @flow */
 
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { Text, TouchableOpacity, Animated } from 'react-native';
+import styled from 'styled-components/native';
 import { LinearGradient } from 'expo';
+import color from 'color';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -13,48 +15,45 @@ type Props = {
   index: number,
 };
 
+const Container = styled(AnimatedLinearGradient)`
+  width: 180;
+  height: 100;
+  padding-bottom: 14;
+  padding-horizontal: 16;
+  border-radius: 4;
+  ${({ theme }) =>
+    theme.type === 'dark'
+      ? `
+    shadow-color: black;
+    shadow-opacity: 0.2;
+    shadow-radius: 4;
+    shadow-offset: 2px 0px;
+  `
+      : `
+      border: 1.2px solid rgba(0,0,0,0.2);
+      overflow: hidden;
+      `};
+  margin-right: 16;
+  justify-content: flex-end;
+`;
+
+const Title = styled.Text`
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18;
+  font-weight: bold;
+  margin-bottom: 4;
+  text-shadow-color: rgba(0, 0, 0, 0.2);
+  text-shadow-radius: 1;
+  text-shadow-offset: 2px 0px;
+`;
+
 const Card = ({ title, colors, onPress }: Props) => (
   <TouchableOpacity onPress={onPress}>
-    <AnimatedLinearGradient
-      start={{ x: 0, y: 1 }}
-      end={{ x: 1, y: 1 }}
-      colors={colors}
-      style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-    </AnimatedLinearGradient>
+    <Container start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors}>
+      <Title>{title}</Title>
+    </Container>
   </TouchableOpacity>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    width: 180,
-    height: 100,
-    paddingBottom: 14,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    marginRight: 16,
-    justifyContent: 'flex-end',
-  },
-  title: {
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    textShadowColor: 'rgba(0,0,0,0.2)',
-    textShadowRadius: 1,
-    textShadowOffset: {
-      height: 2,
-      width: 0,
-    },
-  },
-});
 
 export default Card;

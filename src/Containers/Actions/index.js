@@ -4,10 +4,20 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Card from './Card';
 import { SequenceAnimator } from '../../components';
+import styled from 'styled-components/native';
+import color from 'color';
+
+const Title = styled.Text`
+  padding-left: 16;
+  background-color: transparent;
+  color: ${({ theme }) => theme.sectionTitleColor};
+  font-size: 19;
+  font-weight: bold;
+`;
 
 const Actions = () => (
   <View style={styles.container}>
-    <Text style={styles.title}>Actions</Text>
+    <Title>Actions</Title>
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainer}
@@ -24,13 +34,6 @@ const Actions = () => (
 const styles = StyleSheet.create({
   container: { marginTop: 8 },
   scrollViewContainer: { paddingLeft: 16, marginVertical: 16 },
-  title: {
-    paddingLeft: 16,
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 19,
-    fontWeight: 'bold',
-  },
 });
 
 export default Actions;

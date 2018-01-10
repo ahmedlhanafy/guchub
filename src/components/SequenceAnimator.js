@@ -15,9 +15,7 @@ class OpacityAnimation extends PureComponent {
   }
   render() {
     return (
-      <Animated.View style={{ opacity: this.state.animation }}>
-        {this.props.children}
-      </Animated.View>
+      <Animated.View style={{ opacity: this.state.animation }}>{this.props.children}</Animated.View>
     );
   }
 }

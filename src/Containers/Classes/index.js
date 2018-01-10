@@ -2,13 +2,26 @@
 
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 import gql from 'graphql-tag';
 import Card from './Card';
 import { SequenceAnimator } from '../../components';
 
+const Container = styled.View`
+  margin-top: 16;
+`;
+
+const Title = styled.Text`
+  padding-left: 16;
+  background-color: transparent;
+  color: ${({ theme }) => theme.sectionTitleColor};
+  font-size: 19;
+  font-weight: bold;
+`;
+
 const Classes = ({ data, title }) => (
-  <View style={styles.container}>
-    <Text style={styles.title}>{title}</Text>
+  <Container>
+    <Title>{title}</Title>
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollViewContainerStyle}
@@ -19,18 +32,10 @@ const Classes = ({ data, title }) => (
         ))}
       </SequenceAnimator>
     </ScrollView>
-  </View>
+  </Container>
 );
 
 const styles = StyleSheet.create({
-  container: { marginTop: 24 },
-  title: {
-    paddingLeft: 16,
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 19,
-    fontWeight: 'bold',
-  },
   scrollViewContainerStyle: { paddingLeft: 16, paddingVertical: 16 },
 });
 
