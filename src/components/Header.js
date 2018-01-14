@@ -1,34 +1,36 @@
 /* @flow */
 
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { Constants, LinearGradient } from 'expo';
 import color from 'color';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const NotificationsButton = withTheme(({ onPress, theme }: { onPress: func, theme: Object }) => (
-  <TouchableOpacity onPress={onPress}>
-    <NotificationsContainer
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={[
-        color(theme.cardBackgroundColor)
-          .darken(0.3)
-          .alpha(0.3)
-          .rgb()
-          .string(),
-        color(theme.cardBackgroundColor)
-          .darken(0.2)
-          .alpha(0.2)
-          .rgb()
-          .string(),
-      ]}>
-      <NotificationsIcon size={22} name="notifications-none" />
-      <NotificationsDot />
-    </NotificationsContainer>
-  </TouchableOpacity>
-));
+const NotificationsButton = withTheme(
+  ({ onPress, theme }: { onPress?: () => void, theme: Object }) => (
+    <TouchableOpacity onPress={onPress}>
+      <NotificationsContainer
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={[
+          color(theme.cardBackgroundColor)
+            .darken(0.3)
+            .alpha(0.3)
+            .rgb()
+            .string(),
+          color(theme.cardBackgroundColor)
+            .darken(0.2)
+            .alpha(0.2)
+            .rgb()
+            .string(),
+        ]}>
+        <NotificationsIcon size={22} name="notifications-none" />
+        <NotificationsDot />
+      </NotificationsContainer>
+    </TouchableOpacity>
+  )
+);
 
 const NotificationsContainer = styled(LinearGradient)`
   width: 40;

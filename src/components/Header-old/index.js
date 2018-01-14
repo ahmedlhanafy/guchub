@@ -14,7 +14,7 @@ const Header = ({
   title: string,
   position: string,
   profilePicUrl: string,
-  children: React.Element<*>,
+  children: any,
 }) => (
   <View style={styles.container}>
     <Image source={{ uri: profilePicUrl }} style={styles.avatar} />

@@ -2,7 +2,17 @@
 import React, { PureComponent, Children } from 'react';
 import { Animated, Easing } from 'react-native';
 
-class OpacityAnimation extends PureComponent {
+type State = {
+  animation: Object,
+};
+
+type Props = {
+  delay: number,
+  delayMultiplier: number,
+  children: any,
+};
+
+class OpacityAnimation extends PureComponent<Props, State> {
   state = { animation: new Animated.Value(0) };
   componentDidMount() {
     Animated.timing(this.state.animation, {
@@ -20,7 +30,13 @@ class OpacityAnimation extends PureComponent {
   }
 }
 
-const SequenceAnimator = ({ animationDelay = 500, children }) =>
+const SequenceAnimator = ({
+  animationDelay = 500,
+  children,
+}: {
+  animationDelay?: number,
+  children: any,
+}) =>
   Children.map(children, (child, index) => (
     <OpacityAnimation key={index} delay={animationDelay} delayMultiplier={index}>
       {child}

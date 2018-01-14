@@ -5,7 +5,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const NotificationsBtn = ({ onPress }: { onPress: func }) => (
+const NotificationsBtn = ({ onPress }: { onPress?: () => void }) => (
   <TouchableOpacity onPress={onPress}>
     <LinearGradient
       start={{ x: 0, y: 0 }}

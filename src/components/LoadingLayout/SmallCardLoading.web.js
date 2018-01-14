@@ -3,13 +3,20 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
+import color from 'color';
 import ContentLoader from 'react-content-loader';
 
 export default () => (
   <LinearGradient
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 1 }}
-    colors={['rgba(190,190,190,0.5)', 'rgba(160,160,160,0.3)']}
+    colors={[
+      '#767A80',
+      color('#3B4149')
+        .alpha(0.7)
+        .rgb()
+        .string(),
+    ]}
     style={styles.container}>
     <ContentLoader
       speed={100}

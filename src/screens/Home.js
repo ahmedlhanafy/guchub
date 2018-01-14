@@ -3,11 +3,11 @@
 import React from 'react';
 import { StatusBar, ScrollView, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo';
-import { withTheme } from 'styled-components';
+import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
 import graphql from 'react-apollo/graphql';
 import color from 'color';
-import { LoadingLayout, SequenceAnimator, Header } from '../components';
+import { LoadingLayout, SequenceAnimator, Header, Chart } from '../components';
 import Classes from '../containers/Classes';
 import Actions from '../containers/Actions';
 
@@ -15,6 +15,19 @@ const QUERY = gql`
   {
     student(username: "ahmed.elhanafy", password: "Fyfy12345") {
       ...Schedule
+      courses {
+        name
+        exam {
+          venue
+          seat
+        }
+      }
+      transcript {
+        semesters {
+          year
+          gpa
+        }
+      }
     }
   }
   ${Classes.fragments.schedule}
@@ -27,7 +40,7 @@ const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
     colors={[
       theme.backgroundColor,
       color(theme.backgroundColor)
-        .darken(theme.type === 'dark'? 0.3 : 0.1)
+        .darken(theme.type === 'dark' ? 0.3 : 0.1)
         .rgb()
         .string(),
     ]}
@@ -47,9 +60,12 @@ const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
       {loading ? <LoadingLayout /> : null}
       {student ? (
         <SequenceAnimator animationDelay={900}>
-          <Classes data={student.schedule} title="Today Classes" />
-          {/*<Classes data={student.examsSchedule} title="Exams Schedule" />*/}
+          {student.schedule.length > 0 && (
+            <Classes schedule={student.schedule} title="Today Classes" />
+          )}
+          {student.courses.length > 0 && <Classes exams={student.courses} title="Exams Schedule" />}
           <Actions />
+          <Chart grades={student.transcript.semesters} />
         </SequenceAnimator>
       ) : null}
     </ScrollView>

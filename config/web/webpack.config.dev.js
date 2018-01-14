@@ -18,20 +18,20 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(js|jsx|mjs)$/,
-        enforce: 'pre',
-        include: path.resolve('src'),
-        use: [
-          {
-            loader: 'eslint-loader',
-            options: {
-              emitWarning: true,
-              configFile: './.eslintrc',
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.(js|jsx|mjs)$/,
+      //   enforce: 'pre',
+      //   include: path.resolve('src'),
+      //   use: [
+      //     {
+      //       loader: 'eslint-loader',
+      //       options: {
+      //         emitWarning: true,
+      //         configFile: './.eslintrc',
+      //       },
+      //     },
+      //   ],
+      // },
       {
         test: /\.js$/,
         exclude: {
@@ -117,6 +117,7 @@ module.exports = {
       'react-native': 'react-native-web',
       expo: path.resolve(__dirname, 'shims/expo'),
       '@expo/vector-icons': path.resolve(__dirname, 'shims/@expo/vector-icons'),
+      'react-native-svg': 'react-native-svg-web',
     },
     extensions: ['.web.js', '.js', '.json'],
   },

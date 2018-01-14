@@ -47,7 +47,11 @@ const lightTheme = {
   cardBackgroundColor: 'white',
 };
 
-export default class App extends Component {
+type State = {
+  theme: Object,
+};
+
+export default class App extends Component<void, State> {
   state = { theme: darkTheme };
   render() {
     return (
@@ -55,7 +59,7 @@ export default class App extends Component {
         <ApolloProvider client={client}>
           <Home
             toggleTheme={() =>
-              this.setState({ theme: this.state.theme == lightTheme ? darkTheme : lightTheme })
+              this.setState({ theme: this.state.theme === lightTheme ? darkTheme : lightTheme })
             }
           />
         </ApolloProvider>

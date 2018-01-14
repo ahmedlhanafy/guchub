@@ -1,0 +1,60 @@
+[ignore]
+; We fork some components by platform
+.*/*[.]android.js
+
+; Ignore templates for 'react-native init'
+.*/local-cli/templates/.*
+
+; Ignore the Dangerfile
+<PROJECT_ROOT>/danger/dangerfile.js
+
+
+<PROJECT_ROOT>/node_modules/expo
+<PROJECT_ROOT>/node_modules/@expo
+<PROJECT_ROOT>/node_modules/react-native-web
+<PROJECT_ROOT>/config
+<PROJECT_ROOT>/public
+<PROJECT_ROOT>/node_modules/react-native
+<PROJECT_ROOT>/node_modules/reqwest/tests
+
+; Ignore "BUCK" generated dirs
+<PROJECT_ROOT>/\.buckd/
+
+; Ignore unexpected extra "@providesModule"
+.*/node_modules/.*/node_modules/fbjs/.*
+
+; Ignore polyfills
+.*/Libraries/polyfills/.*
+
+; Ignore metro
+.*/node_modules/metro/.*
+
+[include]
+
+[libs]
+Libraries/react-native/react-native-interface.js
+flow/
+flow-github/
+./config/flow/libdefs.js
+
+[options]
+emoji=true
+
+module.system=haste
+
+munge_underscores=true
+
+module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FlowFixMeProps
+suppress_type=$FlowFixMeState
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(<VERSION>\\)? *\\(site=[a-z,_]*[react_native_oss|react_native_fb][a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(<VERSION>\\)? *\\(site=[a-z,_]*[react_native_oss|react_native_fb][a-z,_]*\\)?)\\)?:? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
+
+[version]
+^0.63.1

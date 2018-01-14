@@ -1,11 +1,10 @@
 /* @flow */
 
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 import Card from './Card';
 import { SequenceAnimator } from '../../components';
-import styled from 'styled-components/native';
-import color from 'color';
 
 const Title = styled.Text`
   padding-left: 16;

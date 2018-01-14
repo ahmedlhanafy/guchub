@@ -69,6 +69,7 @@ export const TimeContainer = styled.View`
   justify-content: center;
   padding: 10px;
   border-radius: 4;
+  margin-left: 6px;
 `;
 
 export const TimeText = styled.Text`
@@ -87,9 +88,9 @@ export const TagsContainer = styled.View`
 `;
 
 export const Tag = styled(AnimatedLinearGradient)`
-  padding: 8px;
+  padding: 8px 12px 8px 12px;
   border-radius: 4;
-  padding-horizontal: 14;
+  margin-right: 12;
 `;
 
 export const TagTitle = styled.Text`

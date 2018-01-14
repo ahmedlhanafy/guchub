@@ -1,18 +1,17 @@
 /* @flow */
 
 import React from 'react';
-import { Text, TouchableOpacity, Animated } from 'react-native';
+import { TouchableOpacity, Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo';
-import color from 'color';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 type Props = {
   title: string,
   colors: string[],
-  onPress: ?func,
-  index: number,
+  onPress?: () => void,
+  index?: number,
 };
 
 const Container = styled(AnimatedLinearGradient)`

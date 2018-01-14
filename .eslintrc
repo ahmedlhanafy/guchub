@@ -1,5 +1,5 @@
 {
-  "extends": "expo/native",
+  "extends": ["universe/native", "universe/web"],
   "env": {
     "browser": true,
     "node": true,

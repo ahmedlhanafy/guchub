@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import gql from 'graphql-tag';
 import Card from './Card';
@@ -19,7 +19,13 @@ const Title = styled.Text`
   font-weight: bold;
 `;
 
-const Classes = ({ data, title }) => (
+type Props = {
+  schedule?: Array<any>,
+  exams?: Array<any>,
+  title: string,
+};
+
+const Classes = ({ schedule = [], exams = [], title }: Props) => (
   <Container>
     <Title>{title}</Title>
     <ScrollView
@@ -27,9 +33,13 @@ const Classes = ({ data, title }) => (
       contentContainerStyle={styles.scrollViewContainerStyle}
       horizontal>
       <SequenceAnimator>
-        {data.map(({ course: { name }, venue, type }, index) => (
-          <Card key={index} title={name} venue={venue} type={type} />
+        {schedule.map(({ course: { name }, type }, index) => (
+          <Card key={index} title={name} type={type} />
         ))}
+        {exams.map(
+          ({ name, exam }, index) =>
+            exam && <Card key={index} title={name} venue={exam.venue} type={exam.seat} />
+        )}
       </SequenceAnimator>
     </ScrollView>
   </Container>

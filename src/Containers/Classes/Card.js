@@ -20,12 +20,18 @@ import {
 
 type Props = {
   title: string,
-  onPress: ?func,
+  onPress: ?() => void,
   venue: string,
+  type?: string,
   theme: Object,
 };
 
-class Card extends PureComponent<Props> {
+type State = {
+  textAnimatedValue: Object,
+  tagAnimatedValue: Object,
+};
+
+class Card extends PureComponent<Props, State> {
   state = {
     textAnimatedValue: new Animated.Value(0),
     tagAnimatedValue: new Animated.Value(0),
@@ -80,22 +86,36 @@ class Card extends PureComponent<Props> {
               <TimeText>19:25 - 20:05</TimeText>
             </TimeContainer>
           </TopSection>
-          {(venue || type) && (
-            <TagsContainer>
+          <TagsContainer>
+            {venue && (
               <TouchableOpacity onPress={onPress}>
                 <Tag
                   start={{ x: 0, y: 1 }}
                   end={{ x: 1, y: 1 }}
-                  colors={venue ? ['#C4E0E5', '#4CA1AF'] : ['#FFC371', '#FF5F6D']}
+                  colors={['#FFC371', '#FF5F6D']}
                   style={{
                     opacity: this.state.textAnimatedValue,
                     transform: [{ scale: this.state.tagAnimatedValue }],
                   }}>
-                  <TagTitle>{venue || type}</TagTitle>
+                  <TagTitle>{venue}</TagTitle>
                 </Tag>
               </TouchableOpacity>
-            </TagsContainer>
-          )}
+            )}
+            {type && (
+              <TouchableOpacity onPress={onPress}>
+                <Tag
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  colors={['#C4E0E5', '#4CA1AF']}
+                  style={{
+                    opacity: this.state.textAnimatedValue,
+                    transform: [{ scale: this.state.tagAnimatedValue }],
+                  }}>
+                  <TagTitle>{type}</TagTitle>
+                </Tag>
+              </TouchableOpacity>
+            )}
+          </TagsContainer>
         </Container>
       </TouchableOpacity>
     );
