@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "flow": "flow .",
     "precommit": "npm run lint",
-    "prepush": "npm run eslint && npm run flow"
+    "prepush": "npm run lint && npm run flow"
   },
   "dependencies": {
     "apollo-cache-persist": "^0.1.1",
