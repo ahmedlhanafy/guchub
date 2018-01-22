@@ -12,9 +12,7 @@
     "now-start": "serve -p 80 ./public",
     "now-build": "npm run web:build",
     "lint": "eslint .",
-    "flow": "flow .",
-    "precommit": "npm run lint",
-    "prepush": "npm run lint && npm run flow"
+    "flow": "flow ."
   },
   "dependencies": {
     "apollo-cache-persist": "^0.1.1",
