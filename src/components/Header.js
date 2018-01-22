@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { Constants, LinearGradient } from 'expo';
 import color from 'color';
-import { MaterialIcons } from '@expo/vector-icons';
+// import { MaterialIcons } from '@expo/vector-icons';
 
 const NotificationsButton = withTheme(
   ({ onPress, theme }: { onPress?: () => void, theme: Object }) => (
@@ -25,7 +25,7 @@ const NotificationsButton = withTheme(
             .rgb()
             .string(),
         ]}>
-        <NotificationsIcon size={22} name="notifications-none" />
+        {/* <NotificationsIcon size={22} name="notifications-none" /> */}
         <NotificationsDot />
       </NotificationsContainer>
     </TouchableOpacity>
@@ -40,14 +40,14 @@ const NotificationsContainer = styled(LinearGradient)`
   align-items: center;
 `;
 
-const NotificationsIcon = styled(MaterialIcons)`
-  background-color: transparent;
-  color: ${({ theme }) =>
-    color(theme.primaryTextColor)
-      .alpha(0.7)
-      .rgb()
-      .string()};
-`;
+// const NotificationsIcon = styled(MaterialIcons)`
+//   background-color: transparent;
+//   color: ${({ theme }) =>
+//     color(theme.primaryTextColor)
+//       .alpha(0.7)
+//       .rgb()
+//       .string()};
+// `;
 
 const NotificationsDot = styled.View`
   background-color: red;

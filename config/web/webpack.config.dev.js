@@ -1,85 +1,56 @@
 const path = require('path');
 const webpack = require('webpack');
+const mergeWith = require('lodash.mergewith');
+const isArray = require('lodash.isarray');
+const Jarvis = require('webpack-jarvis');
+const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 
-module.exports = {
-  // devtool: 'eval',
-  devtool: 'cheap-source-map',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    'babel-polyfill',
-    'react-hot-loader/patch',
-    __dirname + '/App.js',
-  ],
+const sharedConfig = require('./webpack.config.shared');
+
+const customizer = (objValue, srcValue) => {
+  if (isArray(objValue)) {
+    return objValue.concat(srcValue);
+  }
+}
+ 
+module.exports = mergeWith(sharedConfig, {
+  devtool: 'cheap-module-source-map',
+  entry: {
+    app: [
+      // 'webpack-dev-server/client?http://localhost:3000',
+      // 'webpack/hot/only-dev-server',
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      'babel-polyfill',
+      'react-hot-loader/patch',
+      __dirname + '/App.js',
+    ],
+  },
   output: {
     filename: 'bundle.js',
+    chunkFilename: '[name].chunk.js',
     path: path.resolve('public'),
+    devtoolModuleFilenameTemplate: info =>
+      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
     // publicPath: '/',
+    crossOriginLoading: 'anonymous',
   },
   module: {
     rules: [
-      // {
-      //   test: /\.(js|jsx|mjs)$/,
-      //   enforce: 'pre',
-      //   include: path.resolve('src'),
-      //   use: [
-      //     {
-      //       loader: 'eslint-loader',
-      //       options: {
-      //         emitWarning: true,
-      //         configFile: './.eslintrc',
-      //       },
-      //     },
-      //   ],
-      // },
       {
-        test: /\.js$/,
-        exclude: {
-          test: path.resolve('node_modules'),
-          exclude: [
-            path.resolve('src'),
-            path.resolve('node_modules/react-native-uncompiled'),
-            path.resolve('node_modules/react-native'),
-            path.resolve('node_modules/react-native-web-linear-gradient'),
-            path.resolve('node_modules/react-native-gifted-chat'),
-            path.resolve('node_modules/react-clone-referenced-element'),
-            path.resolve('node_modules/react-navigation'),
-          ],
-        },
-        use: {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-            plugins: [
-              [
-                'react-transform',
-                {
-                  transforms: [
-                    {
-                      transform: 'react-transform-hmr',
-                      imports: ['react'],
-                      locals: ['module'],
-                    },
-                  ],
-                },
-              ],
-            ],
+        test: /\.(js|jsx|mjs)$/,
+        enforce: 'pre',
+        include: path.resolve('src'),
+        use: [
+          {
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true,
+              configFile: './.eslintrc',
+            },
           },
-        },
-      },
-      {
-        test: /\.(gif|jpe?g|png|svg)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
-      },
-      {
-        test: /\.ttf$/,
-        loader: 'url-loader',
-        include: path.resolve('node_modules/react-native-vector-icons'),
+        ],
       },
     ],
   },
@@ -92,9 +63,11 @@ module.exports = {
         PLATFORM_ENV: JSON.stringify('web'),
       },
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    // Add module names to factory functions so they appear in browser profiler.
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NoErrorsPlugin(),
+    new Jarvis(),
+    new WatchMissingNodeModulesPlugin(path.resolve('node_modules')),
   ],
   devServer: {
     port: 3000,
@@ -105,20 +78,29 @@ module.exports = {
     },
     inline: true,
     disableHostCheck: true,
+    compress: true,
+    clientLogLevel: 'none',
+    overlay: false,
+    historyApiFallback: {
+      // Paths with dots should still use the history fallback.
+      // See https://github.com/facebookincubator/create-react-app/issues/387.
+      disableDotRule: true,
+    },
     host: 'localhost',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
-  },
-  resolve: {
-    alias: {
-      'react-native': 'react-native-web',
-      expo: path.resolve(__dirname, 'shims/expo'),
-      '@expo/vector-icons': path.resolve(__dirname, 'shims/@expo/vector-icons'),
-      'react-native-svg': 'react-native-svg-web',
+    before(app) {
+      // This lets us open files from the runtime error overlay.
+      app.use(errorOverlayMiddleware());
+      // This service worker file is effectively a 'no-op' that will reset any
+      // previous service worker registered for the same host:port combination.
+      // We do this in development to avoid hitting the production cache if
+      // it used the same host and port.
+      // https://github.com/facebookincubator/create-react-app/issues/2272#issuecomment-302832432
+      app.use(noopServiceWorkerMiddleware());
     },
-    extensions: ['.web.js', '.js', '.json'],
   },
-};
+}, customizer);

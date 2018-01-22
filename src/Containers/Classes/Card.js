@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Platform, TouchableOpacity, Animated, Easing } from 'react-native';
 import LinesEllipsis from 'react-lines-ellipsis';
 import color from 'color';
-import { withTheme } from 'styled-components';
+import { withTheme } from 'styled-components/native';
 import {
   Container,
   SecondaryTitle,
