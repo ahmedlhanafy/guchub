@@ -35,7 +35,7 @@ export default () => (
 );
 
 const styles = StyleSheet.create({
-  container: { marginTop: 16 },
+  container: { marginTop: 8 },
   title: {
     paddingLeft: 16,
     backgroundColor: 'transparent',

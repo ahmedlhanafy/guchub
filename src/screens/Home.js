@@ -33,17 +33,8 @@ const QUERY = gql`
 
 const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
   <Screen>
-    <Header>
-      <Header.title>Feed</Header.title>
-      <Header.notifBtn onPress={toggleTheme} />
-    </Header>
-    <ScrollView>
-      {/* <Header
-        title="Abdelrahman Maged"
-        position="Engineering Student"
-        profilePicUrl="https://randomuser.me/api/portraits/men/10.jpg">
-        <Header.NotificationsBtn />
-      </Header> */}
+    <Screen.Header title="Feed" Header />
+    <Screen.Content Content>
       {loading ? <LoadingLayout /> : null}
       {student ? (
         <SequenceAnimator animationDelay={900}>
@@ -55,7 +46,7 @@ const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
           <Chart grades={student.transcript.semesters} />
         </SequenceAnimator>
       ) : null}
-    </ScrollView>
+    </Screen.Content>
   </Screen>
 );
 

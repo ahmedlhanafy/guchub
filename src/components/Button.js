@@ -1,7 +1,8 @@
 /* @react */
 
 import React from 'react';
-import { Platform, TouchableOpacity, Text } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
+import { Link } from 'react-router-native';
 import styled from 'styled-components/native';
 import color from 'color';
 
@@ -25,8 +26,13 @@ const Title = styled.Text`
   font-size: 16.5;
 `;
 
-export default ({ onPress, children, ...props }) => (
-  <Button onPress={onPress} {...props}>
-    <Title>{children.toString().toUpperCase()}</Title>
-  </Button>
-);
+export default ({ onPress, children, to, ...props }) =>
+  to ? (
+    <Link component={Button} activeOpacity={0.8} to={to} {...props}>
+      <Title>{children.toString().toUpperCase()}</Title>
+    </Link>
+  ) : (
+    <Button onPress={onPress} {...props}>
+      <Title>{children.toString().toUpperCase()}</Title>
+    </Button>
+  );

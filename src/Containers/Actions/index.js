@@ -23,7 +23,7 @@ const Actions = () => (
       horizontal>
       <SequenceAnimator>
         <Card title="My Grades" colors={['#FCD5AC', '#F1837B']} />
-        <Card title="Attendance" colors={['#49B4F1', '#8863F0']} />
+        <Card to="/attendance" title="Attendance" colors={['#49B4F1', '#8863F0']} />
         <Card title="Transcript" colors={['pink', 'purple']} />
       </SequenceAnimator>
     </ScrollView>

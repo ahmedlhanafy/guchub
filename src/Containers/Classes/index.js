@@ -8,7 +8,7 @@ import Card from './Card';
 import { SequenceAnimator } from '../../components';
 
 const Container = styled.View`
-  margin-top: 16;
+  margin-top: 8;
 `;
 
 const Title = styled.Text`

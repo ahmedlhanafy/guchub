@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
+import { Link } from 'react-router-native';
 import styled from 'styled-components/native';
 import { LinearGradient } from 'expo';
 
@@ -47,12 +48,19 @@ const Title = styled.Text`
   text-shadow-offset: 2px 0px;
 `;
 
-const Card = ({ title, colors, onPress }: Props) => (
-  <TouchableOpacity onPress={onPress}>
-    <Container start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors}>
-      <Title>{title}</Title>
-    </Container>
-  </TouchableOpacity>
-);
+const Card = ({ title, colors, onPress, to }: Props) =>
+  to ? (
+    <Link to={to} component={TouchableOpacity}>
+      <Container start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors}>
+        <Title>{title}</Title>
+      </Container>
+    </Link>
+  ) : (
+    <TouchableOpacity onPress={onPress}>
+      <Container start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors}>
+        <Title>{title}</Title>
+      </Container>
+    </TouchableOpacity>
+  );
 
 export default Card;

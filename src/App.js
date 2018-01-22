@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 import { AsyncStorage, Platform, View, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider } from 'react-apollo';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink, InMemoryCache } from 'apollo-client-preset';
 import { persistCache } from 'apollo-cache-persist';
-import { Login } from './screens';
+import { Home, Attendance, Login } from './screens';
 
 const cache = new InMemoryCache();
 
@@ -51,8 +52,27 @@ type State = {
   theme: Object,
 };
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
+  />
+);
+
 export default class App extends Component<void, State> {
   state = { theme: darkTheme };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -61,11 +81,19 @@ export default class App extends Component<void, State> {
         />
         <ThemeProvider theme={this.state.theme}>
           <ApolloProvider client={client}>
-            <Login
+            <Router>
+              <View style={{ flex: 1 }}>
+                <Route exact path="/" render={() => <Redirect to="/login" />} />
+                <Route exact path="/login" component={Login} />
+                <PrivateRoute exact path="/feed" component={Home} />
+                <PrivateRoute exact path="/attendance" component={Attendance} />
+              </View>
+            </Router>
+            {/* <Home
               toggleTheme={() =>
                 this.setState({ theme: this.state.theme === lightTheme ? darkTheme : lightTheme })
               }
-            />
+            /> */}
           </ApolloProvider>
         </ThemeProvider>
       </View>
