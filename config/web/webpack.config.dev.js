@@ -20,11 +20,11 @@ module.exports = mergeWith(sharedConfig, {
   entry: {
     app: [
       // 'webpack-dev-server/client?http://localhost:3000',
-      // 'webpack/hot/only-dev-server',
       require.resolve('react-dev-utils/webpackHotDevClient'),
+      // 'webpack/hot/only-dev-server',
       'babel-polyfill',
-      'react-hot-loader/patch',
-      __dirname + '/App.js',
+      // 'react-hot-loader/patch',
+      __dirname + '/index.js',
     ],
   },
   output: {

@@ -19,7 +19,7 @@ module.exports = mergeWith(
   {
     entry: {
       vendor: ['react', 'react-native-web', 'react-apollo', 'styled-components'],
-      app: [__dirname + '/App.js'],
+      app: [__dirname + '/index.js'],
     },
     output: {
       filename: 'bundle.js',

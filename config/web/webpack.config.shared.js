@@ -13,6 +13,7 @@ module.exports = {
             path.resolve('node_modules/react-native'),
             path.resolve('node_modules/react-native-web-linear-gradient'),
             path.resolve('node_modules/react-clone-referenced-element'),
+            path.resolve('node_modules/react-router-native'),
           ],
         },
         use: {
