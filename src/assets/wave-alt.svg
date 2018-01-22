@@ -1,0 +1,19 @@
+<svg width="1600" height="198" viewBox="0 0 1600 198" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>wave-4</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-15047 61)">
+<g id="wave-4">
+<g id="Vector">
+<use xlink:href="#path0_fill" transform="matrix(-1 0 0 1 16647 -61)" fill="url(#paint0_linear)" fill-opacity="0.8"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0 219.699 -1775.34 0 1687.67 -21.6989)">
+<stop offset="0" stop-color="#6FCF97"/>
+<stop offset="0.0994475" stop-color="#62CDC7"/>
+<stop offset="1" stop-color="#56CCF2"/>
+</linearGradient>
+<path id="path0_fill" fill-rule="evenodd" d="M 0.005 121C 311 121 409.898 -0.249614 811 0.000386067C 1211 0.000386067 1311 121 1600 121L 1600 198L 0 198C 0 198 0.005 150 0.005 121Z"/>
+</defs>
+</svg>

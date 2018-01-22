@@ -1,13 +1,11 @@
 /* @flow */
 
 import React from 'react';
-import { StatusBar, ScrollView, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo';
+import { ScrollView } from 'react-native';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
 import graphql from 'react-apollo/graphql';
-import color from 'color';
-import { LoadingLayout, SequenceAnimator, Header, Chart } from '../components';
+import { LoadingLayout, SequenceAnimator, Header, Chart, Screen } from '../components';
 import Classes from '../containers/Classes';
 import Actions from '../containers/Actions';
 
@@ -34,18 +32,7 @@ const QUERY = gql`
 `;
 
 const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
-  <LinearGradient
-    start={{ x: 0.2, y: 0.2 }}
-    end={{ x: 1, y: 1 }}
-    colors={[
-      theme.backgroundColor,
-      color(theme.backgroundColor)
-        .darken(theme.type === 'dark' ? 0.3 : 0.1)
-        .rgb()
-        .string(),
-    ]}
-    style={styles.container}>
-    <StatusBar barStyle={theme.type === 'light' ? 'dark-content' : 'light-content'} />
+  <Screen>
     <Header>
       <Header.title>Feed</Header.title>
       <Header.notifBtn onPress={toggleTheme} />
@@ -69,14 +56,7 @@ const Home = ({ data: { loading, student }, theme, toggleTheme }) => (
         </SequenceAnimator>
       ) : null}
     </ScrollView>
-  </LinearGradient>
+  </Screen>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-});
 
 export default graphql(QUERY)(withTheme(Home));

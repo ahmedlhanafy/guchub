@@ -1,0 +1,49 @@
+.waves {
+  background: url(../../assets/wave.svg) repeat-x;
+  position: absolute;
+  height: 198px;
+  animation: wave 10s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+  width: 6400px;
+  bottom: 0;
+}
+.waves-1 {
+  animation-duration: 6s;
+  opacity: 0.8;
+}
+
+.waves-2 {
+  opacity: 0.6;
+}
+
+.waves-3 {
+  animation-duration: 4s;
+  opacity: 0.4;
+}
+
+.waves-4 {
+  animation-duration: 12s;
+  background: url(../../assets/wave-alt.svg) repeat-x;  
+  opacity: 0.4;
+  bottom: -20;
+}
+
+@keyframes wave {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1600px, 0, 0);
+  }
+}
+
+
+@keyframes swell {
+  0%,
+  100% {
+    transform: translate3d(0, -25px, 0);
+  }
+  50% {
+    transform: translate3d(0, 5px, 0);
+  }
+}

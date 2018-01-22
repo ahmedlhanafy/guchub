@@ -1,13 +1,13 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { AsyncStorage, Platform } from 'react-native';
-import { ThemeProvider } from 'styled-components';
+import { AsyncStorage, Platform, View, StatusBar } from 'react-native';
+import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink, InMemoryCache } from 'apollo-client-preset';
 import { persistCache } from 'apollo-cache-persist';
-import { Home } from './screens';
+import { Login } from './screens';
 
 const cache = new InMemoryCache();
 
@@ -55,15 +55,20 @@ export default class App extends Component<void, State> {
   state = { theme: darkTheme };
   render() {
     return (
-      <ThemeProvider theme={this.state.theme}>
-        <ApolloProvider client={client}>
-          <Home
-            toggleTheme={() =>
-              this.setState({ theme: this.state.theme === lightTheme ? darkTheme : lightTheme })
-            }
-          />
-        </ApolloProvider>
-      </ThemeProvider>
+      <View style={{ flex: 1 }}>
+        <StatusBar
+          barStyle={this.state.theme.type === 'light' ? 'dark-content' : 'light-content'}
+        />
+        <ThemeProvider theme={this.state.theme}>
+          <ApolloProvider client={client}>
+            <Login
+              toggleTheme={() =>
+                this.setState({ theme: this.state.theme === lightTheme ? darkTheme : lightTheme })
+              }
+            />
+          </ApolloProvider>
+        </ThemeProvider>
+      </View>
     );
   }
 }
