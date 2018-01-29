@@ -23,18 +23,20 @@ const TextInput = withTheme(props => (
   />
 ));
 
-const Login = ({ theme }) => (
-  <Screen scrollable={false} style={{ alignItems: 'center', paddingTop: 80, overflow: 'hidden' }}>
-    <Screen.Content Content style={{ alignItems: 'center', flex: 1 }}>
-      <Logo source={require('../assets/logo.png')} />
-      <View style={{ minWidth: 300 }}>
-        <TextInput value="Press Login :D" label="Username" />
-        <TextInput label="Password" containerStyle={{ marginBottom: 20 }} secureTextEntry />
-        <Button to="/feed">Login</Button>
-      </View>
-      <Waves />
-    </Screen.Content>
-  </Screen>
-);
+const Login = ({ theme }) => {
+  return (
+    <Screen scrollable={false} style={{ alignItems: 'center', paddingTop: 40, overflow: 'hidden' }}>
+      <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
+        <Logo source={require('../assets/logo.png')} />
+        <View style={{ minWidth: 300, zIndex: 10 }}>
+          <TextInput value="Press Login :D" label="Username" />
+          <TextInput label="Password" containerStyle={{ marginBottom: 20 }} secureTextEntry />
+          <Button to="/feed">Login</Button>
+        </View>
+        <Waves />
+      </Screen.Content>
+    </Screen>
+  );
+};
 
 export default withTheme(Login);

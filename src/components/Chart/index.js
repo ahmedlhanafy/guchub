@@ -8,7 +8,7 @@ import { Svg } from 'expo';
 import color from 'color';
 import { LineChart, YAxis, XAxis } from 'react-native-svg-charts';
 
-import SectionTitle from '../SectionTitle';
+import Section from '../Section';
 import Line from './Line';
 
 const { LinearGradient, Stop } = Svg;
@@ -24,12 +24,12 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
     .string();
 
   return (
-    <View style={{ paddingHorizontal: 16, maxWidth: 800 }}>
-      <SectionTitle>Grades Average</SectionTitle>
+    <Section title="Grades Average" scrollable={false} style={{ maxWidth: 800 }}>
       <View
         style={{
           height: 200,
           flexDirection: 'row',
+          padding: 16,
         }}>
         <YAxis
           numberOfTicks={3}
@@ -76,7 +76,7 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
         formatLabel={value => value}
         labelStyle={[styles.axisLabel, { color: labelsTextColor }]}
       />
-    </View>
+    </Section>
   );
 });
 

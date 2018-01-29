@@ -25,6 +25,7 @@ module.exports = mergeWith(
       filename: 'bundle.js',
       path: path.resolve('public'),
     },
+    devtool: 'hidden-source-map',
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -34,6 +35,7 @@ module.exports = mergeWith(
         },
       }),
       new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         filename: 'vendor.js',
@@ -45,7 +47,13 @@ module.exports = mergeWith(
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
       // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        parallel: true,
+        compress: {
+          warnings: false,
+          screw_ie8: true
+        },
+      }),
       new CompressionPlugin(),
       new Jarvis(),
       new BundleAnalyzerPlugin(),

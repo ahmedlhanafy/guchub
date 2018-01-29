@@ -9,7 +9,7 @@
     "web:dev": "webpack-dev-server -d --config config/web/webpack.config.dev.js",
     "web:build": "webpack --config config/web/webpack.config.prod.js",
     "web:publish": "now --public",
-    "now-start": "serve -p 80 ./public",
+    "now-start": "serve -s -p 80 ./public",
     "now-build": "npm run web:build",
     "lint": "eslint .",
     "flow": "flow ."
@@ -17,11 +17,14 @@
   "dependencies": {
     "apollo-cache-persist": "^0.1.1",
     "apollo-client-preset": "^1.0.4",
+    "apollo-link-state": "^0.3.1",
     "color": "^2.0.1",
     "d3-shape": "^1.2.0",
     "expo": "^24.0.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
+    "lodash.capitalize": "^4.2.1",
+    "lodash.get": "^4.4.2",
     "react": "^16.2.0",
     "react-apollo": "^2.0.1",
     "react-content-loader": "^1.7.3",

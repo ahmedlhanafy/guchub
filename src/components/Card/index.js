@@ -16,14 +16,15 @@ import {
   TimeText,
   Title,
   TopSection,
-} from './CardComponents';
+} from './Components';
 
 type Props = {
   title: string,
   onPress: ?() => void,
-  venue: string,
-  type?: string,
+  tags: Array<string>,
   theme: Object,
+  timeText: string,
+  secondaryTitle?: string,
 };
 
 type State = {
@@ -32,6 +33,9 @@ type State = {
 };
 
 class Card extends PureComponent<Props, State> {
+  static defaultProps = {
+    tags: [],
+  };
   state = {
     textAnimatedValue: new Animated.Value(0),
     tagAnimatedValue: new Animated.Value(0),
@@ -52,7 +56,13 @@ class Card extends PureComponent<Props, State> {
   }
 
   render() {
-    const { title, onPress, venue, type, theme } = this.props;
+    const { title, onPress, theme, tags, timeText, secondaryTitle } = this.props;
+    const colors = [
+      ['#F2994A', '#F2C94C'],
+      ['#00ACCF', '#78ffd6'],
+      ['rgba(242, 153, 74, 1)', 'rgba(235, 87, 87, 1)'],
+      ['rgba(242, 153, 74, 1)', 'rgba(235, 87, 87, 1)'],
+    ];
     return (
       <TouchableOpacity onPress={onPress}>
         <Container
@@ -80,41 +90,25 @@ class Card extends PureComponent<Props, State> {
               ) : (
                 <Title numberOfLines={2}>{title}</Title>
               )}
-              <SecondaryTitle>Prof. Nettie Mathis</SecondaryTitle>
+              {secondaryTitle && <SecondaryTitle>{secondaryTitle}</SecondaryTitle>}
             </TextWrapper>
             <TimeContainer>
-              <TimeText>19:25 - 20:05</TimeText>
+              <TimeText>{timeText}</TimeText>
             </TimeContainer>
           </TopSection>
           <TagsContainer>
-            {venue && (
-              <TouchableOpacity onPress={onPress}>
-                <Tag
-                  start={{ x: 0, y: 1 }}
-                  end={{ x: 1, y: 1 }}
-                  colors={['#FFC371', '#FF5F6D']}
-                  style={{
-                    opacity: this.state.textAnimatedValue,
-                    transform: [{ scale: this.state.tagAnimatedValue }],
-                  }}>
-                  <TagTitle>{venue}</TagTitle>
-                </Tag>
-              </TouchableOpacity>
-            )}
-            {type && (
-              <TouchableOpacity onPress={onPress}>
-                <Tag
-                  start={{ x: 0, y: 1 }}
-                  end={{ x: 1, y: 1 }}
-                  colors={['#C4E0E5', '#4CA1AF']}
-                  style={{
-                    opacity: this.state.textAnimatedValue,
-                    transform: [{ scale: this.state.tagAnimatedValue }],
-                  }}>
-                  <TagTitle>{type}</TagTitle>
-                </Tag>
-              </TouchableOpacity>
-            )}
+            {tags.map((tag, index) => (
+              <Tag
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                colors={colors[index]}
+                style={{
+                  opacity: this.state.textAnimatedValue,
+                  transform: [{ scale: this.state.tagAnimatedValue }],
+                }}>
+                <TagTitle>{tag}</TagTitle>
+              </Tag>
+            ))}
           </TagsContainer>
         </Container>
       </TouchableOpacity>

@@ -31,7 +31,7 @@ class OpacityAnimation extends PureComponent<Props, State> {
 }
 
 const SequenceAnimator = ({
-  animationDelay = 500,
+  animationDelay = 100,
   children,
 }: {
   animationDelay?: number,

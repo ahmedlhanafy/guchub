@@ -49,6 +49,7 @@ module.exports = {
       expo: path.resolve(__dirname, 'shims/expo'),
       '@expo/vector-icons': path.resolve(__dirname, 'shims/@expo/vector-icons'),
       'react-native-svg': 'react-native-svg-web',
+      'react-router-native': path.resolve(__dirname, 'shims/react-router'),
     },
     extensions: ['.web.js', '.ios.js', '.js', '.json'],
   },

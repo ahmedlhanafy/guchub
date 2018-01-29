@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 import { AsyncStorage, Platform, View, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider } from 'react-apollo';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { NativeRouter as Router, Route, Redirect } from 'react-router-native';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink, InMemoryCache } from 'apollo-client-preset';
+import { HttpLink, InMemoryCache, ApolloLink } from 'apollo-client-preset';
 import { persistCache } from 'apollo-cache-persist';
-import { Home, Attendance, Login } from './screens';
+import { withClientState } from 'apollo-link-state';
+import { Home, Attendance, Login, Settings, Schedule } from './screens';
 
 const cache = new InMemoryCache();
 
@@ -18,11 +19,38 @@ persistCache({
   trigger: Platform.OS === 'web' ? 'write' : 'background',
 });
 
+const stateLink = withClientState({
+  cache,
+  resolvers: {
+    Mutation: {
+      changeTheme: (_, { type }: { type: 'dark' | 'light' | 'automatic' }, { cache }) => {
+        const data = {
+          theme: {
+            __typename: 'Theme',
+            type,
+          },
+        };
+        cache.writeData({ data });
+        return null;
+      },
+    },
+  },
+  defaults: {
+    theme: {
+      __typename: 'Theme',
+      type: 'dark',
+    },
+  },
+});
+
 const client = new ApolloClient({
   connectToDevTools: process.env.NODE_ENV === 'development',
-  link: new HttpLink({
-    uri: 'https://graphql-guc.now.sh/graphql',
-  }),
+  link: ApolloLink.from([
+    stateLink,
+    new HttpLink({
+      uri: 'https://graphql-guc.now.sh/graphql',
+    }),
+  ]),
   cache,
 });
 
@@ -73,6 +101,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export default class App extends Component<void, State> {
   state = { theme: darkTheme };
 
+  _changeTheme = type =>
+    this.setState(state => ({ theme: type === 'light' ? lightTheme : darkTheme }));
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -87,6 +118,12 @@ export default class App extends Component<void, State> {
                 <Route exact path="/login" component={Login} />
                 <PrivateRoute exact path="/feed" component={Home} />
                 <PrivateRoute exact path="/attendance" component={Attendance} />
+                <PrivateRoute exact path="/schedule" component={Schedule} />
+                <PrivateRoute
+                  exact
+                  path="/settings"
+                  component={() => <Settings changeGlobalTheme={this._changeTheme} />}
+                />
               </View>
             </Router>
             {/* <Home

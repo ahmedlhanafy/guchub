@@ -31,6 +31,7 @@ module.exports = mergeWith(sharedConfig, {
     filename: 'bundle.js',
     chunkFilename: '[name].chunk.js',
     path: path.resolve('public'),
+    // devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
     // publicPath: '/',
@@ -72,7 +73,7 @@ module.exports = mergeWith(sharedConfig, {
   devServer: {
     port: 3000,
     contentBase: path.resolve('public'),
-    hot: true,
+    // hot: true,
     stats: {
       colors: true,
     },
