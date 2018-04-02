@@ -91,7 +91,7 @@ class Screen extends Component<Props, State> {
         {...props}>
         {back && (
           <IconsContainer>
-            {back ? <IconButton to="/feed" iconName="keyboard-backspace" /> : null}
+            {back ? <IconButton to="/" iconName="keyboard-backspace" /> : null}
             {animated ? headerChildren : null}
           </IconsContainer>
         )}

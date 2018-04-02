@@ -5,7 +5,7 @@ import { Dimensions, Animated } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
-export default class Waves extends PureComponent<void, { value: Object }> {
+export default class Waves extends PureComponent<{}, { value: Object }> {
   state = { value: new Animated.Value(0) };
   componentDidMount() {
     Animated.loop(

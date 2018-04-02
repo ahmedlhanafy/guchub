@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import capitalize from 'lodash.capitalize';
 import { graphql, compose } from 'react-apollo';
 import { Screen, Section, Card, WithData, SequenceAnimator } from '../components';
-import { transformSchedule } from '../utils/transformSchedule';
+import { transformSchedule, graphqlCredentialsOptions } from '../utils';
 import type { Course } from '../types/Course';
 
 type Props = {
@@ -57,4 +57,9 @@ const QUERY = gql`
   ${Card.fragment}
 `;
 
-export default compose(withTheme, graphql(QUERY))(Schedule);
+export default compose(
+  withTheme,
+  graphql(QUERY, {
+    options: graphqlCredentialsOptions,
+  })
+)(Schedule);

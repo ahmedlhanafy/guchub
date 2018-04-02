@@ -106,14 +106,14 @@ const QUERY = gql`
   }
 `;
 
-const UPDATE_NETWORK_STATUS = gql`
+const UPDATE_THEME_MUTATION = gql`
   mutation changeTheme($type: String) {
     changeTheme(type: $type) @client
   }
 `;
 
 export default compose(
-  graphql(UPDATE_NETWORK_STATUS, {
+  graphql(UPDATE_THEME_MUTATION, {
     props: ({ mutate }) => ({
       changeTheme: type => mutate({ variables: { type } }),
     }),

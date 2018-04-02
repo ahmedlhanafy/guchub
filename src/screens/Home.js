@@ -16,7 +16,8 @@ import {
   Section,
   Actions,
 } from '../components';
-import { getSchedule } from '../utils/transformSchedule';
+import { getSchedule, graphqlCredentialsOptions } from '../utils';
+import { FEED_QUERY } from '../constants';
 
 const Home = ({ data, theme, toggleTheme }) => {
   return (
@@ -50,22 +51,9 @@ const renderFeed = student => {
   );
 };
 
-const QUERY = gql`
-  {
-    student(username: "ahmed.elhanafy", password: "Zyzy12345") {
-      schedule {
-        ...CourseFragment
-        weekday
-      }
-      transcript {
-        semesters {
-          year
-          gpa
-        }
-      }
-    }
-  }
-  ${Card.fragment}
-`;
-
-export default compose(graphql(QUERY), withTheme)(Home);
+export default compose(
+  graphql(FEED_QUERY, {
+    options: graphqlCredentialsOptions,
+  }),
+  withTheme
+)(Home);

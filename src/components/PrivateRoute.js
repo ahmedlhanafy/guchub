@@ -1,12 +1,17 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-native';
+/* @flow */
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Route, Redirect } from 'react-router-native';
+import get from 'lodash.get';
+
+const PrivateRoute = ({ data, component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      true ? (
-        <Component {...props} />
+      get(data, 'credentials.isAuthorized') ? (
+        <Component credentials={data.credentials} {...props} />
       ) : (
         <Redirect
           to={{
@@ -19,4 +24,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-export default PrivateRoute;
+const QUERY = gql`
+  {
+    credentials @client {
+      username
+      password
+      isAuthorized
+    }
+  }
+`;
+
+export default graphql(QUERY)(PrivateRoute);

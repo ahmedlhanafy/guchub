@@ -24,9 +24,8 @@ const App = graphql(
   <ThemeProvider theme={themes[theme.type]}>
     <Router>
       <View style={{ flex: 1 }}>
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/feed" component={Home} />
+        <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/attendance" component={Attendance} />
         <PrivateRoute exact path="/transcript" component={Attendance} />
         <PrivateRoute exact path="/schedule" component={Schedule} />

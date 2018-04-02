@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Platform } from 'react-native';
 import { Link } from 'react-router-native';
 import styled from 'styled-components/native';
@@ -26,22 +26,39 @@ const Title = styled.Text`
   font-size: 16.5;
 `;
 
+const LoadingIndicator = styled.ActivityIndicator`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 16px;
+`;
+
 export default ({
   onPress,
   children,
   to,
+  loading,
   ...props
 }: {
-  onPress?: () => void,
+  onPress?: () => void | Promise<void>,
   children: any,
   to?: string,
-}) =>
-  to ? (
-    <Link component={Button} to={to}>
+  loading?: boolean,
+}) => {
+  const content = (
+    <Fragment>
       <Title>{children.toString().toUpperCase()}</Title>
+      {loading ? <LoadingIndicator color="rgba(98, 205, 199, 1)" /> : null}
+    </Fragment>
+  );
+
+  return to ? (
+    <Link component={Button} to={to}>
+      {content}
     </Link>
   ) : (
     <Button onPress={onPress} {...props}>
-      <Title>{children.toString().toUpperCase()}</Title>
+      {content}
     </Button>
   );
+};
