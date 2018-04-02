@@ -12,7 +12,7 @@ import { FEED_QUERY } from '../constants';
 
 type Props = {
   client: Object,
-  saveCredentials: ({ username: string, password: string }) => void,
+  saveCredentials: ({ username: ?string, password: ?string, isAuthorized: boolean }) => void,
   history: Object,
 };
 
@@ -21,38 +21,62 @@ type State = {
   password: string,
   errorExists: boolean,
   isLoading: boolean,
+  isLoadingDemo: boolean,
 };
 
 class Login extends React.PureComponent<Props, State> {
-  state = { username: '', password: '', errorExists: false, isLoading: false };
+  state = {
+    username: '',
+    password: '',
+    errorExists: false,
+    isLoading: false,
+    isLoadingDemo: false,
+  };
 
-  _login = async () => {
-    this.setState({ isLoading: true });
-    const { username, password } = this.state;
+  componentDidMount() {
+    this.props.saveCredentials({ username: null, password: null, isAuthorized: false });
+  }
+
+  _loginAndRoute = async ({ username, password }) => {
     const { data } = await this.props.client.query({
       query: FEED_QUERY,
       variables: { username, password },
     });
     if (data.student.isAuthorized) {
-      this.props.saveCredentials({ username, password });
+      this.props.saveCredentials({
+        username,
+        password,
+        isAuthorized: true,
+      });
       // Give Apollo's store a moment to update
-      setTimeout(() => this.props.history.push('/'), 100);
+      setTimeout(() => this.props.history.push('/'), 200);
     } else {
-      this.setState({ isLoading: false, errorExists: true });
+      this.setState({ isLoadingDemo: false, isLoading: false, errorExists: true });
     }
+  };
+
+  _demoLogin = () => {
+    this.setState({ isLoadingDemo: true });
+    this._loginAndRoute({ username: 'john.doe', password: '123456' });
+  };
+
+  _login = () => {
+    const { username, password } = this.state;
+    this.setState({ isLoading: true });
+    this._loginAndRoute({ username, password });
   };
 
   _hideToast = () => this.setState({ errorExists: false });
 
   render() {
-    const { username, password, isLoading, errorExists } = this.state;
+    const { username, password, isLoading, isLoadingDemo, errorExists } = this.state;
 
     return (
       <Screen
         scrollable={false}
         style={{ alignItems: 'center', paddingTop: 40, overflow: 'hidden' }}>
         <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
-          <Logo source={require('../assets/logo.png')} />
+          <Logo source={require('../assets/logo1.png')} />
           <Toast shown={errorExists} handleHiding={this._hideToast} text="Wrong Credentials!" />
           <View style={{ minWidth: 300, zIndex: 10 }}>
             <TextInput
@@ -72,6 +96,13 @@ class Login extends React.PureComponent<Props, State> {
               loading={isLoading}
               onPress={this._login}>
               Login
+            </Button>
+            <Button
+              disabled={isLoading || isLoadingDemo}
+              primary
+              loading={isLoadingDemo}
+              onPress={this._demoLogin}>
+              SEE A DEMO
             </Button>
           </View>
           <Waves />
@@ -98,8 +129,8 @@ const TextInput = withTheme(props => (
 ));
 
 const SAVE_CREDENTIALS = gql`
-  mutation saveCredentials($username: String, $password: String) {
-    saveCredentials(username: $username, password: $password) @client
+  mutation saveCredentials($username: String, $password: String, $isAuthorized: Boolean) {
+    saveCredentials(username: $username, password: $password, isAuthorized: $isAuthorized) @client
   }
 `;
 
@@ -107,8 +138,10 @@ export default compose(
   withTheme,
   withApollo,
   graphql(SAVE_CREDENTIALS, {
-    props: ({ mutate }) => ({
-      saveCredentials: ({ username, password }) => mutate({ variables: { username, password } }),
+    props: ({ mutate, ownProps: { client } }) => ({
+      saveCredentials: ({ username, password, isAuthorized }) =>
+        mutate({ variables: { username, password, isAuthorized } }),
+      resetStore: async () => client.resetStore(),
     }),
   })
 )(Login);

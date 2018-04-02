@@ -46,8 +46,8 @@ const renderSchedule = schedule => {
 };
 
 const QUERY = gql`
-  {
-    student(username: "ahmed.elhanafy", password: "Zyzy12345") {
+  query scheduleQuery($username: String!, $password: String!) {
+    student(username: $username, password: $password) {
       schedule {
         weekday
         ...CourseFragment

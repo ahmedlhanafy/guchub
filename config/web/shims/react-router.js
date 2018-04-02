@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { TouchableHighlight } from 'react-native'
-import { BrowserRouter as NativeRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as NativeRouter, Route, Redirect, withRouter } from 'react-router-dom';
 
 
 class Link extends Component {
@@ -54,4 +54,4 @@ class Link extends Component {
 export default Link
 
 
-export { NativeRouter, Route, Redirect, Link };
+export { NativeRouter, Route, Redirect, Link,withRouter };

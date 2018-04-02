@@ -13,6 +13,7 @@ type Props = {
   data: {
     theme: { type: string },
   },
+  history: Object,
 };
 
 const Seperator = styled.View`
@@ -77,14 +78,14 @@ class Settings extends React.Component<Props> {
             </SmallCard>
           </Section>
           <Seperator />
-          <Footer />
+          <Footer history={this.props.history} />
         </Screen.Content>
       </Screen>
     );
   }
 }
 
-const Footer = () => (
+const Footer = ({ history }) => (
   <CenteredLayout>
     <TouchableOpacity>
       <Link>About</Link>
@@ -94,6 +95,9 @@ const Footer = () => (
         Linking.openURL('mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback')
       }>
       <Link>Leave Feedback</Link>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={() => history.push('/login')}>
+      <Link>Logout</Link>
     </TouchableOpacity>
   </CenteredLayout>
 );

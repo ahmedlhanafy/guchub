@@ -5,9 +5,9 @@ import { View, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { NativeRouter as Router, Route, Redirect } from 'react-router-native';
+import { NativeRouter as Router, Route } from 'react-router-native';
 import { Home, Attendance, Login, Settings, Schedule } from './screens';
-import { PrivateRoute } from './components';
+import { DemoUserToast, PrivateRoute } from './components';
 import apolloClient, { persistedCache } from './apolloClient';
 import { themes } from './constants';
 
@@ -17,23 +17,29 @@ const App = graphql(
       theme @client {
         type
       }
+      credentials @client {
+        username
+      }
     }
   `
-)(({ data: { theme } }) => [
-  <StatusBar barStyle={theme.type === 'light' ? 'dark-content' : 'light-content'} />,
-  <ThemeProvider theme={themes[theme.type]}>
+)(({ data: { theme, credentials } }) => (
+  <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
     <Router>
       <View style={{ flex: 1 }}>
+        <StatusBar
+          barStyle={(theme ? theme.type : 'light') === 'light' ? 'dark-content' : 'light-content'}
+        />
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/attendance" component={Attendance} />
         <PrivateRoute exact path="/transcript" component={Attendance} />
         <PrivateRoute exact path="/schedule" component={Schedule} />
-        <PrivateRoute exact path="/settings" component={() => <Settings />} />
+        <PrivateRoute exact path="/settings" component={Settings} />
+        <DemoUserToast credentials={credentials} />
       </View>
     </Router>
-  </ThemeProvider>,
-]);
+  </ThemeProvider>
+));
 
 export default class extends React.Component<null, { didCacheResolve: boolean }> {
   state = { didCacheResolve: false };

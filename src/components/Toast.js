@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import color from 'color';
 import styled from 'styled-components/native';
@@ -11,7 +11,7 @@ type Props = {
   disappearing?: boolean,
   hideAfter?: number,
   shown: boolean,
-  handleHiding: () => void,
+  handleHiding?: () => void,
 };
 
 type State = {
@@ -25,10 +25,12 @@ export default class Toast extends PureComponent<Props, State> {
     hideAfter: 4000,
   };
   static Action = ({ text, onPress }: { text: string, onPress: () => void }) => (
-    <TouchableOpacity>
+    <Fragment>
       <ToastSeperator />
-      <ToastAction>{text.toUpperCase()}</ToastAction>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
+        <ToastAction>{text.toUpperCase()}</ToastAction>
+      </TouchableOpacity>
+    </Fragment>
   );
   state = { animatedValue: new Animated.Value(this.props.shown ? 1 : 0) };
 
@@ -70,7 +72,7 @@ export default class Toast extends PureComponent<Props, State> {
 }
 
 const ToastWrapper = styled(Animated.View)`
-  z-index: 10;
+  z-index: 20;
   position: fixed;
   bottom: 16%;
   left: 0;
