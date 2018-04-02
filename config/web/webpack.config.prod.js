@@ -18,7 +18,7 @@ module.exports = mergeWith(
   {
     entry: {
       vendor: ['react', 'react-native-web', 'react-apollo', 'styled-components'],
-      app: [__dirname + '/index.js'],
+      app: ['babel-polyfill', __dirname + '/index.js'],
     },
     output: {
       filename: 'bundle.js',
@@ -50,7 +50,7 @@ module.exports = mergeWith(
         parallel: true,
         compress: {
           warnings: false,
-          screw_ie8: true
+          screw_ie8: true,
         },
       }),
       new CompressionPlugin(),
