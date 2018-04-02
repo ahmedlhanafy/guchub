@@ -26,12 +26,19 @@ const Title = styled.Text`
   font-size: 16.5;
 `;
 
-export default ({ onPress, children, to, ...props }) =>
+export default ({
+  onPress,
+  children,
+  to,
+  ...props
+}: {
+  onPress?: () => void,
+  children: any,
+  to?: string,
+}) =>
   to ? (
-    <Link activeOpacity={0.8} to={to} {...props}>
-      <Button {...props}>
-        <Title>{children.toString().toUpperCase()}</Title>
-      </Button>
+    <Link component={Button} to={to}>
+      <Title>{children.toString().toUpperCase()}</Title>
     </Link>
   ) : (
     <Button onPress={onPress} {...props}>

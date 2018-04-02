@@ -2,24 +2,60 @@
 
 import React from 'react';
 import { withTheme } from 'styled-components/native';
-import { ActivityIndicator } from 'react-native';
 import gql from 'graphql-tag';
+import { compose } from 'react-apollo';
 import graphql from 'react-apollo/graphql';
 import get from 'lodash.get';
-import { SequenceAnimator, Chart, Screen, IconButton } from '../components';
-import { Classes, Actions } from '../containers';
-import transformSchedule from '../utils/transformSchedule';
+import {
+  SequenceAnimator,
+  Chart,
+  Screen,
+  IconButton,
+  WithData,
+  Card,
+  Section,
+  Actions,
+} from '../components';
+import { getSchedule } from '../utils/transformSchedule';
+
+const Home = ({ data, theme, toggleTheme }) => {
+  return (
+    <Screen>
+      <Screen.Header title="Feed">
+        <IconButton hasOutline to="/settings" iconName="settings" />
+      </Screen.Header>
+      <Screen.Content>
+        <WithData data={data} selector={data => data.student} render={renderFeed} />
+      </Screen.Content>
+    </Screen>
+  );
+};
+
+const renderFeed = student => {
+  const scheduleData = getSchedule(get(student, 'schedule', []));
+
+  return (
+    <SequenceAnimator>
+      {scheduleData &&
+        scheduleData.schedule.length > 0 && (
+          <Section title={`${scheduleData.label} Classes`}>
+            <SequenceAnimator>
+              {scheduleData.schedule.map((course, index) => <Card course={course} key={index} />)}
+            </SequenceAnimator>
+          </Section>
+        )}
+      <Actions />
+      <Chart grades={student.transcript.semesters} />
+    </SequenceAnimator>
+  );
+};
 
 const QUERY = gql`
   {
-    student(username: "ahmed.elhanafy", password: "Fyfy12345") {
-      ...Schedule
-      courses {
-        name
-        exam {
-          venue
-          seat
-        }
+    student(username: "ahmed.elhanafy", password: "Zyzy12345") {
+      schedule {
+        ...CourseFragment
+        weekday
       }
       transcript {
         semesters {
@@ -29,29 +65,7 @@ const QUERY = gql`
       }
     }
   }
-  ${Classes.fragments.schedule}
+  ${Card.fragment}
 `;
 
-const Home = ({ data: { loading, student }, theme, toggleTheme }) => {
-  var days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'SATURDAY'];
-
-  const schedule = transformSchedule(get(student, 'schedule', []))[days[new Date().getDay()]] || [];
-  return (
-    <Screen>
-      <Screen.Header title="Feed">
-        <IconButton hasOutline to="/settings" iconName="settings" />
-      </Screen.Header>
-      <Screen.Content>
-        {loading ? <ActivityIndicator size="large" /> : null}
-        {student ? (
-          <SequenceAnimator animationDelay={100}>
-            {schedule.length > 0 && <Classes schedule={schedule} title="Today Classes" />}
-            <Actions />
-            <Chart grades={student.transcript.semesters} />
-          </SequenceAnimator>
-        ) : null}
-      </Screen.Content>
-    </Screen>
-  );
-};
-export default graphql(QUERY)(withTheme(Home));
+export default compose(graphql(QUERY), withTheme)(Home);

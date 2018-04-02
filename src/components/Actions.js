@@ -8,7 +8,7 @@ const Actions = () => (
     <SequenceAnimator>
       <SmallCard to="/schedule" title="Schedule" colors={['#FCD5AC', '#F1837B']} />
       <SmallCard to="/attendance" title="Attendance" colors={['#49B4F1', '#8863F0']} />
-      <SmallCard title="Transcript" colors={['pink', 'purple']} />
+      <SmallCard to="/transcript" title="Transcript" colors={['pink', 'purple']} />
     </SequenceAnimator>
   </Section>
 );

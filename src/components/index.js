@@ -10,3 +10,6 @@ export { default as Button } from './Button';
 export { default as IconButton } from './IconButton';
 export { default as SmallCard } from './SmallCard';
 export { default as Card } from './Card';
+export { default as PrivateRoute } from './PrivateRoute';
+export { default as WithData } from './WithData';
+export { default as Actions } from './Actions';

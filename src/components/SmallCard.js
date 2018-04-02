@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Children } from 'react';
+import React from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import { Link } from 'react-router-native';
 import styled from 'styled-components/native';

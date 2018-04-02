@@ -1,4 +1,5 @@
 /* @flow */
+
 import React, { PureComponent, Children } from 'react';
 import { Animated, Easing } from 'react-native';
 
@@ -31,7 +32,7 @@ class OpacityAnimation extends PureComponent<Props, State> {
 }
 
 const SequenceAnimator = ({
-  animationDelay = 100,
+  animationDelay = 5,
   children,
 }: {
   animationDelay?: number,

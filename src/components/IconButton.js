@@ -60,34 +60,34 @@ const IconButton = withTheme(
     to?: string,
   }) => {
     const content = (
-      <TouchableOpacity style={style} onPress={onPress}>
-        <IconButtonContainer
-          center={hasOutline}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          colors={[
-            color(theme.cardBackgroundColor)
-              .darken(0.3)
-              .alpha(hasOutline ? 0.4 : 0)
-              .rgb()
-              .string(),
-            color(theme.cardBackgroundColor)
-              .darken(0.2)
-              .alpha(hasOutline ? 0.3 : 0)
-              .rgb()
-              .string(),
-          ]}>
-          <Icon size={hasOutline ? 22 : 28} name={iconName} />
-          {hasIndicator ? <IconButtonIndicator /> : null}
-        </IconButtonContainer>
-      </TouchableOpacity>
+      <IconButtonContainer
+        center={hasOutline}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={[
+          color(theme.cardBackgroundColor)
+            .darken(0.3)
+            .alpha(hasOutline ? 0.4 : 0)
+            .rgb()
+            .string(),
+          color(theme.cardBackgroundColor)
+            .darken(0.2)
+            .alpha(hasOutline ? 0.3 : 0)
+            .rgb()
+            .string(),
+        ]}>
+        <Icon size={hasOutline ? 22 : 28} name={iconName} />
+        {hasIndicator ? <IconButtonIndicator /> : null}
+      </IconButtonContainer>
     );
     return to ? (
-      <Link style={{ textDecoration: 'none', zIndex: 5 }} to={to}>
+      <Link component={TouchableOpacity} style={{ textDecoration: 'none', zIndex: 5 }} to={to}>
         {content}
       </Link>
     ) : (
-      content
+      <TouchableOpacity style={style} onPress={onPress}>
+        {content}
+      </TouchableOpacity>
     );
   }
 );

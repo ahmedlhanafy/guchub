@@ -1,12 +1,116 @@
 /* @flow */
 
-import React, { Children, PureComponent } from 'react';
+//@TODO: Refactor this file
+
+import React, { Children, Component } from 'react';
 import { Animated, View, ScrollView, StyleSheet } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { LinearGradient } from 'expo';
 import color from 'color';
 
 import IconButton from './IconButton';
+
+type Props = {
+  scrollable: boolean,
+  children?: any,
+  theme: Object,
+  style: any,
+};
+
+type State = {
+  animatedValue: Object,
+};
+
+class Screen extends Component<Props, State> {
+  static defaultProps = {
+    scrollable: true,
+  };
+  state = { animatedValue: new Animated.Value(0) };
+  static Header = props => <View {...props} />;
+  static Content = props => <View style={{ flex: 1 }} {...props} />;
+
+  _renderContent = () => {
+    const { children, scrollable } = this.props;
+
+    const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
+    const { animated, back, title, children: headerChildren } = header ? header.props : {};
+
+    const staticTitle = (
+      <TitleContainer>
+        <Title>{title}</Title>
+        {!animated ? headerChildren : null}
+      </TitleContainer>
+    );
+    return scrollable ? (
+      <ScrollView
+        scrollEventThrottle={16}
+        contentContainerStyle={{
+          paddingTop: back ? 32 : 32 - 24,
+        }}
+        onScroll={
+          animated &&
+          Animated.event([
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: this.state.animatedValue,
+                },
+              },
+            },
+          ])
+        }>
+        {staticTitle}
+        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
+      </ScrollView>
+    ) : (
+      <View style={{ flex: 1 }}>
+        {staticTitle}
+        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
+      </View>
+    );
+  };
+
+  render() {
+    const { theme, children, style, ...props } = this.props;
+
+    const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
+    const { animated, back, title, children: headerChildren } = header ? header.props : {};
+
+    return (
+      <LinearGradient
+        start={{ x: 0.2, y: 0.2 }}
+        end={{ x: 1, y: 1 }}
+        colors={[
+          theme.backgroundColor,
+          color(theme.backgroundColor)
+            .darken(theme.type === 'dark' ? 0.3 : 0.1)
+            .rgb()
+            .string(),
+        ]}
+        style={[{ flex: 1, overflow: 'hidden' }, style]}
+        {...props}>
+        {back && (
+          <IconsContainer>
+            {back ? <IconButton to="/feed" iconName="keyboard-backspace" /> : null}
+            {animated ? headerChildren : null}
+          </IconsContainer>
+        )}
+        {animated ? (
+          <Header
+            style={{
+              opacity: this.state.animatedValue.interpolate({
+                inputRange: [0, 40, 80],
+                outputRange: [0, 1, 1],
+              }),
+            }}>
+            <HeaderTitle>{title}</HeaderTitle>
+          </Header>
+        ) : null}
+        {this._renderContent()}
+      </LinearGradient>
+    );
+  }
+}
 
 const TitleContainer = styled.View`
   padding: 16px;
@@ -60,99 +164,5 @@ const IconsContainer = styled.View`
   flex-direction: row;
   z-index: 4;
 `;
-
-class Screen extends PureComponent {
-  static defaultProps = {
-    scrollable: true,
-  };
-  state = { animatedValue: new Animated.Value(0) };
-  static Header = props => <View {...props} />;
-  static Content = props => <View style={{ flex: 1 }} {...props} />;
-
-  _renderContent = () => {
-    const { children, scrollable } = this.props;
-    const { animated, back, title, children: headerChildren } = Children.toArray(children).find(
-      Comp => Comp.type === Screen.Header
-    )
-      ? Children.toArray(children).find(Comp => Comp.type === Screen.Header).props
-      : {};
-    const staticTitle = (
-      <TitleContainer>
-        <Title>{title}</Title>
-        {!animated ? headerChildren : null}
-      </TitleContainer>
-    );
-    return scrollable ? (
-      <ScrollView
-        scrollEventThrottle={16}
-        contentContainerStyle={{
-          paddingTop: back ? 32 : 32 - 24,
-        }}
-        onScroll={
-          animated &&
-          Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: this.state.animatedValue,
-                },
-              },
-            },
-          ])
-        }>
-        {staticTitle}
-        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
-      </ScrollView>
-    ) : (
-      <View style={{ flex: 1 }}>
-        {staticTitle}
-        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
-      </View>
-    );
-  };
-
-  render() {
-    const { theme, children, style, scrollable = true, ...props } = this.props;
-    const { animated, back, title, children: headerChildren } = Children.toArray(children).find(
-      Comp => Comp.type === Screen.Header
-    )
-      ? Children.toArray(children).find(Comp => Comp.type === Screen.Header).props
-      : {};
-
-    return (
-      <LinearGradient
-        start={{ x: 0.2, y: 0.2 }}
-        end={{ x: 1, y: 1 }}
-        colors={[
-          theme.backgroundColor,
-          color(theme.backgroundColor)
-            .darken(theme.type === 'dark' ? 0.3 : 0.1)
-            .rgb()
-            .string(),
-        ]}
-        style={[{ flex: 1, overflow: 'hidden' }, style]}
-        {...props}>
-        {back && (
-          <IconsContainer>
-            {back ? <IconButton to="/feed" iconName="keyboard-backspace" /> : null}
-            {animated ? headerChildren : null}
-          </IconsContainer>
-        )}
-        {animated ? (
-          <Header
-            style={{
-              opacity: this.state.animatedValue.interpolate({
-                inputRange: [0, 40, 80],
-                outputRange: [0, 1, 1],
-              }),
-            }}>
-            <HeaderTitle>{title}</HeaderTitle>
-          </Header>
-        ) : null}
-        {this._renderContent()}
-      </LinearGradient>
-    );
-  }
-}
 
 export default withTheme(Screen);

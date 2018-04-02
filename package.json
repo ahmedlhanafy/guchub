@@ -12,7 +12,8 @@
     "now-start": "serve -s -p 80 ./public",
     "now-build": "npm run web:build",
     "lint": "eslint .",
-    "flow": "flow ."
+    "flow": "flow .",
+    "test": "jest"
   },
   "dependencies": {
     "apollo-cache-persist": "^0.1.1",
@@ -53,6 +54,7 @@
     "exp": "^46.0.6",
     "flow-bin": "^0.63.1",
     "husky": "^0.14.3",
+    "jest": "^22.1.4",
     "lodash.isarray": "^4.0.0",
     "lodash.merge": "^4.6.0",
     "lodash.mergewith": "^4.6.0",

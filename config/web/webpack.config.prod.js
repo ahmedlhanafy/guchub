@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const mergeWith = require('lodash.mergewith');
 const isArray = require('lodash.isarray');
-const Jarvis = require('webpack-jarvis');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -55,8 +54,7 @@ module.exports = mergeWith(
         },
       }),
       new CompressionPlugin(),
-      new Jarvis(),
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
     ],
   },
   customizer
