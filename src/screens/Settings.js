@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Linking } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
@@ -89,7 +89,10 @@ const Footer = () => (
     <TouchableOpacity>
       <Link>About</Link>
     </TouchableOpacity>
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        Linking.openURL('mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback')
+      }>
       <Link>Leave Feedback</Link>
     </TouchableOpacity>
   </CenteredLayout>
