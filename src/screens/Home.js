@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { withTheme } from 'styled-components/native';
-import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
 import graphql from 'react-apollo/graphql';
 import get from 'lodash.get';
@@ -26,7 +25,7 @@ const Home = ({ data, theme, toggleTheme }) => {
         <IconButton hasOutline to="/settings" iconName="settings" />
       </Screen.Header>
       <Screen.Content>
-        <WithData data={data} selector={data => data.student} render={renderFeed} />
+        <WithData data={data} selector="student" render={renderFeed} />
       </Screen.Content>
     </Screen>
   );

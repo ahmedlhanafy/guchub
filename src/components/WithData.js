@@ -8,14 +8,15 @@ import get from 'lodash.get';
 type Props = {|
   data: any,
   render: any => any,
-  selector: any => any,
+  selector: string,
 |};
 
-const WithData = ({ data, render, selector = data => data }: Props) => {
-  //@TODO: Implement more generic checks
-  if (data.loading && get(data, 'student.schedule') === null)
+const WithData = ({ data, render, selector = 'student.schedule' }: Props) => {
+  const selectedData = get(data, selector);
+  //@TODO: Implement more generic checks with network status
+  if (data.loading && selectedData === null)
     return <ActivityIndicator color="rgba(98, 205, 199, 1)" size="large" />;
-  if (!get(data, 'student.isAuthorized') && get(data, 'student.schedule') === null) {
+  if (!get(data, 'student.isAuthorized') && selectedData === null) {
     return (
       <Redirect
         to={{
@@ -25,7 +26,7 @@ const WithData = ({ data, render, selector = data => data }: Props) => {
     );
   }
   //@TODO: Safely invoke the selector
-  if (selector(data)) return render(selector(data));
+  if (selectedData) return render(selectedData);
   return null;
 };
 

@@ -43,6 +43,10 @@ class Card extends PureComponent<Props, State> {
     fragment CourseFragment on Slot {
       course {
         name
+        absence {
+          level
+          severity
+        }
       }
       number
       type

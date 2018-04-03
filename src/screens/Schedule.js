@@ -23,7 +23,7 @@ const Schedule = ({ data }: Props) => {
     <Screen>
       <Screen.Header title="Schedule" animated back />
       <Screen.Content>
-        <WithData data={data} selector={data => data.student.schedule} render={renderSchedule} />
+        <WithData data={data} selector="student.schedule" render={renderSchedule} />
       </Screen.Content>
     </Screen>
   );
