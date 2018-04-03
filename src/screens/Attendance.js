@@ -26,7 +26,12 @@ const Attendance = ({ data }) => {
     <Screen>
       <Screen.Header title="Attendance" animated back />
       <Screen.Content>
-        <WithData data={data} selector="student.courses" render={renderRows} />
+        <WithData
+          showLoadingIf={data => get(data, 'student.courses[0].name', null) === null}
+          data={data}
+          selector="student.courses"
+          render={renderRows}
+        />
       </Screen.Content>
     </Screen>
   );

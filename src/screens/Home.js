@@ -25,7 +25,12 @@ const Home = ({ data, theme, toggleTheme }) => {
         <IconButton hasOutline to="/settings" iconName="settings" />
       </Screen.Header>
       <Screen.Content>
-        <WithData data={data} selector="student" render={renderFeed} />
+        <WithData
+          showLoadingIf={data => get(data, 'student.schedule[0].course.name', null) === null}
+          data={data}
+          selector="student"
+          render={renderFeed}
+        />
       </Screen.Content>
     </Screen>
   );

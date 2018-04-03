@@ -9,12 +9,17 @@ type Props = {|
   data: any,
   render: any => any,
   selector: string,
+  showLoadingIf?: Object => boolean,
 |};
 
-const WithData = ({ data, render, selector = 'student.schedule' }: Props) => {
+const WithData = ({
+  data,
+  render,
+  selector = 'student.schedule',
+  showLoadingIf = () => true,
+}: Props) => {
   const selectedData = get(data, selector);
-  //@TODO: Implement more generic checks with network status
-  if (data.loading && selectedData === null)
+  if (data.loading && showLoadingIf(data))
     return <ActivityIndicator color="rgba(98, 205, 199, 1)" size="large" />;
   if (!get(data, 'student.isAuthorized') && selectedData === null) {
     return (

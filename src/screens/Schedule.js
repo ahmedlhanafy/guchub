@@ -3,6 +3,7 @@
 import React from 'react';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
+import get from 'lodash.get';
 import capitalize from 'lodash.capitalize';
 import { graphql, compose } from 'react-apollo';
 import { Screen, Section, Card, WithData, SequenceAnimator } from '../components';
@@ -23,7 +24,12 @@ const Schedule = ({ data }: Props) => {
     <Screen>
       <Screen.Header title="Schedule" animated back />
       <Screen.Content>
-        <WithData data={data} selector="student.schedule" render={renderSchedule} />
+        <WithData
+          showLoadingIf={data => get(data, 'student.schedule[0].course.name', null) === null}
+          data={data}
+          selector="student.schedule"
+          render={renderSchedule}
+        />
       </Screen.Content>
     </Screen>
   );
