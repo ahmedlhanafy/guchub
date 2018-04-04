@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { NativeRouter as Router, Route } from 'react-router-native';
-import { Home, Attendance, Login, Settings, Schedule, Transcript } from './screens';
+import { About, Home, Attendance, Login, Settings, Schedule, Transcript } from './screens';
 import { DemoUserToast, PrivateRoute } from './components';
 import apolloClient, { persistedCache } from './apolloClient';
 import { themes } from './constants';
@@ -35,6 +35,7 @@ const App = graphql(
         <PrivateRoute exact path="/transcript" component={Transcript} />
         <PrivateRoute exact path="/schedule" component={Schedule} />
         <PrivateRoute exact path="/settings" component={Settings} />
+        <PrivateRoute exact path="/about" component={About} />
         <DemoUserToast credentials={credentials} />
       </View>
     </Router>

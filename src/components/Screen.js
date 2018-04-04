@@ -74,7 +74,9 @@ class Screen extends Component<Props, State> {
     const { theme, children, style, ...props } = this.props;
 
     const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
-    const { animated, back, title, children: headerChildren } = header ? header.props : {};
+    const { animated, back, title, children: headerChildren, to = '/' } = header
+      ? header.props
+      : {};
 
     return (
       <LinearGradient
@@ -91,7 +93,7 @@ class Screen extends Component<Props, State> {
         {...props}>
         {back && (
           <IconsContainer>
-            {back ? <IconButton to="/" iconName="keyboard-backspace" /> : null}
+            {back ? <IconButton to={to} iconName="keyboard-backspace" /> : null}
             {animated ? headerChildren : null}
           </IconsContainer>
         )}

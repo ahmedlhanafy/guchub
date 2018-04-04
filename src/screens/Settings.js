@@ -87,7 +87,7 @@ class Settings extends React.Component<Props> {
 
 const Footer = ({ history }) => (
   <CenteredLayout>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => history.push('/about')}>
       <Link>About</Link>
     </TouchableOpacity>
     <TouchableOpacity
