@@ -18,7 +18,7 @@ class OpacityAnimation extends PureComponent<Props, State> {
   componentDidMount() {
     Animated.timing(this.state.animation, {
       toValue: 1,
-      duration: 1400,
+      duration: 400,
       delay: this.props.delayMultiplier * this.props.delay,
       useNativeDriver: true,
       easing: Easing.ease,
@@ -32,7 +32,7 @@ class OpacityAnimation extends PureComponent<Props, State> {
 }
 
 const SequenceAnimator = ({
-  animationDelay = 5,
+  animationDelay = 200,
   children,
 }: {
   animationDelay?: number,

@@ -90,6 +90,9 @@ const Footer = ({ history }) => (
     <TouchableOpacity onPress={() => history.push('/about')}>
       <Link>About</Link>
     </TouchableOpacity>
+    <TouchableOpacity onPress={() => history.push('/about')}>
+      <Link>Why Another GUC App?</Link>
+    </TouchableOpacity>
     <TouchableOpacity
       onPress={() =>
         Linking.openURL('mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback')

@@ -65,7 +65,7 @@ class Card extends PureComponent<Props, State> {
   componentDidMount() {
     Animated.timing(this.state.textAnimatedValue, {
       toValue: 1,
-      duration: 1600,
+      duration: 1000,
       useNativeDriver: true,
       easing: Easing.ease,
     }).start();
