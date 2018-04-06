@@ -1,12 +1,12 @@
 /* @flow */
 
 import React from 'react';
-import { TouchableOpacity, Linking } from 'react-native';
+import { Linking } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import { Screen, Section, SmallCard } from '../components';
+import { Screen, Section, SmallCard, SequenceAnimator, SettingsRow } from '../components';
 
 type Props = {
   changeTheme: string => void,
@@ -16,25 +16,8 @@ type Props = {
   history: Object,
 };
 
-const Seperator = styled.View`
-  background-color: rgba(176, 176, 176, 0.1);
-  height: 2px;
-  margin: 16px;
-`;
-
-const CenteredLayout = styled.View`
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-`;
-
-const Link = styled.Text`
-  background-color: transparent;
-  color: ${({ theme }) => theme.sectionTitleColor};
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0px 6px;
-  text-decoration: underline;
+const Footer = styled.View`
+  width: 100%;
 `;
 
 const CheckedIcon = ({ color = 'rgba(66, 230, 149, 1)' }: { color?: string }) => (
@@ -50,60 +33,64 @@ class Settings extends React.Component<Props> {
       <Screen>
         <Screen.Header title="Settings" animated back />
         <Screen.Content>
-          <Section title="Theme">
-            <SmallCard
-              onPress={this._changeTheme('automatic')}
-              colors={['rgba(66, 230, 149, 1)', 'rgba(59, 178, 184, 1)']}
-              title="Automatic">
-              {this.props.data.theme && this.props.data.theme.type === 'automatic' ? (
-                <CheckedIcon color="white" />
-              ) : null}
-            </SmallCard>
-            <SmallCard
-              onPress={this._changeTheme('dark')}
-              colors={['rgba(58, 67, 77, 1)', 'rgba(80, 99, 120, 1)']}
-              title="Dark">
-              {this.props.data.theme && this.props.data.theme.type === 'dark' ? (
-                <CheckedIcon />
-              ) : null}
-            </SmallCard>
-            <SmallCard
-              onPress={this._changeTheme('light')}
-              titleStyles={{ color: 'rgb(70,70,70)', textShadowColor: 'transparent' }}
-              colors={['rgba(237, 238, 240, 1)', 'rgba(135, 137, 140, 1)']}
-              title="Light">
-              {this.props.data.theme && this.props.data.theme.type === 'light' ? (
-                <CheckedIcon />
-              ) : null}
-            </SmallCard>
-          </Section>
-          <Seperator />
-          <Footer history={this.props.history} />
+          <SequenceAnimator>
+            <Section title="Theme">
+              <SequenceAnimator>
+                <SmallCard
+                  onPress={this._changeTheme('automatic')}
+                  colors={['rgba(66, 230, 149, 1)', 'rgba(59, 178, 184, 1)']}
+                  title="Automatic">
+                  {this.props.data.theme && this.props.data.theme.type === 'automatic' ? (
+                    <CheckedIcon color="white" />
+                  ) : null}
+                </SmallCard>
+                <SmallCard
+                  onPress={this._changeTheme('dark')}
+                  colors={['rgba(58, 67, 77, 1)', 'rgba(80, 99, 120, 1)']}
+                  title="Dark">
+                  {this.props.data.theme && this.props.data.theme.type === 'dark' ? (
+                    <CheckedIcon />
+                  ) : null}
+                </SmallCard>
+                <SmallCard
+                  onPress={this._changeTheme('light')}
+                  titleStyles={{ color: 'rgb(70,70,70)', textShadowColor: 'transparent' }}
+                  colors={['rgba(237, 238, 240, 1)', 'rgba(135, 137, 140, 1)']}
+                  title="Light">
+                  {this.props.data.theme && this.props.data.theme.type === 'light' ? (
+                    <CheckedIcon />
+                  ) : null}
+                </SmallCard>
+              </SequenceAnimator>
+            </Section>
+            <Section title="Info">
+              <Footer>
+                <SettingsRow first text="About" onPress={() => this.props.history.push('/about')} />
+                <SettingsRow
+                  text="Why Another GUC App?"
+                  onPress={() => this.props.history.push('/about')}
+                />
+                <SettingsRow
+                  text="Leave Feedback"
+                  onPress={() =>
+                    Linking.openURL(
+                      'mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback'
+                    )
+                  }
+                />
+                <SettingsRow
+                  text="Logout"
+                  danger
+                  onPress={() => this.props.history.push('/login')}
+                />
+              </Footer>
+            </Section>
+          </SequenceAnimator>
         </Screen.Content>
       </Screen>
     );
   }
 }
-
-const Footer = ({ history }) => (
-  <CenteredLayout>
-    <TouchableOpacity onPress={() => history.push('/about')}>
-      <Link>About</Link>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => history.push('/about')}>
-      <Link>Why Another GUC App?</Link>
-    </TouchableOpacity>
-    <TouchableOpacity
-      onPress={() =>
-        Linking.openURL('mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback')
-      }>
-      <Link>Leave Feedback</Link>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => history.push('/login')}>
-      <Link>Logout</Link>
-    </TouchableOpacity>
-  </CenteredLayout>
-);
 
 const QUERY = gql`
   {

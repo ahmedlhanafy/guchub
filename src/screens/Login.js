@@ -1,7 +1,7 @@
 /* @flow */
 
-import React from 'react';
-import { View, Platform } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, Platform, Dimensions } from 'react-native';
 import { withApollo, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TextField } from 'react-native-material-textfield';
@@ -9,6 +9,8 @@ import styled, { withTheme } from 'styled-components/native';
 
 import { Screen, Waves, Button, Toast } from '../components';
 import { FEED_QUERY } from '../constants';
+
+const { width: windowWidth } = Dimensions.get('window');
 
 type Props = {
   client: Object,
@@ -72,42 +74,42 @@ class Login extends React.PureComponent<Props, State> {
     const { username, password, isLoading, isLoadingDemo, errorExists } = this.state;
 
     return (
-      <Screen
-        scrollable={false}
-        style={{ alignItems: 'center', paddingTop: 40, overflow: 'hidden' }}>
-        <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
-          <Logo source={require('../assets/logo1.png')} />
-          <Toast shown={errorExists} handleHiding={this._hideToast} text="Wrong Credentials!" />
-          <View style={{ minWidth: 300, zIndex: 10 }}>
-            <TextInput
-              onChangeText={text => this.setState({ username: text })}
-              value={username}
-              label="Username"
-            />
-            <TextInput
-              onChangeText={text => this.setState({ password: text })}
-              value={password}
-              label="Password"
-              containerStyle={{ marginBottom: 20 }}
-              secureTextEntry
-            />
-            <Button
-              disabled={username.length === 0 || password.length === 0 || isLoading}
-              loading={isLoading}
-              onPress={this._login}>
-              Login
-            </Button>
-            <Button
-              disabled={isLoading || isLoadingDemo}
-              primary
-              loading={isLoadingDemo}
-              onPress={this._demoLogin}>
-              SEE A DEMO
-            </Button>
-          </View>
-          <Waves />
-        </Screen.Content>
-      </Screen>
+      <View style={{ overflow: 'hidden', flex: 1 }}>
+        <Screen style={{ height: '100%', paddingTop: 40 }}>
+          <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
+            <Logo source={require('../assets/logo1-min.png')} />
+            <Toast shown={errorExists} handleHiding={this._hideToast} text="Wrong Credentials!" />
+            <View style={{ minWidth: 300, zIndex: 10 }}>
+              <TextInput
+                onChangeText={text => this.setState({ username: text })}
+                value={username}
+                label="Username"
+              />
+              <TextInput
+                onChangeText={text => this.setState({ password: text })}
+                value={password}
+                label="Password"
+                containerStyle={{ marginBottom: 20 }}
+                secureTextEntry
+              />
+              <Button
+                disabled={username.length === 0 || password.length === 0 || isLoading}
+                loading={isLoading}
+                onPress={this._login}>
+                Login
+              </Button>
+              <Button
+                disabled={isLoading || isLoadingDemo}
+                primary
+                loading={isLoadingDemo}
+                onPress={this._demoLogin}>
+                SEE A DEMO
+              </Button>
+            </View>
+          </Screen.Content>
+        </Screen>
+        {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
+      </View>
     );
   }
 }

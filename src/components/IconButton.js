@@ -50,6 +50,7 @@ const IconButton = withTheme(
     iconName,
     style,
     to,
+    size = 28,
   }: {
     onPress?: () => void,
     theme: Object,
@@ -58,6 +59,7 @@ const IconButton = withTheme(
     iconName: string,
     style: any,
     to?: string,
+    size?: number,
   }) => {
     const content = (
       <IconButtonContainer
@@ -76,7 +78,7 @@ const IconButton = withTheme(
             .rgb()
             .string(),
         ]}>
-        <Icon size={hasOutline ? 22 : 28} name={iconName} />
+        <Icon size={hasOutline ? 22 : size} name={iconName} />
         {hasIndicator ? <IconButtonIndicator /> : null}
       </IconButtonContainer>
     );

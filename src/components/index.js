@@ -16,3 +16,4 @@ export { default as Waves } from './Waves';
 export { default as WithData } from './WithData';
 export { default as DemoUserToast } from './DemoUserToast';
 export { default as AttendanceRow } from './AttendanceRow';
+export { default as SettingsRow } from './SettingsRow';

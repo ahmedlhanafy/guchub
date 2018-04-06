@@ -41,6 +41,8 @@ const Section = ({
   </Container>
 );
 
-const styles = StyleSheet.create({ wrapper: { paddingLeft: 16, marginVertical: 18 } });
+const styles = StyleSheet.create({
+  wrapper: { paddingLeft: 16, marginVertical: 18, width: '100%' },
+});
 
 export default Section;
