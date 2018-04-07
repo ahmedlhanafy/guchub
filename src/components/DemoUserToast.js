@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-native';
 import Toast from './Toast';
 
 const DemoUserToast = ({ credentials, history }) =>
-  credentials.username === 'john.doe' ? (
+  credentials && credentials.username === 'john.doe' ? (
     <Toast
       shown
       text="You're viewing a demo user!"

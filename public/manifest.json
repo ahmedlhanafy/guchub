@@ -1,0 +1,30 @@
+{
+  "short_name": "GUC Assistant",
+  "name": "GUC Assistant",
+  "icons": [
+    {
+      "src": "./launcher-icons/logo_48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "./launcher-icons/logo_96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "./launcher-icons/logo_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./launcher-icons/logo_192.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3B4149",
+  "theme_color": "#3B4149"
+}

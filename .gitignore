@@ -4,3 +4,4 @@ npm-debug.*
 .DS_Store
 public/*.js
 public/*.js.gz
+yarn-error.log

@@ -4,12 +4,14 @@ const mergeWith = require('lodash.mergewith');
 const isArray = require('lodash.isarray');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const sharedConfig = require('./webpack.config.shared');
 
 const customizer = (objValue, srcValue) => {
   if (isArray(objValue)) {
-    return objValue.concat(srcValue);
+    return srcValue.concat(objValue);
   }
 };
 
