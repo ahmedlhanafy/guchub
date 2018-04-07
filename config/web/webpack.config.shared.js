@@ -56,9 +56,14 @@ module.exports = {
     extensions: ['.web.js', '.ios.js', '.js', '.json'],
   },
   plugins: [
-    // This is used to make webpack include index.html in webpack's build so that workbox detects it
+    // This is used to make webpack include index.html and icons in webpack's build so that workbox detects it
     new CopyWebpackPlugin([
       { from: `${path.resolve('public')}/index.html`, to: `${path.resolve('public')}/index.html` },
+      {
+        from: `${path.resolve('public')}/launcher-icons`,
+        to: `${path.resolve('public')}/launcher-icons`,
+        ignore: '.DS_Store'
+      },
     ]),
     new WorkboxPlugin.GenerateSW({
       runtimeCaching: [
