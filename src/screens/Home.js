@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { withTheme } from 'styled-components/native';
+import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
 import graphql from 'react-apollo/graphql';
 import get from 'lodash.get';
@@ -16,7 +17,6 @@ import {
   Actions,
 } from '../components';
 import { getSchedule, graphqlCredentialsOptions } from '../utils';
-import { FEED_QUERY } from '../constants';
 
 const Home = ({ data, theme, toggleTheme }) => {
   return (
@@ -26,9 +26,11 @@ const Home = ({ data, theme, toggleTheme }) => {
       </Screen.Header>
       <Screen.Content>
         <WithData
-          showLoadingIf={data => get(data, 'student.schedule[0].course.name', null) === null}
+          showLoadingIf={data =>
+            get(data, 'authenticatedStudent.schedule[0].course.name', null) === null
+          }
           data={data}
-          selector="student"
+          selector="authenticatedStudent"
           render={renderFeed}
         />
       </Screen.Content>
@@ -55,8 +57,27 @@ const renderFeed = student => {
   );
 };
 
+const QUERY = gql`
+  query feedQuery($token: String!) {
+    authenticatedStudent(token: $token) {
+      isAuthorized
+      schedule {
+        ...CourseFragment
+        weekday
+      }
+      transcript {
+        semesters {
+          year
+          gpa
+        }
+      }
+    }
+  }
+  ${Card.fragment}
+`;
+
 export default compose(
-  graphql(FEED_QUERY, {
+  graphql(QUERY, {
     options: graphqlCredentialsOptions,
   }),
   withTheme

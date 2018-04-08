@@ -10,8 +10,8 @@ const PrivateRoute = ({ data, component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      get(data, 'credentials.isAuthorized') ? (
-        <Component credentials={data.credentials} {...props} />
+      get(data, 'auth.token') ? (
+        <Component token={get(data, 'auth.token')} {...props} />
       ) : (
         <Redirect
           to={{
@@ -26,10 +26,8 @@ const PrivateRoute = ({ data, component: Component, ...rest }) => (
 
 const QUERY = gql`
   {
-    credentials @client {
-      username
-      password
-      isAuthorized
+    auth @client {
+      token
     }
   }
 `;

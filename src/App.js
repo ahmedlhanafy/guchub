@@ -17,12 +17,13 @@ const App = graphql(
       theme @client {
         type
       }
-      credentials @client {
-        username
+      auth @client {
+        token
+        isDemoUser
       }
     }
   `
-)(({ data: { theme, credentials } }) => (
+)(({ data: { theme, auth } }) => (
   <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
     <Router>
       <View style={{ flex: 1 }}>
@@ -36,7 +37,7 @@ const App = graphql(
         <PrivateRoute exact path="/schedule" component={Schedule} />
         <PrivateRoute exact path="/settings" component={Settings} />
         <PrivateRoute exact path="/about" component={About} />
-        <DemoUserToast credentials={credentials} />
+        <DemoUserToast isDemoUser={auth.isDemoUser} />
       </View>
     </Router>
   </ThemeProvider>

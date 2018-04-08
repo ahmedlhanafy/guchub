@@ -1,20 +1,21 @@
 /* @flow */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { View, Platform, Dimensions } from 'react-native';
 import { withApollo, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import get from 'lodash.get';
 import { TextField } from 'react-native-material-textfield';
 import styled, { withTheme } from 'styled-components/native';
 
 import { Screen, Waves, Button, Toast } from '../components';
-import { FEED_QUERY } from '../constants';
 
 const { width: windowWidth } = Dimensions.get('window');
 
 type Props = {
   client: Object,
-  saveCredentials: ({ username: ?string, password: ?string, isAuthorized: boolean }) => void,
+  saveToken: ({ token: ?string }) => void,
+  login: ({ username: string, password: string }) => void,
   history: Object,
 };
 
@@ -36,19 +37,29 @@ class Login extends React.PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    this.props.saveCredentials({ username: null, password: null, isAuthorized: false });
+    this.props.saveToken({ token: null });
   }
 
-  _loginAndRoute = async ({ username, password }) => {
-    const { data } = await this.props.client.query({
-      query: FEED_QUERY,
-      variables: { username, password },
+  _loginAndRoute = async ({
+    username,
+    password,
+    isDemoUser,
+  }: {
+    username: string,
+    password: string,
+    isDemoUser?: boolean,
+  }) => {
+    const response = await login({
+      username,
+      password,
     });
-    if (data.student.isAuthorized) {
-      this.props.saveCredentials({
-        username,
-        password,
-        isAuthorized: true,
+    const isAuthorized = get(response, 'data.login.isAuthorized');
+    const token = get(response, 'data.login.token');
+
+    if (isAuthorized) {
+      this.props.saveToken({
+        token,
+        isDemoUser,
       });
       // Give Apollo's store a moment to update
       setTimeout(() => this.props.history.push('/'), 200);
@@ -59,7 +70,7 @@ class Login extends React.PureComponent<Props, State> {
 
   _demoLogin = () => {
     this.setState({ isLoadingDemo: true });
-    this._loginAndRoute({ username: 'john.doe', password: '123456' });
+    this._loginAndRoute({ username: 'john.doe', password: '123456', isDemoUser: true });
   };
 
   _login = () => {
@@ -130,19 +141,47 @@ const TextInput = withTheme(props => (
   />
 ));
 
-const SAVE_CREDENTIALS = gql`
-  mutation saveCredentials($username: String, $password: String, $isAuthorized: Boolean) {
-    saveCredentials(username: $username, password: $password, isAuthorized: $isAuthorized) @client
+const SAVE_TOKEN_MUTATION = gql`
+  mutation saveToken($token: String, $isDemoUser: Boolean) {
+    saveToken(token: $token, isDemoUser: $isDemoUser) @client
   }
 `;
+
+/* @FIXME: Should be done in Apollo, it's setup this way because apollo doesn't 
+    provide an API for blacklisting mutations from being stored in the cache
+*/
+const login = async ({ username, password }: { username: string, password: string }) => {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  const body = {
+    operationName: 'login',
+    variables: { username, password },
+    query: `
+    mutation login($username: String!, $password: String!) {
+      login(username: $username, password: $password) {
+        isAuthorized
+        token
+      }
+    }
+  `,
+  };
+
+  const res = await fetch('https://graphql-guc.now.sh/graphql', {
+    body: JSON.stringify(body),
+    method: 'POST',
+    mode: 'cors',
+    headers,
+  });
+
+  return await res.json();
+};
 
 export default compose(
   withTheme,
   withApollo,
-  graphql(SAVE_CREDENTIALS, {
+  graphql(SAVE_TOKEN_MUTATION, {
     props: ({ mutate, ownProps: { client } }) => ({
-      saveCredentials: ({ username, password, isAuthorized }) =>
-        mutate({ variables: { username, password, isAuthorized } }),
+      saveToken: ({ token, isDemoUser }) => mutate({ variables: { token, isDemoUser } }),
       resetStore: async () => client.resetStore(),
     }),
   })

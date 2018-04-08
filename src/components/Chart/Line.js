@@ -15,7 +15,6 @@ const Line = ({ horizontal, color }: { horizontal: boolean, color: string }) => 
   y,
 }: Props) => (
   <SvgLine
-    key="HorizontalLine"
     x1={horizontal ? x(0) : '0%'}
     x2={horizontal ? x(0) : '100%'}
     y1={!horizontal ? y(0) : '0%'}

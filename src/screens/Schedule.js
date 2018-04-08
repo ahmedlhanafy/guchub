@@ -25,9 +25,11 @@ const Schedule = ({ data }: Props) => {
       <Screen.Header title="Schedule" animated back />
       <Screen.Content>
         <WithData
-          showLoadingIf={data => get(data, 'student.schedule[0].course.name', null) === null}
+          showLoadingIf={data =>
+            get(data, 'authenticatedStudent.schedule[0].course.name', null) === null
+          }
           data={data}
-          selector="student.schedule"
+          selector="authenticatedStudent.schedule"
           render={renderSchedule}
         />
       </Screen.Content>
@@ -42,8 +44,8 @@ const renderSchedule = schedule => {
       {Object.keys(scheduleMap).map(key => {
         const coursesArray = scheduleMap[key];
         return (
-          <Section style={{ marginBottom: 8 }} title={capitalize(key)}>
-            {coursesArray.map((course, index) => <Card key={index} course={course} />)}
+          <Section key={key} style={{ marginBottom: 8 }} title={capitalize(key)}>
+            {coursesArray.map(course => <Card key={course.name} course={course} />)}
           </Section>
         );
       })}
@@ -52,8 +54,8 @@ const renderSchedule = schedule => {
 };
 
 const QUERY = gql`
-  query scheduleQuery($username: String!, $password: String!) {
-    student(username: $username, password: $password) {
+  query scheduleQuery($token: String!) {
+    authenticatedStudent(token: $token) {
       schedule {
         weekday
         ...CourseFragment

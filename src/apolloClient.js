@@ -28,13 +28,16 @@ const stateLink = withClientState({
         cache.writeData({ data });
         return null;
       },
-      saveCredentials: (_, { username, password, isAuthorized }, { cache }) => {
+      saveToken: (
+        _,
+        { token, isDemoUser = false }: { token: ?string, isDemoUser?: boolean },
+        { cache }
+      ) => {
         const data = {
-          credentials: {
-            __typename: 'Credentials',
-            username,
-            password,
-            isAuthorized,
+          auth: {
+            __typename: 'Auth',
+            token,
+            isDemoUser,
           },
         };
         cache.writeData({ data });
@@ -47,11 +50,10 @@ const stateLink = withClientState({
       __typename: 'Theme',
       type: 'automatic',
     },
-    credentials: {
-      __typename: 'Credentials',
-      username: null,
-      password: null,
-      isAuthorized: false,
+    auth: {
+      __typename: 'Auth',
+      token: null,
+      isDemoUser: false,
     },
   },
 });

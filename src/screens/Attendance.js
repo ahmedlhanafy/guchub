@@ -30,9 +30,9 @@ const Attendance = ({ data }) => {
       <Screen.Header title="Attendance" animated back />
       <Screen.Content>
         <WithData
-          showLoadingIf={data => get(data, 'student.courses[0].name', null) === null}
+          showLoadingIf={data => get(data, 'authenticatedStudent.courses[0].name', null) === null}
           data={data}
-          selector="student.courses"
+          selector="authenticatedStudent.courses"
           render={renderRows}
         />
       </Screen.Content>
@@ -41,8 +41,8 @@ const Attendance = ({ data }) => {
 };
 
 const QUERY = gql`
-  query AttendanceQuery($username: String!, $password: String!) {
-    student(username: $username, password: $password) {
+  query AttendanceQuery($token: String!) {
+    authenticatedStudent(token: $token) {
       isAuthorized
       courses {
         name
