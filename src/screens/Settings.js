@@ -74,7 +74,7 @@ class Settings extends React.Component<Props> {
                   text="Leave Feedback"
                   onPress={() =>
                     Linking.openURL(
-                      'mailto:ahmed.elhanafy95@gmail.com?subject=GUC Assistant Feedback'
+                      'mailto:ahmed.elhanafy95@gmail.com?subject=GUC Hub Feedback'
                     )
                   }
                 />
