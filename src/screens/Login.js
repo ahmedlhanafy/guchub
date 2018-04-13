@@ -79,6 +79,11 @@ class Login extends React.PureComponent<Props, State> {
     this._loginAndRoute({ username, password });
   };
 
+  _handleSubmit = e => {
+    e.preventDefault();
+    this._login();
+  };
+
   _hideToast = () => this.setState({ errorExists: false });
 
   render() {
@@ -90,7 +95,7 @@ class Login extends React.PureComponent<Props, State> {
           <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
             <Logo source={require('../assets/logo1-min.png')} />
             <Toast shown={errorExists} handleHiding={this._hideToast} text="Wrong Credentials!" />
-            <View style={{ minWidth: 300, zIndex: 10 }}>
+            <Form onSubmit={this._handleSubmit} style={{ minWidth: 300, zIndex: 10 }}>
               <TextInput
                 onChangeText={text => this.setState({ username: text })}
                 value={username}
@@ -104,9 +109,10 @@ class Login extends React.PureComponent<Props, State> {
                 secureTextEntry
               />
               <Button
+                submit
+                onPress={this._handleSubmit}
                 disabled={username.length === 0 || password.length === 0 || isLoading}
-                loading={isLoading}
-                onPress={this._login}>
+                loading={isLoading}>
                 Login
               </Button>
               <Button
@@ -116,7 +122,7 @@ class Login extends React.PureComponent<Props, State> {
                 onPress={this._demoLogin}>
                 SEE A DEMO
               </Button>
-            </View>
+            </Form>
           </Screen.Content>
         </Screen>
         {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
@@ -124,6 +130,8 @@ class Login extends React.PureComponent<Props, State> {
     );
   }
 }
+
+const Form = props => (Platform.OS === 'web' ? <form {...props} /> : <View {...props} />);
 
 const Logo = styled.Image`
   width: 120;
