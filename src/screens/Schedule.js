@@ -13,7 +13,7 @@ import type { Course } from '../types/Course';
 type Props = {
   data: {
     loading: boolean,
-    student?: {
+    authenticatedStudent?: {
       schedule: Array<Course>,
     },
   },

@@ -38,8 +38,8 @@ const Home = ({ data, theme, toggleTheme }) => {
   );
 };
 
-const renderFeed = student => {
-  const scheduleData = getSchedule(get(student, 'schedule', []));
+const renderFeed = authenticatedStudent => {
+  const scheduleData = getSchedule(get(authenticatedStudent, 'schedule', []));
 
   return (
     <SequenceAnimator>
@@ -52,7 +52,7 @@ const renderFeed = student => {
           </Section>
         )}
       <Actions />
-      <Chart grades={student.transcript.semesters} />
+      <Chart grades={authenticatedStudent.transcript.semesters} />
     </SequenceAnimator>
   );
 };
