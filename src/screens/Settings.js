@@ -73,10 +73,12 @@ class Settings extends React.Component<Props> {
                 <SettingsRow
                   text="Leave Feedback"
                   onPress={() =>
-                    Linking.openURL(
-                      'mailto:ahmed.elhanafy95@gmail.com?subject=GUC Hub Feedback'
-                    )
+                    Linking.openURL('mailto:ahmed.elhanafy95@gmail.com?subject=GUC Hub Feedback')
                   }
+                />
+                <SettingsRow
+                  text="Source Code"
+                  onPress={() => Linking.openURL('https://github.com/ahmedlhanafy/guchub')}
                 />
                 <SettingsRow
                   text="Logout"
