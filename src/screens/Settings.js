@@ -68,7 +68,7 @@ class Settings extends React.Component<Props> {
                 <SettingsRow first text="About" onPress={() => this.props.history.push('/about')} />
                 <SettingsRow
                   text="Why Another GUC App?"
-                  onPress={() => this.props.history.push('/about')}
+                  onPress={() => this.props.history.push('/why-guchub')}
                 />
                 <SettingsRow
                   text="Leave Feedback"

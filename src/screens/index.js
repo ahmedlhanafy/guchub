@@ -7,3 +7,4 @@ export { default as Settings } from './Settings';
 export { default as Schedule } from './Schedule';
 export { default as Transcript } from './Transcript';
 export { default as About } from './About';
+export { default as WhyGUCHub } from './WhyGUCHub';

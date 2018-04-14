@@ -3,10 +3,10 @@
 import React from 'react';
 import { TouchableOpacity, Linking } from 'react-native';
 import color from 'color';
-import styled from 'styled-components/native';
+import styled, { withTheme } from 'styled-components/native';
 import { Screen } from '../components';
 
-const About = () => (
+const About = ({ theme }) => (
   <Screen>
     <Screen.Header to="/settings" title="About" animated back />
     <Screen.Content>
@@ -19,7 +19,9 @@ const About = () => (
           resizeMode="contain"
           source={{
             uri:
-              'https://user-images.githubusercontent.com/11808903/38215343-d80321de-36c7-11e8-8c0d-1431604d9ed5.png',
+              theme.type === 'light'
+                ? 'https://user-images.githubusercontent.com/11808903/38215343-d80321de-36c7-11e8-8c0d-1431604d9ed5.png'
+                : 'https://user-images.githubusercontent.com/11808903/38647866-bc04ab00-3dee-11e8-8403-9301ba3775de.png',
           }}
         />
         <Bold>Ahmed Elhanafy</Bold>
@@ -36,7 +38,9 @@ const About = () => (
           resizeMode="contain"
           source={{
             uri:
-              'https://user-images.githubusercontent.com/11808903/38215351-e34a803c-36c7-11e8-87fa-0e578262c8df.png',
+              theme.type === 'light'
+                ? 'https://user-images.githubusercontent.com/11808903/38215351-e34a803c-36c7-11e8-87fa-0e578262c8df.png'
+                : 'https://user-images.githubusercontent.com/11808903/38647860-b1c70a98-3dee-11e8-9210-67a738d9761e.png',
           }}
         />
         <Bold>Abdelrahman Maged</Bold>
@@ -110,4 +114,4 @@ const Seperator = styled.View`
   height: ${({ height = '16px' }) => height};
 `;
 
-export default About;
+export default withTheme(About);

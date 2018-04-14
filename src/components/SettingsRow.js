@@ -22,7 +22,6 @@ const Row = ({
 );
 
 const Container = styled.TouchableOpacity`
-  background-color: rgba(120, 120, 120, 0.018);
   padding: 4px 0px;
   border: 2px solid rgba(176, 176, 176, 0.1);
   border-top-width: ${({ first }) => (first ? '2px' : 0)};
