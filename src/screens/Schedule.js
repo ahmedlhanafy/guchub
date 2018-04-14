@@ -56,6 +56,7 @@ const renderSchedule = schedule => {
 const QUERY = gql`
   query scheduleQuery($token: String!) {
     authenticatedStudent(token: $token) {
+      isAuthorized
       schedule {
         weekday
         ...CourseFragment
