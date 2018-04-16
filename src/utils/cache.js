@@ -12,7 +12,7 @@ const saveToken = (token: string) => AsyncStorage.setItem(TOKEN_KEY, token);
 const getToken = () => AsyncStorage.getItem(TOKEN_KEY);
 
 const saveDemoUser = (isDemoUser: boolean) => AsyncStorage.setItem(DEMOUSER_KEY, isDemoUser);
-const getDemoUser = () => AsyncStorage.getItem(DEMOUSER_KEY);
+const getDemoUser = (): boolean => AsyncStorage.getItem(DEMOUSER_KEY) === 'true';
 
 // AsyncStorage multiset doesn't work for some reason
 export const saveCredentials = ({
