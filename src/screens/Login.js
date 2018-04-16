@@ -23,7 +23,7 @@ type Props = {
 type State = {
   username: string,
   password: string,
-  errorExists: boolean,
+  error: ?string,
   isLoading: boolean,
   isLoadingDemo: boolean,
 };
@@ -32,7 +32,7 @@ class Login extends React.PureComponent<Props, State> {
   state = {
     username: '',
     password: '',
-    errorExists: false,
+    error: null,
     isLoading: false,
     isLoadingDemo: false,
   };
@@ -50,27 +50,35 @@ class Login extends React.PureComponent<Props, State> {
     password: string,
     isDemoUser?: boolean,
   }) => {
-    const response = await login({
-      username,
-      password,
-    });
-    const isAuthorized = get(response, 'data.login.isAuthorized');
-    const token = get(response, 'data.login.token');
+    try {
+      const response = await login({
+        username,
+        password,
+      });
+      const isAuthorized = get(response, 'data.login.isAuthorized');
+      const token = get(response, 'data.login.token');
 
-    if (isAuthorized) {
-      await Promise.all([
-        saveCredentials({
-          token,
-          isDemoUser,
-        }),
-        this.props.saveToken({
-          token,
-          isDemoUser,
-        }),
-      ]);
-      this.props.history.push('/');
-    } else {
-      this.setState({ isLoadingDemo: false, isLoading: false, errorExists: true });
+      if (isAuthorized) {
+        await Promise.all([
+          saveCredentials({
+            token,
+            isDemoUser,
+          }),
+          this.props.saveToken({
+            token,
+            isDemoUser,
+          }),
+        ]);
+        this.props.history.push('/');
+      } else {
+        this.setState({ isLoadingDemo: false, isLoading: false, error: 'Wrong Credentials!' });
+      }
+    } catch (e) {
+      this.setState({
+        isLoadingDemo: false,
+        isLoading: false,
+        error: 'Internal Server Error. Try again later!',
+      });
     }
   };
 
@@ -90,17 +98,17 @@ class Login extends React.PureComponent<Props, State> {
     this._login();
   };
 
-  _hideToast = () => this.setState({ errorExists: false });
+  _hideToast = () => this.setState({ error: null });
 
   render() {
-    const { username, password, isLoading, isLoadingDemo, errorExists } = this.state;
+    const { username, password, isLoading, isLoadingDemo, error } = this.state;
 
     return (
       <View style={{ overflow: 'hidden', flex: 1 }}>
         <Screen style={{ height: '100%', paddingTop: 40 }}>
           <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
             <Logo source={require('../assets/logo1-min.png')} />
-            <Toast shown={errorExists} handleHiding={this._hideToast} text="Wrong Credentials!" />
+            <Toast shown={error !== null} handleHiding={this._hideToast} text={error || ''} />
             <Form onSubmit={this._handleSubmit} style={{ minWidth: 300, zIndex: 10 }}>
               <TextInput
                 onChangeText={text => this.setState({ username: text })}
