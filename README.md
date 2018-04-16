@@ -21,8 +21,8 @@ $ yarn web:dev
 ## Development on Native(expo)
 ```bash
 $ yarn native:dev
-$ yarn native:run-ios //to run on iOS
-$ yarn native:run-android //to run on Android 
+$ yarn native:run-ios 
+$ yarn native:run-android 
 ```
 
 ## Known Issues
