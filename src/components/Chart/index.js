@@ -1,17 +1,12 @@
 /* @flow */
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import * as shape from 'd3-shape';
+import { View } from 'react-native';
 import { withTheme } from 'styled-components/native';
-import { Svg } from 'expo';
 import color from 'color';
-import { LineChart, YAxis, XAxis } from 'react-native-svg-charts';
+import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, Text } from 'recharts';
 
 import Section from '../Section';
-import Line from './Line';
-
-const { LinearGradient, Stop } = Svg;
 
 export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
   const axesTextColor = color(secondaryTextColor)
@@ -29,66 +24,57 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
         style={{
           height: 200,
           flexDirection: 'row',
-          padding: 16,
         }}>
-        <YAxis
-          numberOfTicks={3}
-          dataPoints={grades.map(x => x.gpa)}
-          labelStyle={[styles.axisLabel, { color: labelsTextColor }]}
-          formatLabel={value => value}
-        />
-        <View style={{ flex: 1, transform: [{ scaleY: -1 }] }}>
-          <LineChart
-            showGrid={false}
-            numberOfTicks={3}
-            style={{ flex: 1, marginLeft: 16 }}
-            dataPoints={grades.map(x => -1 * x.gpa)}
-            svg={{
-              strokeWidth: 3,
-            }}
-            shadowSvg={{
-              stroke: 'rgba(100,100,100,.04)',
-              strokeWidth: 6,
-            }}
-            renderGradient={({ id }) => (
-              <LinearGradient id={id} x1={'0%'} y={'0%'} x2={'100%'} y2={'100%'}>
-                <Stop offset={'0%'} stopColor={'#66B6F0'} stopOpacity={1} />
-                <Stop offset={'100%'} stopColor={'#8168E8'} stopOpacity={1} />
-              </LinearGradient>
-            )}
-            curve={shape.curveBasis}
-            gridProps={{
-              stroke: 'rgba(200, 200, 200, 0.3)',
-              strokeDasharray: [4, 8],
-              strokeWidth: 2,
-            }}
-            extras={[
-              Line({ horizontal: true, color: axesTextColor }),
-              Line({ horizontal: false, color: axesTextColor }),
-            ]}
-            renderExtra={({ item, ...args }) => item(args)}
-          />
-        </View>
+        <ResponsiveContainer>
+          <LineChart data={grades} margin={{ top: 12, left: -22, right: 30 }}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="5%" stopColor="#66B6F0" stopOpacity={1} />
+                <stop offset="95%" stopColor="#8168E8" stopOpacity={1} />
+              </linearGradient>
+            </defs>
+            <Line type="basis" dataKey="gpa" dot={false} stroke="url(#colorUv)" strokeWidth={2.8} />
+            <XAxis
+              tickLine={false}
+              padding={{ top: 100 }}
+              tick={
+                <CustomizedAxisTick
+                  //Rename me
+                  length={grades.length - 1}
+                  labelsTextColor={labelsTextColor}
+                />
+              }
+              stroke={axesTextColor}
+              dataKey="year"
+              interval="preserveStartEnd"
+            />
+            <YAxis
+              tick={{ fill: labelsTextColor, fontSize: 13 }}
+              tickLine={false}
+              stroke={axesTextColor}
+              interval={1}
+            />
+            <Tooltip />
+          </LineChart>
+        </ResponsiveContainer>
       </View>
-      <XAxis
-        style={styles.xAxis}
-        values={[grades[0].year, grades[grades.length - 1].year]}
-        formatLabel={value => value}
-        labelStyle={[styles.axisLabel, { color: labelsTextColor }]}
-      />
     </Section>
   );
 });
 
-const styles = StyleSheet.create({
-  xAxis: {
-    paddingVertical: 16,
-    paddingHorizontal: 22,
-    paddingLeft: 42,
-  },
-  axisLabel: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    backgroundColor: 'transparent',
-  },
-});
+const CustomizedAxisTick = (props: {
+  x?: number,
+  y?: number,
+  payload?: any,
+  index?: number,
+  labelsTextColor: string,
+  length: number,
+}) => {
+  const { x, y, payload, index, labelsTextColor, length } = props;
+
+  return index === 0 || index === length ? (
+    <Text x={index === length ? x - 24 : x} y={y + 16} fill={labelsTextColor} fontSize={13}>
+      {payload.value}
+    </Text>
+  ) : null;
+};
