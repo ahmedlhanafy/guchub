@@ -64,10 +64,12 @@ module.exports = {
       {
         from: `${path.resolve('public')}/launcher-icons`,
         to: `${path.resolve('public')}/launcher-icons`,
-        ignore: '.DS_Store'
+        ignore: '.DS_Store',
       },
     ]),
     new WorkboxPlugin.GenerateSW({
+      skipWaiting: true,
+      // globPatterns: [path.resolve('public') + '/*.{js,js.gz,png,html,css}'],
       runtimeCaching: [
         {
           urlPattern: /(.*?)/,

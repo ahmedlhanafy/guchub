@@ -19,7 +19,7 @@ module.exports = mergeWith(
   sharedConfig,
   {
     entry: {
-      vendor: ['react', 'react-native-web', 'react-apollo', 'styled-components'],
+      vendor: ['react', 'react-native-web', 'react-apollo', 'styled-components', 'recharts'],
       app: ['babel-polyfill', __dirname + '/index.js'],
     },
     output: {
