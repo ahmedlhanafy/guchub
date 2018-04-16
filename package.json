@@ -1,6 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
-  "schema_version": "3",
+  "schema_version": "1",
   "private": true,
   "scripts": {
     "native:dev": "exp start",
@@ -35,7 +35,6 @@
     "react-lines-ellipsis": "^0.10.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
     "react-native-material-textfield": "^0.12.0",
-    "react-native-svg-charts": "^2.0.1",
     "react-native-svg-web": "^1.0.1",
     "react-native-web": "^0.1.16",
     "react-native-web-linear-gradient": "^1.0.2",
