@@ -2,11 +2,11 @@ const darkTheme = {
   type: 'dark',
   primaryColor: 'blue',
   secondaryColor: 'blue',
-  backgroundColor: '#3B4149',
+  backgroundColor: '#2b2f35',
   primaryTextColor: 'white',
   secondaryTextColor: 'rgba(255, 255, 255, 0.6)',
   sectionTitleColor: 'rgba(255,255,255,0.8)',
-  cardBackgroundColor: '#767A80',
+  cardBackgroundColor: '#585b60',
 };
 
 const lightTheme = {

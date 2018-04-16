@@ -9,6 +9,7 @@ import { TextField } from 'react-native-material-textfield';
 import styled, { withTheme } from 'styled-components/native';
 
 import { Screen, Waves, Button, Toast } from '../components';
+import { saveCredentials } from '../utils';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -57,12 +58,17 @@ class Login extends React.PureComponent<Props, State> {
     const token = get(response, 'data.login.token');
 
     if (isAuthorized) {
-      this.props.saveToken({
-        token,
-        isDemoUser,
-      });
-      // Give Apollo's store a moment to update
-      setTimeout(() => this.props.history.push('/'), 200);
+      await Promise.all([
+        saveCredentials({
+          token,
+          isDemoUser,
+        }),
+        this.props.saveToken({
+          token,
+          isDemoUser,
+        }),
+      ]);
+      this.props.history.push('/');
     } else {
       this.setState({ isLoadingDemo: false, isLoading: false, errorExists: true });
     }

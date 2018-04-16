@@ -27,7 +27,7 @@ const renderRows = (courses: Array<Object>) => (
 const Attendance = ({ data }) => {
   return (
     <Screen>
-      <Screen.Header title="Attendance" animated back />
+      <Screen.Header loadingState={data.networkStatus} title="Attendance" animated back />
       <Screen.Content>
         <WithData
           showLoadingIf={data => get(data, 'authenticatedStudent.courses[0].name', null) === null}

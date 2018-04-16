@@ -83,7 +83,7 @@ const IconButton = withTheme(
       </IconButtonContainer>
     );
     return to ? (
-      <Link component={TouchableOpacity} style={{ textDecoration: 'none', zIndex: 5 }} to={to}>
+      <Link component={TouchableOpacity} style={{ zIndex: 5 }} to={to}>
         {content}
       </Link>
     ) : (

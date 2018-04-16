@@ -113,8 +113,8 @@ class Card extends PureComponent<Props, State> {
         </TopSection>
         <TagsContainer>
           {tags.map((tag, index) => (
-            <Tag start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors[index]}>
-              <TagTitle>{tag}</TagTitle>
+            <Tag key={index} start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} colors={colors[index]}>
+              <TagTitle>{tag.toUpperCase()}</TagTitle>
             </Tag>
           ))}
         </TagsContainer>

@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { Screen, Section, SmallCard, SequenceAnimator, SettingsRow } from '../components';
+import { updateSettings } from '../utils';
 
 type Props = {
   changeTheme: string => void,
@@ -27,6 +28,7 @@ const CheckedIcon = ({ color = 'rgba(66, 230, 149, 1)' }: { color?: string }) =>
 class Settings extends React.Component<Props> {
   _changeTheme = type => () => {
     this.props.changeTheme(type);
+    updateSettings({ theme: type });
   };
   render() {
     return (
@@ -46,7 +48,7 @@ class Settings extends React.Component<Props> {
                 </SmallCard>
                 <SmallCard
                   onPress={this._changeTheme('dark')}
-                  colors={['rgba(58, 67, 77, 1)', 'rgba(80, 99, 120, 1)']}
+                  colors={['#2b2f35', '#585b60']}
                   title="Dark">
                   {this.props.data.theme && this.props.data.theme.type === 'dark' ? (
                     <CheckedIcon />

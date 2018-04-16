@@ -1,6 +1,7 @@
 const path = require('path');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   module: {
@@ -56,6 +57,7 @@ module.exports = {
     extensions: ['.web.js', '.ios.js', '.js', '.json'],
   },
   plugins: [
+    new Dotenv(),
     // This is used to make webpack include index.html and icons in webpack's build so that workbox detects it
     new CopyWebpackPlugin([
       { from: `${path.resolve('public')}/index.html`, to: `${path.resolve('public')}/index.html` },
@@ -69,7 +71,7 @@ module.exports = {
       runtimeCaching: [
         {
           urlPattern: /(.*?)/,
-          handler: 'networkFirst',
+          handler: 'staleWhileRevalidate',
         },
       ],
     }),

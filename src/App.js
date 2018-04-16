@@ -6,6 +6,8 @@ import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { NativeRouter as Router, Route } from 'react-router-native';
+import bugsnag from 'bugsnag-js';
+import createPlugin from 'bugsnag-react';
 import {
   About,
   Attendance,
@@ -17,8 +19,15 @@ import {
   WhyGUCHub,
 } from './screens';
 import { DemoUserToast, PrivateRoute } from './components';
-import apolloClient, { persistedCache } from './apolloClient';
+import { setupApollo } from './utils';
 import { themes } from './constants';
+
+const bugsnagClient = bugsnag({
+  apiKey: process.env.BUGSNAG_KEY,
+  notifyReleaseStages: ['production'],
+  releaseStage: process.env.NODE_ENV,
+});
+const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 
 const App = graphql(
   gql`
@@ -53,21 +62,23 @@ const App = graphql(
   </ThemeProvider>
 ));
 
-export default class extends React.Component<null, { didCacheResolve: boolean }> {
-  state = { didCacheResolve: false };
+export default class extends React.Component<null, { client: ?Object }> {
+  state = { client: null };
   async componentDidMount() {
-    await persistedCache;
-    this.setState({ didCacheResolve: true });
+    this.setState({ client: await setupApollo() });
   }
   render() {
+    const client = this.state.client;
     return (
-      <View style={{ flex: 1 }}>
-        {this.state.didCacheResolve ? (
-          <ApolloProvider client={apolloClient}>
-            <App />
-          </ApolloProvider>
-        ) : null}
-      </View>
+      <ErrorBoundary>
+        <View style={{ flex: 1 }}>
+          {client !== null ? (
+            <ApolloProvider client={client}>
+              <App />
+            </ApolloProvider>
+          ) : null}
+        </View>
+      </ErrorBoundary>
     );
   }
 }

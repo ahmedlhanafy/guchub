@@ -3,8 +3,9 @@
 //@TODO: Refactor this file
 
 import React, { Children, Component } from 'react';
-import { Animated, View, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import color from 'color';
 
@@ -30,14 +31,28 @@ class Screen extends Component<Props, State> {
   static Content = props => <View style={{ flex: 1 }} {...props} />;
 
   _renderContent = () => {
-    const { children, scrollable } = this.props;
+    const { children, scrollable, theme } = this.props;
 
     const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
-    const { animated, back, title, children: headerChildren } = header ? header.props : {};
+    const { animated, back, title, children: headerChildren, loadingState = 7 } = header
+      ? header.props
+      : {};
+    let loadingText = '';
+    if (loadingState === 1) loadingText = 'Loading...';
+    else if (loadingState === 8) loadingText = 'Viewing outdated data';
 
     const staticTitle = (
       <TitleContainer>
         <Title>{title}</Title>
+        <LoadingContainer>
+          <LoadingText>{loadingText}</LoadingText>
+          {loadingState === 1 ? (
+            <ActivityIndicator size={14} color={theme.secondaryTextColor} />
+          ) : null}
+          {loadingState === 8 ? (
+            <MaterialIcons name="error-outline" size={16} color={theme.secondaryTextColor} />
+          ) : null}
+        </LoadingContainer>
         {!animated ? headerChildren : null}
       </TitleContainer>
     );
@@ -125,7 +140,22 @@ const Title = styled(Animated.Text)`
   color: ${({ theme }) => theme.primaryTextColor};
   font-size: 34;
   font-weight: bold;
+`;
+
+const LoadingContainer = styled.View`
   flex: 1;
+  align-self: flex-end;
+  flex-direction: row;
+  margin-left: 12px;
+  margin-bottom: 6px;
+`;
+
+const LoadingText = styled.Text`
+  background-color: transparent;
+  color: ${({ theme }) => theme.secondaryTextColor};
+  font-size: 13;
+  font-weight: 300;
+  margin-right: 6px;
 `;
 
 const Header = styled(Animated.View)`

@@ -61,7 +61,7 @@ const SmallCard = ({ title, titleStyles, colors, onPress, to, children }: Props)
     </Container>
   );
   return to ? (
-    <Link style={{ textDecoration: 'none' }} to={to} component={TouchableOpacity}>
+    <Link to={to} component={TouchableOpacity}>
       {element}
     </Link>
   ) : (

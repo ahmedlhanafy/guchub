@@ -1,6 +1,8 @@
 {
   "short_name": "GUC Hub",
   "name": "GUC Hub",
+  "default_locale": "en",
+  "description": "🎓 Elegantly manage your GUC academic life",
   "icons": [
     {
       "src": "./launcher-icons/logo_48.png",
@@ -25,6 +27,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#3B4149",
-  "theme_color": "#3B4149"
+  "background_color": "#2b2f35",
+  "theme_color": "#1f2226"
 }

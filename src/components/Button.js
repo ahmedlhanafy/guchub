@@ -20,7 +20,7 @@ const styles = ({ primary, theme }) => ({
   alignItems: 'center',
   borderRadius: 4,
   marginBottom: 16,
-  ...Platform.select({ web: 'outline: none;' }),
+  ...Platform.select({ web: { outline: 'none' } }),
 });
 
 // Beginning of super hacky stuff
