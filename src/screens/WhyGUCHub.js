@@ -70,7 +70,7 @@ const Text = styled.Text`
       .alpha(0.86)
       .rgb()
       .toString()};
-  font-size: 16px;
+  font-size: 18px;
   line-height: 24px;
   padding-right: ${({ paddingRight }) => paddingRight || 0}px;
 `;
