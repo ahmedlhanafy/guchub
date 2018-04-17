@@ -52,7 +52,9 @@ const renderFeed = authenticatedStudent => {
           </Section>
         )}
       <Actions />
-      <Chart grades={authenticatedStudent.transcript.semesters} />
+      {get(authenticatedStudent, 'transcript.semesters', null) ? (
+        <Chart grades={get(authenticatedStudent, 'transcript.semesters')} />
+      ) : null}
     </SequenceAnimator>
   );
 };
