@@ -3,7 +3,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
-import graphql from 'react-apollo/graphql';
+import { graphql } from 'react-apollo';
 import { Screen, AttendanceRow, WithData, SequenceAnimator } from '../components';
 import { graphqlCredentialsOptions } from '../utils';
 

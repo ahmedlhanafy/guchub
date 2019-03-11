@@ -3,8 +3,7 @@
 import React from 'react';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
-import { compose } from 'react-apollo';
-import graphql from 'react-apollo/graphql';
+import { compose, graphql } from 'react-apollo';
 import get from 'lodash.get';
 import {
   SequenceAnimator,
