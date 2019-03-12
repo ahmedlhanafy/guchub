@@ -1,13 +1,13 @@
 /* @flow */
 
-import React from 'react';
+import * as React from 'react';
 import { View, Platform, Dimensions } from 'react-native';
 import { withApollo, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
 import { TextField } from 'react-native-material-textfield';
 import styled, { withTheme } from 'styled-components/native';
-
+import mixpanel from 'mixpanel-browser';
 import { Screen, Waves, Button, Toast } from '../components';
 import { saveCredentials } from '../utils';
 
@@ -59,6 +59,8 @@ class Login extends React.PureComponent<Props, State> {
       const token = get(response, 'data.login.token');
 
       if (isAuthorized) {
+        mixpanel.register({ username });
+        mixpanel.track('Logged in');
         await Promise.all([
           saveCredentials({
             token,
@@ -93,7 +95,7 @@ class Login extends React.PureComponent<Props, State> {
     this._loginAndRoute({ username, password });
   };
 
-  _handleSubmit = e => {
+  _handleSubmit = (e: SyntheticKeyboardEvent<HTMLButtonElement>) => {
     e.preventDefault();
     this._login();
   };

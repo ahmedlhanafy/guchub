@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { NativeRouter as Router, Route } from 'react-router-native';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
+import mixpanel from 'mixpanel-browser';
 import {
   About,
   Attendance,
@@ -21,6 +22,11 @@ import {
 import { DemoUserToast, PrivateRoute } from './components';
 import { setupApollo } from './utils';
 import { themes } from './constants';
+
+// Move these to setup file
+if (process.env.NODE_ENV !== 'development') {
+  mixpanel.init(process.env.MIXPANEL_KEY);
+}
 
 const bugsnagClient = bugsnag({
   apiKey: process.env.BUGSNAG_KEY,
@@ -65,6 +71,7 @@ const App = graphql(
 export default class extends React.Component<null, { client: ?Object }> {
   state = { client: null };
   async componentDidMount() {
+    mixpanel.track('App was opened');
     this.setState({ client: await setupApollo() });
   }
   render() {
