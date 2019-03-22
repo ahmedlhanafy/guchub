@@ -1,5 +1,3 @@
-/* @flow */
-
 import capitalize from 'lodash.capitalize';
 import type { Course } from '../types/Course';
 

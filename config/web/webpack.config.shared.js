@@ -7,7 +7,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         exclude: {
           test: path.resolve('node_modules'),
           exclude: [
@@ -23,6 +23,14 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
+            presets: [
+              'module:metro-react-native-babel-preset',
+              {
+                plugins: [
+                  '@babel/plugin-proposal-class-properties'
+                ]
+              }
+            ]
           },
         },
       },

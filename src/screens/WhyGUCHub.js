@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import color from 'color';
 import styled, { withTheme } from 'styled-components/native';

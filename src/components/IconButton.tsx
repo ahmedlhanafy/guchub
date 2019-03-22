@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-native';
@@ -7,39 +5,7 @@ import styled, { withTheme } from 'styled-components/native';
 import { LinearGradient } from 'expo';
 import color from 'color';
 import { MaterialIcons } from '@expo/vector-icons';
-
-const IconButtonContainer = styled(LinearGradient)`
-  width: 40;
-  height: 40;
-  border-radius: 6;
-  justify-content: center;
-  align-items: ${({ center }) => (center ? 'center' : 'flex-start')};
-`;
-
-const Icon = styled(MaterialIcons)`
-  background-color: transparent;
-  color: ${({ theme }) =>
-    color(theme.primaryTextColor)
-      .alpha(0.9)
-      .rgb()
-      .string()};
-`;
-
-const IconButtonIndicator = styled.View`
-  background-color: red;
-  width: 16;
-  height: 16;
-  border-radius: ${16 / 2};
-  position: absolute;
-  top: -5;
-  right: -5;
-  border-width: 3;
-  border-color: ${({ theme }) =>
-    color(theme.backgroundColor)
-      .darken(0.25)
-      .rgb()
-      .string()};
-`;
+import { Theme } from '../constants/themes';
 
 const IconButton = withTheme(
   ({
@@ -52,14 +18,14 @@ const IconButton = withTheme(
     to,
     size = 28,
   }: {
-    onPress?: () => void,
-    theme: Object,
-    hasIndicator?: boolean,
-    hasOutline?: boolean,
-    iconName: string,
-    style: any,
-    to?: string,
-    size?: number,
+    onPress?: () => void;
+    theme: Theme;
+    hasIndicator?: boolean;
+    hasOutline?: boolean;
+    iconName: string;
+    style?: any;
+    to?: string;
+    size?: number;
   }) => {
     const content = (
       <IconButtonContainer
@@ -93,5 +59,38 @@ const IconButton = withTheme(
     );
   }
 );
+
+const IconButtonContainer = styled(LinearGradient)`
+  width: 40;
+  height: 40;
+  border-radius: 6;
+  justify-content: center;
+  align-items: ${({ center }: { center: boolean }) => (center ? 'center' : 'flex-start')};
+`;
+
+const Icon = styled(MaterialIcons)`
+  background-color: transparent;
+  color: ${({ theme }) =>
+    color(theme.primaryTextColor)
+      .alpha(0.9)
+      .rgb()
+      .string()};
+`;
+
+const IconButtonIndicator = styled.View`
+  background-color: red;
+  width: 16;
+  height: 16;
+  border-radius: ${16 / 2};
+  position: absolute;
+  top: -5;
+  right: -5;
+  border-width: 3;
+  border-color: ${({ theme }) =>
+    color(theme.backgroundColor)
+      .darken(0.25)
+      .rgb()
+      .string()};
+`;
 
 export default IconButton;

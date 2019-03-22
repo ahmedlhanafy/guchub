@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 import { withClientState } from 'apollo-link-state';
 import type { ApolloCache } from 'apollo-cache';

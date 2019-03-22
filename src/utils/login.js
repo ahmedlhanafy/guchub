@@ -1,5 +1,3 @@
-//@flow
-
 import get from 'lodash.get';
 
 type Params = {

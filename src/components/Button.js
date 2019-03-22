@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 import React, { Fragment } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';

@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { View, Platform, Dimensions } from 'react-native';
 import gql from 'graphql-tag';

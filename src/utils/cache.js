@@ -1,5 +1,3 @@
-/* @flow */
-
 import { AsyncStorage } from 'react-native';
 
 const TOKEN_KEY = 'guc-token';

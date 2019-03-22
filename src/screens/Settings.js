@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { Linking } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';

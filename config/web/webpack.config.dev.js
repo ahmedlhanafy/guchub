@@ -24,7 +24,7 @@ module.exports = mergeWith(
         // 'webpack-dev-server/client?http://localhost:3000',
         require.resolve('react-dev-utils/webpackHotDevClient'),
         // 'webpack/hot/only-dev-server',
-        'babel-polyfill',
+        // 'babel-polyfill',
         // 'react-hot-loader/patch',
         __dirname + '/index.js',
       ],

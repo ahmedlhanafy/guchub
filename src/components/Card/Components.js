@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 import styled from 'styled-components/native';
 import { Platform, Animated } from 'react-native';

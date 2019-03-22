@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 import React, { PureComponent } from 'react';
 import { Dimensions, Animated } from 'react-native';

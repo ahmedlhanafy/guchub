@@ -1,39 +1,38 @@
-/* @flow */
-
 //@TODO: Refactor this file
 
-import React, { Children, Component } from 'react';
+import * as React from 'react';
 import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import color from 'color';
 
-import IconButton from './IconButton';
+import IconButton from './IconButton.tsx';
+import { Theme } from '../constants/themes';
 
 type Props = {
-  scrollable: boolean,
-  children?: any,
-  theme: Object,
-  style: any,
+  scrollable?: boolean,
+  children?: React.ReactNode,
+  theme?: Theme,
+  style?: any,
 };
 
 type State = {
-  animatedValue: Object,
+  animatedValue: Animated,
 };
 
-class Screen extends Component<Props, State> {
+class Screen extends React.Component<Props, State> {
   static defaultProps = {
     scrollable: true,
   };
   state = { animatedValue: new Animated.Value(0) };
-  static Header = props => <View {...props} />;
-  static Content = props => <View style={{ flex: 1 }} {...props} />;
+  static Header = (props: any) => <View {...props} />;
+  static Content = (props: any) => <View style={{ flex: 1 }} {...props} />;
 
   _renderContent = () => {
     const { children, scrollable, theme } = this.props;
 
-    const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
+    const header = React.Children.toArray(children).find(Comp => Comp.type === Screen.Header);
     const { animated, back, title, children: headerChildren, loadingState = 7 } = header
       ? header.props
       : {};
@@ -75,12 +74,12 @@ class Screen extends Component<Props, State> {
           ])
         }>
         {staticTitle}
-        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
+        {React.Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
       </ScrollView>
     ) : (
       <View style={{ flex: 1 }}>
         {staticTitle}
-        {Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
+        {React.Children.toArray(children).filter(Comp => Comp.type === Screen.Content)}
       </View>
     );
   };
@@ -88,7 +87,7 @@ class Screen extends Component<Props, State> {
   render() {
     const { theme, children, style, ...props } = this.props;
 
-    const header = Children.toArray(children).find(Comp => Comp.type === Screen.Header);
+    const header = React.Children.toArray(children).find(Comp => Comp.type === Screen.Header);
     const { animated, back, title, children: headerChildren, to = '/' } = header
       ? header.props
       : {};

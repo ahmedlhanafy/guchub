@@ -1,5 +1,3 @@
-/* @flow */
-
 import { AsyncStorage, Platform } from 'react-native';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink, InMemoryCache, ApolloLink } from 'apollo-client-preset';

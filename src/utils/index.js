@@ -16,3 +16,4 @@ export {
 export { default as generateClientStateLink } from './apolloClientState';
 export { default as setupApollo } from './setupApollo';
 export { login } from './login';
+export { useQuery } from './useQuery.tsx';

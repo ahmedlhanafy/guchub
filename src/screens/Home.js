@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';

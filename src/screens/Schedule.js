@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
@@ -8,7 +6,6 @@ import capitalize from 'lodash.capitalize';
 import { graphql, compose } from 'react-apollo';
 import { Screen, Section, Card, WithData, SequenceAnimator } from '../components';
 import { transformSchedule, graphqlCredentialsOptions } from '../utils';
-import type { Course } from '../types/Course';
 
 type Props = {
   data: {

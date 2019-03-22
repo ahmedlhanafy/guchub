@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 export type WeekDay = 'SATURDAY' | 'SUNDAY' | 'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY';
 

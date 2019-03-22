@@ -1,4 +1,4 @@
-/* @flow */
+ 
 
 import React, { PureComponent, Fragment } from 'react';
 import { TouchableOpacity, Animated } from 'react-native';

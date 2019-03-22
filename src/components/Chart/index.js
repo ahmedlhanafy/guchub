@@ -1,12 +1,10 @@
-/* @flow */
-
-import React from 'react';
+ import React from 'react';
 import { View } from 'react-native';
 import { withTheme } from 'styled-components/native';
 import color from 'color';
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, Text } from 'recharts';
 
-import Section from '../Section';
+import Section from '../Section.tsx';
 
 export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
   const axesTextColor = color(secondaryTextColor)
