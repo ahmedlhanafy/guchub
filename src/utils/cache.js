@@ -1,5 +1,3 @@
-/* @flow */
-
 import { AsyncStorage } from 'react-native';
 
 const TOKEN_KEY = 'guc-token';
@@ -20,7 +18,7 @@ export const saveCredentials = ({
   token,
   isDemoUser = false,
 }: {
-  token: string,
+  token: string | null,
   isDemoUser?: boolean,
 }) => Promise.all([saveToken(token), saveDemoUser(isDemoUser)]);
 

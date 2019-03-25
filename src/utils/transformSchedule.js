@@ -1,11 +1,9 @@
-/* @flow */
-
 import capitalize from 'lodash.capitalize';
 import type { Course } from '../types/Course';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-export const transformSchedule = (schedule: Array<Course>): { [string]: Array<Course> } => {
+export const transformSchedule = (schedule: Course[]): { [key: string]: Array<Course> } => {
   return schedule
     ? schedule.reduce((acc, val) => {
         if (acc[val.weekday]) {

@@ -1,5 +1,3 @@
-/* @flow */
-
 export { default as Actions } from './Actions';
 export { default as Button } from './Button';
 export { default as Card } from './Card';
@@ -13,7 +11,6 @@ export { default as SequenceAnimator } from './SequenceAnimator';
 export { default as SmallCard } from './SmallCard';
 export { default as Toast } from './Toast';
 export { default as Waves } from './Waves';
-export { default as WithData } from './WithData';
 export { default as DemoUserToast } from './DemoUserToast';
 export { default as AttendanceRow } from './AttendanceRow';
 export { default as SettingsRow } from './SettingsRow';

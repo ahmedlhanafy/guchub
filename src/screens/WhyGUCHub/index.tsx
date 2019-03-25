@@ -1,11 +1,8 @@
-/* @flow */
-
 import React from 'react';
-import color from 'color';
-import styled, { withTheme } from 'styled-components/native';
-import { Screen } from '../components';
+import { Screen } from '../../components';
+import { Container, TextContainer, Text, Seperator } from './atoms';
 
-const WhyGUCHub = ({ theme }) => (
+const WhyGUCHub = () => (
   <Screen>
     <Screen.Header to="/settings" title="Why Another GUC App?" animated back />
     <Screen.Content>
@@ -57,26 +54,4 @@ const WhyGUCHub = ({ theme }) => (
   </Screen>
 );
 
-const Container = styled.View`
-  padding: 16px 24px;
-`;
-const TextContainer = styled.View`
-  flex-direction: row;
-`;
-
-const Text = styled.Text`
-  color: ${({ theme }) =>
-    color(theme.primaryTextColor)
-      .alpha(0.86)
-      .rgb()
-      .toString()};
-  font-size: 18px;
-  line-height: 24px;
-  padding-right: ${({ paddingRight }) => paddingRight || 0}px;
-`;
-
-const Seperator = styled.View`
-  height: ${({ height = '16px' }) => height};
-`;
-
-export default withTheme(WhyGUCHub);
+export default WhyGUCHub;

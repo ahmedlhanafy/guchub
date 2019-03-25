@@ -1,5 +1,5 @@
 // import { hot } from 'react-hot-loader';
-import App from '../../src/App';
+import App from '../../src/App.tsx';
 
 export default App;
 // export default hot(module)(App);

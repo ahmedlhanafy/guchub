@@ -1,12 +1,11 @@
-/* @flow */
-
 import React from 'react';
 import { TouchableOpacity, Linking } from 'react-native';
-import color from 'color';
-import styled, { withTheme } from 'styled-components/native';
-import { Screen } from '../components';
+import { withTheme } from 'styled-components/native';
+import { Screen } from '../../components';
+import { Theme } from '../../constants';
+import { Container, Text, Image, Bold, GithubIcon, Seperator } from './atoms';
 
-const About = ({ theme }) => (
+const About = ({ theme }: { theme: Theme }) => (
   <Screen>
     <Screen.Header to="/settings" title="About" animated back />
     <Screen.Content>
@@ -54,7 +53,7 @@ const About = ({ theme }) => (
         </TouchableOpacity>
         <Seperator />
         <Bold center={false}>Disclaimers</Bold>
-        <Seperator height="8px" />
+        <Seperator height={8} />
         <Text center={false}>
           We assume no responsibility or liability for any loss or damage suffered by any person as
           a result of the use or misuse of any of the information or content on this app. We assume
@@ -70,48 +69,5 @@ const About = ({ theme }) => (
     </Screen.Content>
   </Screen>
 );
-
-const Container = styled.View`
-  align-items: center;
-  padding: 16px 24px;
-`;
-
-const Text = styled.Text`
-  text-align: ${({ center = true }) => (center ? 'center' : 'start')};
-  color: ${({ theme }) =>
-    color(theme.primaryTextColor)
-      .alpha(0.86)
-      .rgb()
-      .toString()};
-  width: 100%;
-  font-size: 16px;
-`;
-
-const Bold = styled.Text`
-  color: ${({ theme }) =>
-    color(theme.primaryTextColor)
-      .alpha(0.86)
-      .rgb()
-      .toString()};
-  width: 100%;
-  text-align: ${({ center = true }) => (center ? 'center' : 'start')};
-  font-weight: bold;
-  font-size: 16px;
-`;
-
-const Image = styled.Image`
-  width: 125px;
-  height: 125px;
-`;
-
-const GithubIcon = styled.Image`
-  margin-top: 12px;
-  width: 20px;
-  height: 20px;
-`;
-
-const Seperator = styled.View`
-  height: ${({ height = '16px' }) => height};
-`;
 
 export default withTheme(About);

@@ -1,5 +1,3 @@
-/* @flow */
-
 import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
@@ -22,9 +20,12 @@ import {
 import { DemoUserToast, PrivateRoute } from './components';
 import { setupApollo } from './utils';
 import { themes } from './constants';
+import ApolloClient from 'apollo-client';
+import { NormalizedCacheObject } from 'apollo-client-preset';
+import { Theme } from './constants/themes';
 
 const bugsnagClient = bugsnag({
-  apiKey: process.env.BUGSNAG_KEY,
+  apiKey: process.env.BUGSNAG_KEY as string,
   notifyReleaseStages: ['production'],
   releaseStage: process.env.NODE_ENV,
 });
@@ -42,8 +43,19 @@ const APP_QUERY = gql`
     }
   }
 `;
+
+type Query = {
+  data: {
+    theme: Theme;
+    auth: {
+      token: string;
+      isDemoUser: boolean;
+    };
+  };
+};
+
 const App = () => {
-  const { data: { theme, auth } } = useQuery(APP_QUERY);
+  const { data: { theme, auth } } = useQuery(APP_QUERY) as Query;
 
   return (
     <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
@@ -68,7 +80,7 @@ const App = () => {
 };
 
 export default () => {
-  const [client, setClient] = React.useState(null);
+  const [client, setClient] = React.useState<ApolloClient<NormalizedCacheObject>>();
 
   React.useEffect(() => {
     setupApollo().then(instance => {
@@ -76,12 +88,10 @@ export default () => {
     });
   }, []);
 
-  console.log(client);
-
   return (
     <ErrorBoundary>
       <View style={{ flex: 1, height: '100vh' }}>
-        {client !== null ? (
+        {client !== undefined ? (
           <ApolloProvider client={client}>
             <ApolloHooksProvider client={client}>
               <App />

@@ -1,4 +1,15 @@
-const darkTheme = {
+export type Theme = {
+  type: 'dark' | 'light';
+  primaryColor: string;
+  secondaryColor: string;
+  backgroundColor: string;
+  primaryTextColor: string;
+  secondaryTextColor: string;
+  sectionTitleColor: string;
+  cardBackgroundColor: string;
+};
+
+const darkTheme: Theme = {
   type: 'dark',
   primaryColor: 'blue',
   secondaryColor: 'blue',
@@ -9,7 +20,7 @@ const darkTheme = {
   cardBackgroundColor: '#585b60',
 };
 
-const lightTheme = {
+const lightTheme: Theme = {
   type: 'light',
   primaryColor: 'blue',
   secondaryColor: 'blue',
