@@ -26,11 +26,9 @@ module.exports = {
             presets: [
               'module:metro-react-native-babel-preset',
               {
-                plugins: [
-                  '@babel/plugin-proposal-class-properties'
-                ]
-              }
-            ]
+                plugins: ['@babel/plugin-proposal-class-properties'],
+              },
+            ],
           },
         },
       },
@@ -62,7 +60,20 @@ module.exports = {
       'react-native-svg': 'react-native-svg-web',
       'react-router-native': path.resolve(__dirname, 'shims/react-router'),
     },
-    extensions: ['.web.js', '.ios.js', '.js', '.json'],
+    extensions: [
+      '.ts',
+      '.tsx',
+      `.ios.ts`,
+      `.web.ts`,
+      '.native.ts',
+      `.ios.tsx`,
+      `.web.tsx`,
+      '.native.tsx',
+      '.web.js',
+      '.ios.js',
+      '.js',
+      '.json',
+    ],
   },
   plugins: [
     new Dotenv(),

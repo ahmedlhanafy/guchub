@@ -3,7 +3,7 @@ import { TouchableOpacity, Linking } from 'react-native';
 import { withTheme } from 'styled-components/native';
 import { Screen } from '../../components';
 import { Theme } from '../../constants';
-import { Container, Text, Image, Bold, GithubIcon, Seperator } from './atoms.ts';
+import { Container, Text, Image, Bold, GithubIcon, Seperator } from './atoms';
 
 const About = ({ theme }: { theme: Theme }) => (
   <Screen>

@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo';
 import color from 'color';
 
-import IconButton from './IconButton.tsx';
+import IconButton from './IconButton';
 import { Theme } from '../constants/themes';
 
 type Props = {
@@ -26,8 +26,8 @@ class Screen extends React.Component<Props, State> {
     scrollable: true,
   };
   state = { animatedValue: new Animated.Value(0) };
-  static Header = (props: any) => <View {...props} />;
-  static Content = (props: any) => <View style={{ flex: 1 }} {...props} />;
+  public static Header = (props: any) => <View {...props} />;
+  public static Content = (props: any) => <View style={{ flex: 1 }} {...props} />;
 
   _renderContent = () => {
     const { children, scrollable, theme } = this.props;
@@ -196,4 +196,4 @@ const IconsContainer = styled.View`
   z-index: 4;
 `;
 
-export default withTheme(Screen);
+export default withTheme(Screen) as any;

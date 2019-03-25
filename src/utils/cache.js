@@ -18,7 +18,7 @@ export const saveCredentials = ({
   token,
   isDemoUser = false,
 }: {
-  token: string,
+  token: string | null,
   isDemoUser?: boolean,
 }) => Promise.all([saveToken(token), saveDemoUser(isDemoUser)]);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, ViewProps } from 'react-native';
 import styled from 'styled-components/native';
 
 const Section = ({
@@ -11,7 +11,7 @@ const Section = ({
   children: any;
   scrollable?: boolean;
   title: string;
-}) => (
+} & ViewProps) => (
   <Container {...props}>
     <Title>{title}</Title>
     {scrollable ? (

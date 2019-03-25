@@ -1,32 +1,19 @@
-import { QueryHookOptions, useQuery as apolloUseQuery, QueryHookResult } from 'react-apollo-hooks';
 import * as React from 'react';
+import { QueryHookOptions, useQuery as apolloUseQuery, QueryHookResult } from 'react-apollo-hooks';
 import get from 'lodash.get';
 import { ActivityIndicator } from 'react-native';
 import { Redirect } from 'react-router-native';
 
 type UseQuery = <TData, TVariables = any, TCache = any>(
   query: any,
-  {
-    ssr,
-    skip,
-    suspend,
-    pollInterval,
-    notifyOnNetworkStatusChange,
-    client: overrideClient,
-    context,
-    metadata,
-    variables,
-    fetchPolicy: actualCachePolicy,
-    errorPolicy,
-    fetchResults,
-  }: QueryHookOptions<TVariables, TCache>,
-  { isLoading }: { isLoading: (data: TData) => boolean }
+  apolloOptions?: QueryHookOptions<TVariables, TCache>,
+  options?: { isLoading: (data: TData) => boolean }
 ) => QueryHookResult<TData, TVariables> & { loadingComp?: React.ReactElement };
 
-export const useQuery: UseQuery = (query, apolloOptions, options) => {
+const useQuery: UseQuery = (query, apolloOptions, options) => {
   const { data, loading, ...rest } = apolloUseQuery(query, apolloOptions);
 
-  if (loading || (options && options.isLoading(data)))
+  if (options && options.isLoading(data))
     return {
       loading: true,
       data,
@@ -51,4 +38,4 @@ export const useQuery: UseQuery = (query, apolloOptions, options) => {
   return { data, loading: false, ...rest };
 };
 
-
+export default useQuery;

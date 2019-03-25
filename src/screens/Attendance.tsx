@@ -2,37 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
 import { Screen, AttendanceRow, SequenceAnimator } from '../components/index';
-import { useQuery } from '../utils';
-
-const QUERY = gql`
-  query AttendanceQuery($token: String!) {
-    authenticatedStudent(token: $token) {
-      isAuthorized
-      courses {
-        name
-        absence {
-          level
-          severity
-        }
-      }
-    }
-  }
-`;
-
-type Course = {
-  name: string;
-  absence: {
-    level: string;
-    severity: string;
-  };
-};
-
-type Query = {
-  authenticatedStudent: {
-    isAuthorized: boolean;
-    courses: Course[];
-  };
-};
+import { Course } from '../types/Course';
+import { useQuery } from '../hooks';
 
 const Attendance = ({ token }: { token: string }) => {
   const { data, networkStatus, loadingComp } = useQuery<Query, { token: string }>(
@@ -71,6 +42,28 @@ const Attendance = ({ token }: { token: string }) => {
       </Screen.Content>
     </Screen>
   );
+};
+
+const QUERY = gql`
+  query AttendanceQuery($token: String!) {
+    authenticatedStudent(token: $token) {
+      isAuthorized
+      courses {
+        name
+        absence {
+          level
+          severity
+        }
+      }
+    }
+  }
+`;
+
+type Query = {
+  authenticatedStudent: {
+    isAuthorized: boolean;
+    courses: Course[];
+  };
 };
 
 export default Attendance;

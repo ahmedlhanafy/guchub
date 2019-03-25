@@ -1,5 +1,3 @@
- 
-
 import React, { PureComponent, Fragment } from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import color from 'color';
@@ -11,7 +9,7 @@ type Props = {
   disappearing?: boolean,
   hideAfter?: number,
   shown: boolean,
-  handleHiding?: () => void,
+  handleHiding?: (params: any) => void,
 };
 
 type State = {

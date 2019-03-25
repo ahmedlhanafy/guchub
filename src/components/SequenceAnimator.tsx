@@ -29,11 +29,14 @@ const SequenceAnimator = ({
 }: {
   animationDelay?: number;
   children: React.ReactNode;
-}) =>
-  React.Children.map(children, (child, index) => (
-    <OpacityAnimation key={index} delay={animationDelay} delayMultiplier={index}>
-      {child}
-    </OpacityAnimation>
-  ));
+}) => (
+  <>
+    {React.Children.map(children, (child, index) => (
+      <OpacityAnimation key={index} delay={animationDelay} delayMultiplier={index}>
+        {child}
+      </OpacityAnimation>
+    ))}
+  </>
+);
 
 export default SequenceAnimator;

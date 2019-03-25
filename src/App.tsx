@@ -19,7 +19,7 @@ import {
 } from './screens';
 import { DemoUserToast, PrivateRoute } from './components';
 import { setupApollo } from './utils';
-import { themes } from './constants/index.ts';
+import { themes } from './constants';
 import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-client-preset';
 import { Theme } from './constants/themes';

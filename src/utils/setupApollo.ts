@@ -1,8 +1,8 @@
 import { AsyncStorage, Platform } from 'react-native';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink, InMemoryCache, ApolloLink } from 'apollo-client-preset';
+import { HttpLink, InMemoryCache, ApolloLink, NormalizedCacheObject } from 'apollo-client-preset';
 import { CachePersistor } from 'apollo-cache-persist';
-import { generateClientStateLink, getSchemaVersion, saveSchemaVersion } from './';
+import { generateClientStateLink, getSchemaVersion, saveSchemaVersion } from '.';
 import packageJson from '../../package.json';
 
 const currentSchemaVersion = packageJson.schema_version;
@@ -11,11 +11,11 @@ const cache = new InMemoryCache();
 
 const persistor = new CachePersistor({
   cache,
-  storage: AsyncStorage,
+  storage: <any>AsyncStorage,
   trigger: Platform.OS === 'web' ? 'write' : 'background',
 });
 
-export default async () => {
+export default async (): Promise<ApolloClient<NormalizedCacheObject>> => {
   const cacheSchemaVersion = (await getSchemaVersion()) || 0;
   if (currentSchemaVersion === cacheSchemaVersion) {
     await persistor.restore();
@@ -25,10 +25,11 @@ export default async () => {
   }
 
   const clientStateLink = await generateClientStateLink(cache);
+
   return new ApolloClient({
     connectToDevTools: process.env.NODE_ENV === 'development',
     link: ApolloLink.from([
-      clientStateLink,
+      <any>clientStateLink,
       new HttpLink({
         uri: 'https://graphql-guc.now.sh/graphql',
       }),
