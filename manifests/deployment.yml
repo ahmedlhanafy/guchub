@@ -16,4 +16,4 @@ spec:
         - name: guchub 
           image: reviewappregistery.azurecr.io/guchub
           ports:
-          - containerPort: 3000
+          - containerPort: 80

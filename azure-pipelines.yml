@@ -15,7 +15,7 @@ variables:
   imageRepository: 'guchub'
   containerRegistry: 'reviewappregistery.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '3'
+  tag: '$(Build.BuildId)'
   imagePullSecret: 'reviewappregistery3eac-auth'
 
   # Agent VM image name
@@ -33,15 +33,15 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    # - task: Docker@2
-    #   displayName: Build and push an image to container registry
-    #   inputs:
-    #     command: buildAndPush
-    #     repository: $(imageRepository)
-    #     dockerfile: $(dockerfilePath)
-    #     containerRegistry: $(dockerRegistryServiceConnection)
-    #     tags: |
-    #       $(tag)
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
           
     - upload: manifests
       artifact: manifests
