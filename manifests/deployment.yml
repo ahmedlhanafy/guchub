@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guchub__app-id__
+      app: guchub
   template:
     metadata:
       labels:
