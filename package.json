@@ -10,7 +10,7 @@
     "web:dev": "webpack-dev-server -d --config config/web/webpack.config.dev.js",
     "web:build": "webpack --config config/web/webpack.config.prod.js",
     "web:publish": "firebase deploy",
-    "web:serve": "serve -p 80 ./public",
+    "web:serve": "serve -p 80 --single --cache=60000 ./public",
     "lint": "eslint .",
     "flow": "flow .",
     "test": "jest"
