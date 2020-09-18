@@ -98,7 +98,6 @@ stages:
     variables:
     - name: app-id
       value: $(tag)
-    displayName: Deploy
     pool:
       vmImage: $(vmImageName)
     environment: 'ahmedlhanafyguchub.ingress-basic'
