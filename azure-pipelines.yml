@@ -48,7 +48,7 @@ stages:
 
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: Build
+  # dependsOn: Build
 
   jobs:
   - deployment: Deploy
