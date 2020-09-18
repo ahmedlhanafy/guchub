@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guchub
+      app: guchub-__app-id__
   template:
     metadata:
       labels:
-        app: guchub
+        app: guchub-__app-id__
     spec:
       containers:
         - name: guchub 
