@@ -55,7 +55,7 @@ stages:
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     variables:
     - name: app-id
-      value: $(tag)
+      value: v-$(tag)
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
@@ -89,7 +89,7 @@ stages:
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     variables:
     - name: app-id
-      value: $(tag)
+      value: v-$(tag)
     pool:
       vmImage: $(vmImageName)
       
