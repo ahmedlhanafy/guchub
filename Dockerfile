@@ -9,7 +9,8 @@ WORKDIR ./app
 COPY . ./
 
 # install app dependencies
-RUN yarn --silent
+RUN yarn 
+RUN yarn web:build
 
 # start app
-CMD ["npm", "start"]
+CMD ["yarn", "web:serve"]
