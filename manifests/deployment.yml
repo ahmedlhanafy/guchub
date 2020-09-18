@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: guchub__app-id__
+        app: guchub
     spec:
       containers:
         - name: guchub 
