@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guchub__app-id__
+  name: guchub
 spec:
   replicas: 1
   selector:

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: guchub-ingress__app-id__
+  name: guchub-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -10,13 +10,13 @@ metadata:
 spec:
   tls:
   - hosts:
-    - guchub__app-id__.ahmedlhanafy.com
-    secretName: tls-secret-__app-id__
+    - guchub.ahmedlhanafy.com
+    secretName: tls-secret-
   rules:
-  - host: guchub__app-id__.ahmedlhanafy.com
+  - host: guchub.ahmedlhanafy.com
     http:
       paths:
       - backend:
-          serviceName: guchub__app-id__
+          serviceName: guchub
           servicePort: 80
         path: /(.*)
