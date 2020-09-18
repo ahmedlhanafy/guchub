@@ -1,16 +1,16 @@
-apiVersion: apps/v1beta1
+apiVersion : apps/v1beta1
 kind: Deployment
 metadata:
-  name: guchub
+  name: guchub 
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: guchub
+        app: guchub 
     spec:
       containers:
-        - name: guchub
+        - name: guchub 
           image: reviewappregistery.azurecr.io/guchub
           ports:
-            - containerPort: 3000
+          - containerPort: 3000
