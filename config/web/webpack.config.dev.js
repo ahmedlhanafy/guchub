@@ -73,6 +73,7 @@ module.exports = mergeWith(
       new WatchMissingNodeModulesPlugin(path.resolve('node_modules')),
     ],
     devServer: {
+      host: '0.0.0.0',
       port: 3000,
       contentBase: path.resolve('public'),
       // hot: true,
