@@ -15,7 +15,7 @@ variables:
   imageRepository: 'guchub'
   containerRegistry: 'reviewappregistery.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '15'
+  tag: '$(Build.BuildId)'
   imagePullSecret: 'reviewappregistery3eac-auth'
 
   # Agent VM image name
@@ -89,7 +89,7 @@ stages:
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     variables:
     - name: app-id
-      value: v-$(tag)
+      value: 500
     pool:
       vmImage: $(vmImageName)
       

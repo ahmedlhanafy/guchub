@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guchub10 
+  name: guchub__app-id__
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guchub10
+      app: guchub__app-id__
   template:
     metadata:
       labels:
-        app: guchub10
+        app: guchub__app-id__
     spec:
       containers:
         - name: guchub 

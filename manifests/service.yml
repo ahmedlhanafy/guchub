@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: guchub10
+    name: guchub__app-id__
 spec:
   type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: guchub10
+    app: guchub__app-id__
