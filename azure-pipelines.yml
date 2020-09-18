@@ -15,7 +15,7 @@ variables:
   imageRepository: 'guchub'
   containerRegistry: 'reviewappregistery.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '3'
   imagePullSecret: 'reviewappregistery3eac-auth'
 
   # Agent VM image name
