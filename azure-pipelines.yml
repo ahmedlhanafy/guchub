@@ -86,6 +86,9 @@ stages:
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
+    variables:
+    - name: app-id
+      value: $(tag)
     pool:
       vmImage: $(vmImageName)
       
