@@ -61,7 +61,7 @@
     "husky": "^0.14.3",
     "jest": "^22.1.4",
     "lodash.isarray": "^4.0.0",
-    "lodash.merge": "^4.6.1",
+    "lodash.merge": "^4.6.2",
     "lodash.mergewith": "^4.6.0",
     "prettier": "^1.10.2",
     "react-dev-utils": "^5.0.0",
