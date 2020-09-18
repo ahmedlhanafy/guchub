@@ -142,3 +142,10 @@ stages:
                 message="${message} and is available at $url.<br><br>[Learn More](https://aka.ms/testwithreviewapps) about how to test and provide feedback for the app."
               fi
               echo "##vso[task.setvariable variable=GITHUB_COMMENT]$message"
+          - task: GitHubComment@0
+            inputs:
+              gitHubConnection: 'ahmedlhanafy'
+              repositoryName: '$(Build.Repository.Name)'
+              id: '$(System.PullRequest.PullRequestId)'
+              comment: 'https://guchub-$(tag).ahmedlhanafy.com'
+              
