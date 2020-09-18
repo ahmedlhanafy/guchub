@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - __app-id__.ahmedlhanafy.com
+    - hamada.ahmedlhanafy.com
     secretName: tls-secret
   rules:
-  - host: __app-id__.ahmedlhanafy.com
+  - host: hamada.ahmedlhanafy.com
     http:
       paths:
       - backend:
@@ -37,10 +37,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - __app-id__.ahmedlhanafy.com
+    - hamada.ahmedlhanafy.com
     secretName: tls-secret
   rules:
-  - host: __app-id__.ahmedlhanafy.com
+  - host: hamada.ahmedlhanafy.com
     http:
       paths:
       - backend:
