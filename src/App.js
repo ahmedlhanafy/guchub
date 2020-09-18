@@ -78,7 +78,7 @@ export default class extends React.Component<null, { client: ?Object }> {
     const client = this.state.client;
     return (
       // <ErrorBoundary>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, height: '100vh' }}>
         {client !== null ? (
           <ApolloProvider client={client}>
             <App />

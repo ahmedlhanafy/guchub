@@ -141,7 +141,7 @@ class Login extends React.PureComponent<Props, State> {
             </Form>
           </Screen.Content>
         </Screen>
-        {/* {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null} */}
+        {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
       </View>
     );
   }
