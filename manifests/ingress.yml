@@ -17,11 +17,11 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: guchub
+          serviceName: guchub2
           servicePort: 80
         path: /guchub(/|$)(.*)
       - backend:
-          serviceName: guchub
+          serviceName: guchub2
           servicePort: 80
         path: /(.*)
 ---
@@ -44,6 +44,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: guchub
+          serviceName: guchub2
           servicePort: 80
         path: /static(/|$)(.*)
