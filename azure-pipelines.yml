@@ -67,7 +67,7 @@ stages:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: Replace tokens in **/*
             inputs:
-              rootDirectory: $(Pipeline.Workspace)/drop
+              rootDirectory: $(Pipeline.Workspace)/
               targetFiles: '**/*.yml'
               keepToken: true
               tokenPrefix: __
