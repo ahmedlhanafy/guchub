@@ -1,6 +1,6 @@
 /* @flow */
 
-import { AsyncStorage, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink, InMemoryCache, ApolloLink } from 'apollo-client-preset';
 import { CachePersistor } from 'apollo-cache-persist';
@@ -8,12 +8,11 @@ import { generateClientStateLink, getSchemaVersion, saveSchemaVersion } from './
 import packageJson from '../../package.json';
 
 const currentSchemaVersion = packageJson.schema_version;
-
 const cache = new InMemoryCache();
 
 const persistor = new CachePersistor({
   cache,
-  storage: AsyncStorage,
+  storage: localStorage,
   trigger: Platform.OS === 'web' ? 'write' : 'background',
 });
 

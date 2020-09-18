@@ -18,7 +18,7 @@ const customizer = (objValue, srcValue) => {
 module.exports = mergeWith(
   sharedConfig,
   {
-    devtool: 'cheap-module-source-map',
+    devtool: 'source-map',
     entry: {
       app: [
         // 'webpack-dev-server/client?http://localhost:3000',
@@ -34,7 +34,7 @@ module.exports = mergeWith(
       chunkFilename: '[name].chunk.js',
       path: path.resolve('public'),
       // devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
-      devtoolModuleFilenameTemplate: info =>
+      devtoolModuleFilenameTemplate: (info) =>
         path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
       // publicPath: '/',
       crossOriginLoading: 'anonymous',
@@ -81,7 +81,7 @@ module.exports = mergeWith(
       },
       inline: true,
       disableHostCheck: true,
-      compress: true,
+      // compress: true,
       clientLogLevel: 'none',
       overlay: false,
       historyApiFallback: {

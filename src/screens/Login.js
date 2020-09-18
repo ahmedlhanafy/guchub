@@ -1,13 +1,13 @@
 /* @flow */
 
 import * as React from 'react';
-import { View, Platform, Dimensions } from 'react-native';
+import { View, Platform, Dimensions, TextInput as TextField } from 'react-native';
 import { withApollo, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
-import { TextField } from 'react-native-material-textfield';
+// import { TextField } from 'react-native-material-textfield';
 import styled, { withTheme } from 'styled-components/native';
-import mixpanel from 'mixpanel-browser';
+// import mixpanel from 'mixpanel-browser';
 import { Screen, Waves, Button, Toast } from '../components';
 import { saveCredentials } from '../utils';
 
@@ -59,8 +59,8 @@ class Login extends React.PureComponent<Props, State> {
       const token = get(response, 'data.login.token');
 
       if (isAuthorized) {
-        mixpanel.register({ username });
-        mixpanel.track('Logged in');
+        // mixpanel.register({ username });
+        // mixpanel.track('Logged in');
         await Promise.all([
           saveCredentials({
             token,
@@ -113,12 +113,12 @@ class Login extends React.PureComponent<Props, State> {
             <Toast shown={error !== null} handleHiding={this._hideToast} text={error || ''} />
             <Form onSubmit={this._handleSubmit} style={{ minWidth: 300, zIndex: 10 }}>
               <TextInput
-                onChangeText={text => this.setState({ username: text })}
+                onChangeText={(text) => this.setState({ username: text })}
                 value={username}
                 label="Username"
               />
               <TextInput
-                onChangeText={text => this.setState({ password: text })}
+                onChangeText={(text) => this.setState({ password: text })}
                 value={password}
                 label="Password"
                 containerStyle={{ marginBottom: 20 }}
@@ -141,13 +141,13 @@ class Login extends React.PureComponent<Props, State> {
             </Form>
           </Screen.Content>
         </Screen>
-        {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
+        {/* {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null} */}
       </View>
     );
   }
 }
 
-const Form = props => (Platform.OS === 'web' ? <form {...props} /> : <View {...props} />);
+const Form = (props) => (Platform.OS === 'web' ? <form {...props} /> : <View {...props} />);
 
 const Logo = styled.Image`
   width: 120;
@@ -155,7 +155,7 @@ const Logo = styled.Image`
   margin-bottom: 20;
 `;
 
-const TextInput = withTheme(props => (
+const TextInput = withTheme((props) => (
   <TextField
     tintColor="rgba(98, 205, 199, 1)"
     textColor={props.theme.primaryTextColor}

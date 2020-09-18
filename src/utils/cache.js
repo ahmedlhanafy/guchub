@@ -1,6 +1,6 @@
 /* @flow */
 
-import { AsyncStorage } from 'react-native';
+// import { localStorage } from 'react-native';
 
 const TOKEN_KEY = 'guc-token';
 const DEMOUSER_KEY = 'guc-is-demo-user';
@@ -8,14 +8,14 @@ const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 const SETTINGS_KEY = 'guc-settings';
 
 /* Apollo Schema */
-const saveToken = (token: string) => AsyncStorage.setItem(TOKEN_KEY, token);
-const getToken = () => AsyncStorage.getItem(TOKEN_KEY);
+const saveToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
+const getToken = () => localStorage.getItem(TOKEN_KEY);
 
-const saveDemoUser = (isDemoUser: boolean) => AsyncStorage.setItem(DEMOUSER_KEY, isDemoUser);
+const saveDemoUser = (isDemoUser: boolean) => localStorage.setItem(DEMOUSER_KEY, isDemoUser);
 const getDemoUser = async (): Promise<boolean> =>
-  (await AsyncStorage.getItem(DEMOUSER_KEY)) === 'true';
+  (await localStorage.getItem(DEMOUSER_KEY)) === 'true';
 
-// AsyncStorage multiset doesn't work for some reason
+// localStorage multiset doesn't work for some reason
 export const saveCredentials = ({
   token,
   isDemoUser = false,
@@ -33,9 +33,9 @@ export const getCredentials = async (): Promise<{
 };
 
 /* Apollo Schema */
-export const getSchemaVersion = () => AsyncStorage.getItem(SCHEMA_VERSION_KEY);
+export const getSchemaVersion = () => localStorage.getItem(SCHEMA_VERSION_KEY);
 export const saveSchemaVersion = (schemaVersion: string) =>
-  AsyncStorage.setItem(SCHEMA_VERSION_KEY, schemaVersion);
+  localStorage.setItem(SCHEMA_VERSION_KEY, schemaVersion);
 
 /* Settings */
 type Settings = {
@@ -50,11 +50,11 @@ const defaultSettings = {
 export const updateSettings = async (settings: Settings = defaultSettings) => {
   const oldSettings = await getSettings();
   const stringifiedSettings = JSON.stringify({ ...oldSettings, ...settings });
-  AsyncStorage.setItem(SETTINGS_KEY, stringifiedSettings);
+  localStorage.setItem(SETTINGS_KEY, stringifiedSettings);
 };
 
 export const getSettings = async (): Promise<Settings> => {
-  const settings = await AsyncStorage.getItem(SETTINGS_KEY);
+  const settings = await localStorage.getItem(SETTINGS_KEY);
 
   if (settings) return JSON.parse(settings);
   return defaultSettings;

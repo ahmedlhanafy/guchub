@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { NativeRouter as Router, Route } from 'react-router-native';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
-import mixpanel from 'mixpanel-browser';
+// import mixpanel from 'mixpanel-browser';
 import {
   About,
   Attendance,
@@ -25,15 +25,15 @@ import { themes } from './constants';
 
 // Move these to setup file
 if (process.env.NODE_ENV !== 'development') {
-  mixpanel.init(process.env.MIXPANEL_KEY);
+  // mixpanel.init(process.env.MIXPANEL_KEY);
 }
 
-const bugsnagClient = bugsnag({
-  apiKey: process.env.BUGSNAG_KEY,
-  notifyReleaseStages: ['production'],
-  releaseStage: process.env.NODE_ENV,
-});
-const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+// const bugsnagClient = bugsnag({
+//   apiKey: process.env.BUGSNAG_KEY,
+//   notifyReleaseStages: ['production'],
+//   releaseStage: process.env.NODE_ENV,
+// });
+// const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 
 const App = graphql(
   gql`
@@ -71,21 +71,21 @@ const App = graphql(
 export default class extends React.Component<null, { client: ?Object }> {
   state = { client: null };
   async componentDidMount() {
-    mixpanel.track('App was opened');
+    // mixpanel.track('App was opened');
     this.setState({ client: await setupApollo() });
   }
   render() {
     const client = this.state.client;
     return (
-      <ErrorBoundary>
-        <View style={{ flex: 1 }}>
-          {client !== null ? (
-            <ApolloProvider client={client}>
-              <App />
-            </ApolloProvider>
-          ) : null}
-        </View>
-      </ErrorBoundary>
+      // <ErrorBoundary>
+      <View style={{ flex: 1 }}>
+        {client !== null ? (
+          <ApolloProvider client={client}>
+            <App />
+          </ApolloProvider>
+        ) : null}
+      </View>
+      // </ErrorBoundary>
     );
   }
 }
