@@ -34,7 +34,7 @@
     "react-content-loader": "^1.7.3",
     "react-dom": "^16.13.1",
     "react-lines-ellipsis": "^0.10.0",
-    "react-native": "0.63",
+    "react-native": "0.64",
     "react-native-material-textfield": "^0.16.1",
     "react-native-svg-web": "^1.0.1",
     "react-native-web": "0.13.3",
