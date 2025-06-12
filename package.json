@@ -78,5 +78,6 @@
     "webpack-hot-middleware": "^2.21.0",
     "webpack-jarvis": "^0.1.1",
     "workbox-webpack-plugin": "^3.0.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }
