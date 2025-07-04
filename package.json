@@ -12,7 +12,7 @@
     "web:publish": "firebase deploy",
     "web:serve": "serve -p 80 ./public",
     "lint": "eslint .",
-    "flow": "flow .",
+    "type-check": "tsc --noEmit",
     "test": "jest"
   },
   "dependencies": {
@@ -45,6 +45,10 @@
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.27.1",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-native": "^0.72.8",
     "babel-loader": "^7.1.2",
     "babel-minify-webpack-plugin": "^0.2.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.10",
@@ -57,7 +61,6 @@
     "eslint-config-universe": "^1.0.6",
     "eslint-loader": "^1.9.0",
     "exp": "^46.0.6",
-    "flow-bin": "^0.63.1",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
     "lodash.isarray": "^4.0.0",
@@ -70,6 +73,7 @@
     "redbox-react": "^1.5.0",
     "serve": "^6.4.1",
     "style-loader": "^0.19.1",
+    "typescript": "^5.8.3",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.2",

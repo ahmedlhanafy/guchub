@@ -42,7 +42,7 @@ module.exports = mergeWith(
     module: {
       rules: [
         {
-          test: /\.(js|jsx|mjs)$/,
+          test: /\.(js|jsx|ts|tsx|mjs)$/,
           enforce: 'pre',
           include: path.resolve('src'),
           use: [
@@ -74,7 +74,7 @@ module.exports = mergeWith(
     ],
     devServer: {
       host: '0.0.0.0',
-      port: 80,
+      port: 3000,
       contentBase: path.resolve('public'),
       // hot: true,
       stats: {

@@ -7,7 +7,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: {
           test: path.resolve('node_modules'),
           exclude: [
@@ -54,7 +54,7 @@ module.exports = {
       'react-native-svg': 'react-native-svg-web',
       'react-router-native': path.resolve(__dirname, 'shims/react-router'),
     },
-    extensions: ['.web.js', '.ios.js', '.js', '.json'],
+    extensions: ['.web.tsx', '.web.ts', '.web.js', '.ios.tsx', '.ios.ts', '.ios.js', '.tsx', '.ts', '.js', '.json'],
   },
   plugins: [
     new Dotenv(),
