@@ -4,7 +4,7 @@ import { Dimensions, Animated, ImageStyle } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 
 export default class Waves extends PureComponent<
-  {},
+  Record<string, never>,
   {
     value: any;
   }

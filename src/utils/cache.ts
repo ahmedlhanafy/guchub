@@ -1,7 +1,10 @@
 import { Platform } from 'react-native';
 
 // Platform-aware storage
-const storage = Platform.OS === 'web' ? localStorage : require('@react-native-async-storage/async-storage').default;
+const storage =
+  Platform.OS === 'web'
+    ? localStorage
+    : require('@react-native-async-storage/async-storage').default;
 
 const TOKEN_KEY = 'guc-token';
 const DEMOUSER_KEY = 'guc-is-demo-user';
@@ -13,8 +16,7 @@ const saveToken = (token: string) => storage.setItem(TOKEN_KEY, token);
 const getToken = () => storage.getItem(TOKEN_KEY);
 
 const saveDemoUser = (isDemoUser: boolean) => storage.setItem(DEMOUSER_KEY, isDemoUser.toString());
-const getDemoUser = async (): Promise<boolean> =>
-  (await storage.getItem(DEMOUSER_KEY)) === 'true';
+const getDemoUser = async (): Promise<boolean> => (await storage.getItem(DEMOUSER_KEY)) === 'true';
 
 // storage multiset doesn't work for some reason
 export const saveCredentials = ({

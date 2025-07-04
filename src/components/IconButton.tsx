@@ -1,10 +1,10 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import color from 'color';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-native';
-import styled, { withTheme } from 'styled-components/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import color from 'color';
-import { MaterialIcons } from '@expo/vector-icons';
+import styled, { useTheme } from 'styled-components/native';
 
 // Define prop interfaces for styled components
 interface IconButtonContainerProps {
@@ -14,7 +14,6 @@ interface IconButtonContainerProps {
 // Define props interface for IconButton
 interface IconButtonProps {
   onPress?: () => void;
-  theme: any;
   hasIndicator?: boolean;
   hasOutline?: boolean;
   iconName: string;
@@ -24,9 +23,9 @@ interface IconButtonProps {
 }
 
 const IconButtonContainer = styled(LinearGradient)<IconButtonContainerProps>`
-  width: 40;
-  height: 40;
-  border-radius: 6;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
   justify-content: center;
   align-items: ${({ center }) => (center ? 'center' : 'flex-start')};
 `;
@@ -38,19 +37,18 @@ const Icon = styled(MaterialIcons)`
 
 const IconButtonIndicator = styled.View`
   background-color: red;
-  width: 16;
-  height: 16;
-  border-radius: ${16 / 2};
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
   position: absolute;
-  top: -5;
-  right: -5;
-  border-width: 3;
+  top: -5px;
+  right: -5px;
+  border-width: 3px;
   border-color: ${({ theme }) => color(theme.backgroundColor).darken(0.25).rgb().string()};
 `;
 
-const IconButtonComponent = ({
+const IconButton = ({
   onPress,
-  theme,
   hasIndicator,
   hasOutline,
   iconName,
@@ -58,6 +56,8 @@ const IconButtonComponent = ({
   to,
   size = 28,
 }: IconButtonProps) => {
+  const theme = useTheme();
+
   const content = (
     <IconButtonContainer
       center={hasOutline}
@@ -81,9 +81,7 @@ const IconButtonComponent = ({
   );
   return to ? (
     <TouchableOpacity style={{ zIndex: 5 }}>
-      <Link to={to}>
-        {content}
-      </Link>
+      <Link to={to}>{content}</Link>
     </TouchableOpacity>
   ) : (
     <TouchableOpacity style={style} onPress={onPress}>
@@ -91,8 +89,5 @@ const IconButtonComponent = ({
     </TouchableOpacity>
   );
 };
-
-// Properly type the withTheme HOC
-const IconButton = withTheme(IconButtonComponent) as React.ComponentType<Omit<IconButtonProps, 'theme'>>;
 
 export default IconButton;

@@ -1,14 +1,19 @@
+import color from 'color';
 import React from 'react';
 import { View } from 'react-native';
-import { withTheme } from 'styled-components/native';
-import color from 'color';
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, Text } from 'recharts';
+import { useTheme } from 'styled-components/native';
 
 import Section from '../Section';
 
-export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
-  const axesTextColor = color(secondaryTextColor).alpha(0.1).rgb().string();
-  const labelsTextColor = color(secondaryTextColor).alpha(0.5).rgb().string();
+interface ChartProps {
+  grades: { year: string; gpa: number }[];
+}
+
+const Chart = ({ grades }: ChartProps) => {
+  const theme = useTheme();
+  const axesTextColor = color(theme.secondaryTextColor).alpha(0.1).rgb().string();
+  const labelsTextColor = color(theme.secondaryTextColor).alpha(0.5).rgb().string();
 
   return (
     <Section title="Grades Average" scrollable={false} style={{ maxWidth: 800 }}>
@@ -41,7 +46,7 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fill: labelsTextColor, fontSize: "13px" }}
+              tick={{ fill: labelsTextColor, fontSize: '13px' }}
               tickLine={false}
               stroke={axesTextColor}
               interval={1}
@@ -52,7 +57,7 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
       </View>
     </Section>
   );
-});
+};
 
 const CustomizedAxisTick = (props: {
   x?: number;
@@ -70,3 +75,5 @@ const CustomizedAxisTick = (props: {
     </Text>
   ) : null;
 };
+
+export default Chart;

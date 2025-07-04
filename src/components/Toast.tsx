@@ -1,74 +1,77 @@
-import React, { PureComponent, Fragment } from 'react';
-import { TouchableOpacity, Animated } from 'react-native';
 import color from 'color';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { TouchableOpacity, Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 type Props = {
   text: string;
-  actions?: Array<any>;
+  actions?: any[];
   disappearing?: boolean;
   hideAfter?: number;
   shown: boolean;
   handleHiding?: () => void;
 };
 
-type State = {
-  animatedValue: any;
-};
+const Toast = ({
+  text,
+  actions,
+  disappearing = true,
+  hideAfter = 4000,
+  shown,
+  handleHiding,
+}: Props) => {
+  const duration = 600;
+  const animatedValue = useRef(new Animated.Value(shown ? 1 : 0));
+  const [isInitialized, setIsInitialized] = useState(false);
 
-export default class Toast extends PureComponent<Props, State> {
-  static displayName = 'Toast';
-  duration = 600;
-  static defaultProps = {
-    disappearing: true,
-    hideAfter: 4000,
-  };
-  static Action = ({ text, onPress }: { text: string; onPress: () => void }) => (
-    <Fragment>
-      <ToastSeperator />
-      <TouchableOpacity onPress={onPress}>
-        <ToastAction>{text.toUpperCase()}</ToastAction>
-      </TouchableOpacity>
-    </Fragment>
-  );
-  state = { animatedValue: new Animated.Value(this.props.shown ? 1 : 0) };
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.shown !== this.props.shown) {
-      if (this.props.shown)
-        this.animate({ toValue: 1 }).start(() => {
-          if (this.props.disappearing)
-            this.animate({ delay: this.props.hideAfter, toValue: 0 }).start(
-              this.props.handleHiding
-            );
-        });
-      else {
-        // This gets triggered when the toast gets automatically hidden, which shouldn't be the case
-        this.animate({ toValue: 0 }).start();
-      }
-    }
-  }
-
-  animate = ({ toValue, delay }: { toValue: number; delay?: number }) =>
-    Animated.timing(this.state.animatedValue, {
+  const animate = ({ toValue, delay }: { toValue: number; delay?: number }) =>
+    Animated.timing(animatedValue.current, {
       toValue,
       delay,
-      duration: this.duration,
+      duration,
       useNativeDriver: true,
     });
 
-  render() {
-    const { text, actions } = this.props;
-    return (
-      <ToastWrapper style={{ opacity: this.state.animatedValue }}>
-        <ToastContainer>
-          <ToastText>{text}</ToastText>
-          {actions}
-        </ToastContainer>
-      </ToastWrapper>
-    );
-  }
-}
+  useEffect(() => {
+    // Skip the first render to avoid initial animation
+    if (!isInitialized) {
+      setIsInitialized(true);
+      return;
+    }
+
+    if (shown) {
+      animate({ toValue: 1 }).start(() => {
+        if (disappearing) {
+          animate({ delay: hideAfter, toValue: 0 }).start(handleHiding);
+        }
+      });
+    } else {
+      animate({ toValue: 0 }).start();
+    }
+  }, [shown, disappearing, hideAfter, handleHiding, isInitialized]);
+
+  return (
+    <ToastWrapper style={{ opacity: animatedValue.current }}>
+      <ToastContainer>
+        <ToastText>{text}</ToastText>
+        {actions}
+      </ToastContainer>
+    </ToastWrapper>
+  );
+};
+
+Toast.displayName = 'Toast';
+
+Toast.Action = ({ text, onPress }: { text: string; onPress: () => void }) => (
+  <>
+    <ToastSeperator />
+    <TouchableOpacity onPress={onPress}>
+      <ToastAction>{text.toUpperCase()}</ToastAction>
+    </TouchableOpacity>
+  </>
+);
+
+export default Toast;
 
 const ToastWrapper = styled(Animated.View)`
   z-index: 20;

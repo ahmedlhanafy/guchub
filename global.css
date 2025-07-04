@@ -1,0 +1,19 @@
+/* Global styles for Expo Web */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh !important;
+  width: 100vw !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Ensure React Native Web styles work properly */
+* {
+  box-sizing: border-box;
+} 

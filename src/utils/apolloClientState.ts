@@ -1,28 +1,31 @@
 import { InMemoryCache, makeVar } from '@apollo/client';
 import gql from 'graphql-tag';
+
 import { getCredentials, getSettings } from './cache';
 
 // Create reactive variables for local state
-export const themeVar = makeVar<{ __typename: string; type: 'dark' | 'light' | 'automatic' }>({ 
-  __typename: 'Theme', 
-  type: 'light' 
+export const themeVar = makeVar<{ __typename: string; type: 'dark' | 'light' | 'automatic' }>({
+  __typename: 'Theme',
+  type: 'light',
 });
 
-export const authVar = makeVar<{ __typename: string; token?: string | null; isDemoUser?: boolean }>({ 
-  __typename: 'Auth', 
-  token: null, 
-  isDemoUser: false 
-});
+export const authVar = makeVar<{ __typename: string; token?: string | null; isDemoUser?: boolean }>(
+  {
+    __typename: 'Auth',
+    token: null,
+    isDemoUser: false,
+  }
+);
 
 export default async (cache: InMemoryCache) => {
   const [credentials, settings] = await Promise.all([getCredentials(), getSettings()]);
-  
+
   // Initialize reactive variables with stored data
   themeVar({
     __typename: 'Theme',
     type: (settings.theme as 'dark' | 'light' | 'automatic') || 'light',
   });
-  
+
   authVar({
     __typename: 'Auth',
     ...credentials,
@@ -72,10 +75,7 @@ export default async (cache: InMemoryCache) => {
         auth: () => authVar(),
       },
       Mutation: {
-        changeTheme: (
-          _: any,
-          { type }: { type: 'dark' | 'light' | 'automatic' }
-        ) => {
+        changeTheme: (_: any, { type }: { type: 'dark' | 'light' | 'automatic' }) => {
           themeVar({
             __typename: 'Theme',
             type,

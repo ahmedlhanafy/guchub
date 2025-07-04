@@ -1,12 +1,13 @@
 import capitalize from 'lodash.capitalize';
+
 import type { Course } from '../types/Course';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export const transformSchedule = (
-  schedule: Array<Course>
+  schedule: Course[]
 ): {
-  [x: string]: Array<Course>;
+  [x: string]: Course[];
 } => {
   return schedule
     ? schedule.reduce((acc, val) => {
@@ -20,20 +21,18 @@ export const transformSchedule = (
     : {};
 };
 
-export const checkIfTransformedScheduleIsEmpty = (transformedSchedule: {
-  [x: string]: Array<Course>;
-}) =>
+export const checkIfTransformedScheduleIsEmpty = (transformedSchedule: { [x: string]: Course[] }) =>
   Object.keys(transformedSchedule)
     .map((day) => transformedSchedule[day])
     .reduce((acc, next) => acc + next.length, 0) === 0;
 
 export const getNextDaySchedule = (
   transformedSchedule: {
-    [x: string]: Array<Course>;
+    [x: string]: Course[];
   },
   dayIndex: number
 ): {
-  schedule: Array<Course>;
+  schedule: Course[];
   dayIndex: number;
 } => {
   if (checkIfTransformedScheduleIsEmpty(transformedSchedule)) {
@@ -53,7 +52,7 @@ export const getNextDaySchedule = (
   };
 };
 
-export const getSchedule = (gucSchedule: Array<any>, todayDate: Date = new Date()) => {
+export const getSchedule = (gucSchedule: any[], todayDate: Date = new Date()) => {
   let label = 'Today';
   const transformedSchedule = transformSchedule(gucSchedule);
   const todayIndex = todayDate.getDay();

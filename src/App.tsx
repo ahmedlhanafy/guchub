@@ -1,12 +1,13 @@
-import React from 'react';
-import { View, StatusBar } from 'react-native';
-import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import React, { useState, useEffect } from 'react';
+import { View, StatusBar, Platform } from 'react-native';
 import { NativeRouter as Router, Routes, Route } from 'react-router-native';
-import bugsnag from 'bugsnag-js';
-import createPlugin from 'bugsnag-react';
+import { ThemeProvider } from 'styled-components/native';
+
 // import mixpanel from 'mixpanel-browser';
+import { DemoUserToast, PrivateRoute } from './components';
+import { themes } from './constants';
 import {
   About,
   Attendance,
@@ -17,9 +18,12 @@ import {
   Transcript,
   WhyGUCHub,
 } from './screens';
-import { DemoUserToast, PrivateRoute } from './components';
 import { setupApollo } from './utils';
-import { themes } from './constants';
+
+// Import global CSS for web
+if (Platform.OS === 'web') {
+  require('../global.css');
+}
 
 // Move these to setup file
 if (process.env.NODE_ENV !== 'development') {
@@ -49,7 +53,7 @@ const App = () => {
   const { data } = useQuery(GET_LOCAL_STATE);
   const theme = data?.theme;
   const auth = data?.auth || { token: null, isDemoUser: false };
-  
+
   return (
     <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
       <Router>
@@ -59,12 +63,54 @@ const App = () => {
           />
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            <Route path="/attendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
-            <Route path="/transcript" element={<PrivateRoute><Transcript /></PrivateRoute>} />
-            <Route path="/schedule" element={<PrivateRoute><Schedule /></PrivateRoute>} />
-            <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
-            <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/attendance"
+              element={
+                <PrivateRoute>
+                  <Attendance />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/transcript"
+              element={
+                <PrivateRoute>
+                  <Transcript />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/schedule"
+              element={
+                <PrivateRoute>
+                  <Schedule />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <Settings />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <PrivateRoute>
+                  <About />
+                </PrivateRoute>
+              }
+            />
             <Route path="/why-guchub" element={<WhyGUCHub />} />
           </Routes>
           <DemoUserToast isDemoUser={auth.isDemoUser} />
@@ -74,32 +120,36 @@ const App = () => {
   );
 };
 
-class AppContainer extends React.Component<
-  null,
-  {
-    client: any | undefined | null;
-  }
-> {
-  state = { client: null };
-  async componentDidMount() {
-    // mixpanel.track('App was opened');
-    this.setState({ client: await setupApollo() });
-  }
-  render() {
-    const client = this.state.client;
-    const containerStyle: any = { flex: 1 };
-    return (
-      // <ErrorBoundary>
-      <View style={containerStyle}>
-        {client !== null ? (
-          <ApolloProvider client={client}>
-            <App />
-          </ApolloProvider>
-        ) : null}
-      </View>
-      // </ErrorBoundary>
-    );
-  }
-}
+// Add displayName for React DevTools
+App.displayName = 'App';
+
+const AppContainer = () => {
+  const [client, setClient] = useState<any | null>(null);
+
+  useEffect(() => {
+    const initializeApollo = async () => {
+      // mixpanel.track('App was opened');
+      const apolloClient = await setupApollo();
+      setClient(apolloClient);
+    };
+
+    initializeApollo();
+  }, []);
+
+  return (
+    // <ErrorBoundary>
+    <View style={{ flex: 1 }}>
+      {client !== null ? (
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      ) : null}
+    </View>
+    // </ErrorBoundary>
+  );
+};
+
+// Add displayName for React DevTools
+AppContainer.displayName = 'AppContainer';
 
 export default AppContainer;

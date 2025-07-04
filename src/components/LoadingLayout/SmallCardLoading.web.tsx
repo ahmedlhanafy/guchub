@@ -1,8 +1,8 @@
-import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
 import ContentLoader from 'react-content-loader';
+import { Platform, StyleSheet } from 'react-native';
 
 export default () => (
   <LinearGradient
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     paddingHorizontal: 16,
     height: Platform.select({ web: 100, ios: 100, android: 100 }),
-    borderRadius: 4,
+    borderRadius: '4px',
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowRadius: 4,

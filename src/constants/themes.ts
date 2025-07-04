@@ -37,4 +37,4 @@ export default {
   light: lightTheme,
   dark: darkTheme,
   automatic: currentHour >= 18 || currentHour <= 6 ? darkTheme : lightTheme,
-}; 
+};

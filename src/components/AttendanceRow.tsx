@@ -1,16 +1,17 @@
-import React from 'react';
-import styled, { withTheme } from 'styled-components/native';
-import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import styled, { useTheme } from 'styled-components/native';
 
 type Props = {
   title: string;
   severityLevel: 0 | 1 | 2 | 3;
   alternate?: boolean;
-  theme: any;
 };
 
-const RowComponent = ({ title, severityLevel, alternate = false, theme }: Props) => {
+const AttendanceRow = ({ title, severityLevel, alternate = false }: Props) => {
+  const theme = useTheme();
+
   // Define colors as properly typed arrays
   const containerColors: [string, string] = alternate
     ? [
@@ -37,14 +38,8 @@ const RowComponent = ({ title, severityLevel, alternate = false, theme }: Props)
   const avatarColors = avatarColorsMap[severityLevel.toString()] || ['#00ACCF', '#78ffd6'];
 
   return (
-    <Container
-      start={{ x: 0, y: 0.5 }}
-      end={{ x: 1, y: 0.5 }}
-      colors={containerColors}>
-      <Avatar
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 1, y: 0.5 }}
-        colors={avatarColors}>
+    <Container start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={containerColors}>
+      <Avatar start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={avatarColors}>
         <AvatarText>{severityLevel}</AvatarText>
       </Avatar>
       <Title>{title}</Title>
@@ -69,7 +64,7 @@ const Title = styled.Text`
 const Avatar = styled(LinearGradient)`
   height: 42px;
   width: 42px;
-  border-radius: 50%;
+  border-radius: 21px;
   background: #6fcf97;
   margin-right: 18px;
   justify-content: center;
@@ -82,8 +77,5 @@ const AvatarText = styled.Text`
   font-size: 19px;
   color: #ffffff;
 `;
-
-// Properly type the HOC-wrapped component
-const AttendanceRow = withTheme(RowComponent) as React.ComponentType<Omit<Props, 'theme'>>;
 
 export default AttendanceRow;

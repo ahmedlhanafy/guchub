@@ -1,9 +1,5 @@
-import React, { PureComponent, Children } from 'react';
+import React, { useRef, useEffect, Children } from 'react';
 import { Animated, Easing } from 'react-native';
-
-type State = {
-  animation: any;
-};
 
 type Props = {
   delay: number;
@@ -11,23 +7,21 @@ type Props = {
   children: any;
 };
 
-class OpacityAnimation extends PureComponent<Props, State> {
-  state = { animation: new Animated.Value(0) };
-  componentDidMount() {
-    Animated.timing(this.state.animation, {
+const OpacityAnimation = ({ delay, delayMultiplier, children }: Props) => {
+  const animation = useRef(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animation.current, {
       toValue: 1,
       duration: 400,
-      delay: this.props.delayMultiplier * this.props.delay,
+      delay: delayMultiplier * delay,
       useNativeDriver: true,
       easing: Easing.ease,
     }).start();
-  }
-  render() {
-    return (
-      <Animated.View style={{ opacity: this.state.animation }}>{this.props.children}</Animated.View>
-    );
-  }
-}
+  }, [delay, delayMultiplier]);
+
+  return <Animated.View style={{ opacity: animation.current }}>{children}</Animated.View>;
+};
 
 const SequenceAnimator = ({
   animationDelay = 200,

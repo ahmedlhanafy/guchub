@@ -14,4 +14,4 @@ export default (props: Props): GraphQLOptions => ({
   variables: {
     token: props.token,
   },
-}); 
+});

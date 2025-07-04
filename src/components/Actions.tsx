@@ -1,7 +1,8 @@
 import React from 'react';
+
+import Section from './Section';
 import SequenceAnimator from './SequenceAnimator';
 import SmallCard from './SmallCard';
-import Section from './Section';
 
 const Actions = () => (
   <Section title="Actions">

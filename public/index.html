@@ -7,6 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" lazyload>
+    
+    <!-- CSS for full height -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        #root {
+            height: 100vh;
+            width: 100vw;
+            display: flex !important;
+            flex-direction: column;
+        }
+        
+        /* Ensure React Native Web styles work properly */
+        * {
+            box-sizing: border-box;
+        }
+    </style>
+    
     <!-- manifest -->
     <link rel="manifest" href="/manifest.json">
     <!-- website metadata -->

@@ -1,6 +1,7 @@
-import { Platform } from 'react-native';
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { CachePersistor } from 'apollo-cache-persist';
+import { Platform } from 'react-native';
+
 import generateClientState, { themeVar, authVar } from './apolloClientState';
 import { getSchemaVersion, saveSchemaVersion } from './cache';
 
@@ -14,21 +15,24 @@ export default async () => {
           theme: {
             read() {
               return themeVar();
-            }
+            },
           },
           auth: {
             read() {
               return authVar();
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   });
 
   const persistor = new CachePersistor({
     cache,
-    storage: Platform.OS === 'web' ? localStorage : require('@react-native-async-storage/async-storage').default,
+    storage:
+      Platform.OS === 'web'
+        ? localStorage
+        : require('@react-native-async-storage/async-storage').default,
     trigger: Platform.OS === 'web' ? 'write' : 'background',
   });
 

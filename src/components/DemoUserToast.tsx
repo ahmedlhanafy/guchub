@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-native';
+
 import Toast from './Toast';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 
 const DemoUserToast = ({ isDemoUser }: Props) => {
   const navigate = useNavigate();
-  
+
   return isDemoUser ? (
     <Toast
       shown
@@ -27,4 +28,4 @@ const DemoUserToast = ({ isDemoUser }: Props) => {
   ) : null;
 };
 
-export default DemoUserToast; 
+export default DemoUserToast;

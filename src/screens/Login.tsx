@@ -1,46 +1,52 @@
-import * as React from 'react';
-import { View, Platform, Dimensions, TextInput as TextField } from 'react-native';
-import { withApollo } from '@apollo/client/react/hoc';
-import { graphql } from '@apollo/client/react/hoc';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+import { View, Platform, Dimensions, TextInput as TextField } from 'react-native';
+import { useNavigate } from 'react-router-native';
 // import { TextField } from 'react-native-material-textfield';
-import styled, { withTheme } from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
+
 // import mixpanel from 'mixpanel-browser';
 import { Screen, Waves, Button, Toast } from '../components';
 import { saveCredentials } from '../utils';
 
 const { width: windowWidth } = Dimensions.get('window');
 
-type Props = {
-  client: any;
-  saveToken: (a: { token: string | undefined | null; isDemoUser?: boolean }) => void;
-  login: (a: { username: string; password: string }) => void;
-  history: any;
-};
+const SAVE_TOKEN_MUTATION = gql`
+  mutation saveToken($token: String, $isDemoUser: Boolean) {
+    saveToken(token: $token, isDemoUser: $isDemoUser) @client
+  }
+`;
 
-type State = {
-  username: string;
-  password: string;
-  error: string | undefined | null;
-  isLoading: boolean;
-  isLoadingDemo: boolean;
-};
+const Login = () => {
+  const navigate = useNavigate();
+  const [saveTokenMutation] = useMutation(SAVE_TOKEN_MUTATION);
 
-class Login extends React.PureComponent<Props, State> {
-  state = {
+  const [state, setState] = useState({
     username: '',
     password: '',
-    error: null,
+    error: null as string | null,
     isLoading: false,
     isLoadingDemo: false,
+  });
+
+  const saveToken = ({
+    token,
+    isDemoUser,
+  }: {
+    token: string | undefined | null;
+    isDemoUser?: boolean;
+  }) => {
+    return saveTokenMutation({ variables: { token, isDemoUser } });
   };
 
-  componentDidMount() {
-    this.props.saveToken({ token: null });
-  }
+  useEffect(() => {
+    saveToken({ token: null });
+  }, []);
 
-  _loginAndRoute = async ({
+  const _loginAndRoute = async ({
     username,
     password,
     isDemoUser,
@@ -65,85 +71,90 @@ class Login extends React.PureComponent<Props, State> {
             token,
             isDemoUser,
           }),
-          this.props.saveToken({
+          saveToken({
             token,
             isDemoUser,
           }),
         ]);
-        this.props.history.push('/');
+        navigate('/');
       } else {
-        this.setState({ isLoadingDemo: false, isLoading: false, error: 'Wrong Credentials!' });
+        setState((prev) => ({
+          ...prev,
+          isLoadingDemo: false,
+          isLoading: false,
+          error: 'Wrong Credentials!',
+        }));
       }
-    } catch (e) {
-      this.setState({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {
+      setState((prev) => ({
+        ...prev,
         isLoadingDemo: false,
         isLoading: false,
         error: 'Internal Server Error. Try again later!',
-      });
+      }));
     }
   };
 
-  _demoLogin = () => {
-    this.setState({ isLoadingDemo: true });
-    this._loginAndRoute({ username: 'john.doe', password: '123456', isDemoUser: true });
+  const _demoLogin = () => {
+    setState((prev) => ({ ...prev, isLoadingDemo: true }));
+    _loginAndRoute({ username: 'john.doe', password: '123456', isDemoUser: true });
   };
 
-  _login = () => {
-    const { username, password } = this.state;
-    this.setState({ isLoading: true });
-    this._loginAndRoute({ username, password });
+  const _login = () => {
+    const { username, password } = state;
+    setState((prev) => ({ ...prev, isLoading: true }));
+    _loginAndRoute({ username, password });
   };
 
-  _handleSubmit = () => {
-    this._login();
+  const _handleSubmit = () => {
+    _login();
   };
 
-  _hideToast = () => this.setState({ error: null });
+  const _hideToast = () => setState((prev) => ({ ...prev, error: null }));
 
-  render() {
-    const { username, password, isLoading, isLoadingDemo, error } = this.state;
+  const { username, password, isLoading, isLoadingDemo, error } = state;
 
-    return (
-      <View style={{ overflow: 'hidden', flex: 1 }}>
-        <Screen style={{ height: '100%', paddingTop: 40 }}>
-          <Screen.Content style={{ alignItems: 'center', flex: 1 }}>
-            <Logo source={require('../assets/logo1-min.png')} />
-            <Toast shown={error !== null} handleHiding={this._hideToast} text={error || ''} />
-            <Form onSubmit={this._handleSubmit} style={{ minWidth: 300, zIndex: 10 }}>
-              <TextInput
-                onChangeText={(text) => this.setState({ username: text })}
-                value={username}
-                label="Username"
-              />
-              <TextInput
-                onChangeText={(text) => this.setState({ password: text })}
-                value={password}
-                label="Password"
-                containerStyle={{ marginBottom: 20 }}
-                secureTextEntry
-              />
-              <Button
-                submit
-                onPress={this._handleSubmit}
-                disabled={username.length === 0 || password.length === 0 || isLoading}
-                loading={isLoading}>
-                Login
-              </Button>
-              <Button
-                disabled={isLoading || isLoadingDemo}
-                primary
-                loading={isLoadingDemo}
-                onPress={this._demoLogin}>
-                SEE A DEMO
-              </Button>
-            </Form>
-          </Screen.Content>
-        </Screen>
-        {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
-      </View>
-    );
-  }
-}
+  return (
+    <View style={{ flex: 1 }}>
+      <Screen style={{ paddingTop: 40 }}>
+        <Screen.Content style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+          <Logo source={require('../assets/logo1-min.png')} />
+          <Toast shown={error !== null} handleHiding={_hideToast} text={error || ''} />
+          <Form onSubmit={_handleSubmit} style={{ minWidth: 300, zIndex: 10 }}>
+            <StyledTextInput
+              onChangeText={(text) => setState((prev) => ({ ...prev, username: text }))}
+              value={username}
+              label="Username"
+            />
+            <StyledTextInput
+              onChangeText={(text) => setState((prev) => ({ ...prev, password: text }))}
+              value={password}
+              label="Password"
+              containerStyle={{ marginBottom: 20 }}
+              secureTextEntry
+            />
+            <Button
+              submit
+              onPress={_handleSubmit}
+              disabled={username.length === 0 || password.length === 0 || isLoading}
+              loading={isLoading}>
+              Login
+            </Button>
+            <Button
+              disabled={isLoading || isLoadingDemo}
+              primary
+              loading={isLoadingDemo}
+              onPress={_demoLogin}>
+              SEE A DEMO
+            </Button>
+          </Form>
+        </Screen.Content>
+      </Screen>
+      {windowWidth > 600 || Platform.OS !== 'web' ? <Waves /> : null}
+    </View>
+  );
+};
 
 const Form = (props) => (Platform.OS === 'web' ? <form {...props} /> : <View {...props} />);
 
@@ -153,21 +164,18 @@ const Logo = styled.Image`
   margin-bottom: 20px;
 `;
 
-const TextInput = withTheme((props) => (
-  <TextField
-    tintColor="rgba(98, 205, 199, 1)"
-    textColor={props.theme.primaryTextColor}
-    baseColor={props.theme.secondaryTextColor}
-    style={{ ...Platform.select({ web: { outline: 'none' } }) }}
-    {...props}
-  />
-));
-
-const SAVE_TOKEN_MUTATION = gql`
-  mutation saveToken($token: String, $isDemoUser: Boolean) {
-    saveToken(token: $token, isDemoUser: $isDemoUser) @client
-  }
-`;
+const StyledTextInput = (props) => {
+  const theme = useTheme();
+  return (
+    <TextField
+      tintColor="rgba(98, 205, 199, 1)"
+      textColor={theme.primaryTextColor}
+      baseColor={theme.secondaryTextColor}
+      style={{ ...Platform.select({ web: { outline: 'none' } }) }}
+      {...props}
+    />
+  );
+};
 
 /* @FIXME: Should be done in Apollo, it's setup this way because apollo doesn't 
     provide an API for blacklisting mutations from being stored in the cache
@@ -198,16 +206,4 @@ const login = async ({ username, password }: { username: string; password: strin
   return await res.json();
 };
 
-// Helper function to compose HOCs
-const compose = (...funcs) => (component) => funcs.reduceRight((acc, func) => func(acc), component);
-
-export default compose(
-  withTheme,
-  withApollo,
-  graphql(SAVE_TOKEN_MUTATION, {
-    props: ({ mutate, ownProps }: { mutate: any; ownProps: { client: any } }) => ({
-      saveToken: ({ token, isDemoUser }) => mutate({ variables: { token, isDemoUser } }),
-      resetStore: async () => ownProps.client.resetStore(),
-    }),
-  })
-)(Login);
+export default Login;

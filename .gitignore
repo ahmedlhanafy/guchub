@@ -6,3 +6,4 @@ public/*.js
 public/*.js.gz
 yarn-error.log
 .env
+transient/

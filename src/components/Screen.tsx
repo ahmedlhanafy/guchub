@@ -1,26 +1,20 @@
 //@TODO: Refactor this file
 
-import React, { Component, Children } from 'react';
-import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
-import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { Children, useRef } from 'react';
+import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
+import styled, { useTheme } from 'styled-components/native';
 
 import IconButton from './IconButton';
 
 type Props = {
-  scrollable: boolean;
+  scrollable?: boolean;
   children?: any;
-  theme: any;
-  style: any;
+  style?: any;
 };
 
-type State = {
-  animatedValue: any;
-};
-
-// Interface for header props
 interface HeaderProps {
   animated?: boolean;
   back?: boolean;
@@ -35,21 +29,15 @@ const isReactElement = (child: any): child is React.ReactElement => {
   return React.isValidElement(child);
 };
 
-class Screen extends Component<Props, State> {
-  static defaultProps = {
-    scrollable: true,
-  };
-  state = { animatedValue: new Animated.Value(0) };
-  static Header = (props) => <View {...props} />;
-  static Content = (props) => <View style={{ flex: 1 }} {...props} />;
+const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
+  const theme = useTheme();
+  const animatedValue = useRef(new Animated.Value(0));
 
-  _renderContent = () => {
-    const { children, scrollable, theme } = this.props;
-
-    const header = Children.toArray(children).find((Comp) => 
-      isReactElement(Comp) && Comp.type === Screen.Header
+  const renderContent = () => {
+    const header = Children.toArray(children).find(
+      (Comp) => isReactElement(Comp) && Comp.type === Screen.Header
     ) as React.ReactElement | undefined;
-    
+
     const {
       animated,
       back,
@@ -88,77 +76,76 @@ class Screen extends Component<Props, State> {
             {
               nativeEvent: {
                 contentOffset: {
-                  y: this.state.animatedValue,
+                  y: animatedValue.current,
                 },
               },
             },
           ])
         }>
         {staticTitle}
-        {Children.toArray(children).filter((Comp) => 
-          isReactElement(Comp) && Comp.type === Screen.Content
+        {Children.toArray(children).filter(
+          (Comp) => isReactElement(Comp) && Comp.type === Screen.Content
         )}
       </ScrollView>
     ) : (
       <View style={{ flex: 1 }}>
         {staticTitle}
-        {Children.toArray(children).filter((Comp) => 
-          isReactElement(Comp) && Comp.type === Screen.Content
+        {Children.toArray(children).filter(
+          (Comp) => isReactElement(Comp) && Comp.type === Screen.Content
         )}
       </View>
     );
   };
 
-  render() {
-    const { theme, children, style, ...props } = this.props;
+  const header = Children.toArray(children).find(
+    (Comp) => isReactElement(Comp) && Comp.type === Screen.Header
+  ) as React.ReactElement | undefined;
 
-    const header = Children.toArray(children).find((Comp) => 
-      isReactElement(Comp) && Comp.type === Screen.Header
-    ) as React.ReactElement | undefined;
-    
-    const {
-      animated,
-      back,
-      title,
-      children: headerChildren,
-      to = '/',
-    } = (header?.props || {}) as HeaderProps;
+  const {
+    animated,
+    back,
+    title,
+    children: headerChildren,
+    to = '/',
+  } = (header?.props || {}) as HeaderProps;
 
-    return (
-      <LinearGradient
-        start={{ x: 0.2, y: 0.2 }}
-        end={{ x: 1, y: 1 }}
-        colors={[
-          theme.backgroundColor,
-          color(theme.backgroundColor)
-            .darken(theme.type === 'dark' ? 0.3 : 0.1)
-            .rgb()
-            .string(),
-        ]}
-        style={[{ flex: 1, overflow: 'hidden' }, style]}
-        {...props}>
-        {back && (
-          <IconsContainer>
-            {back ? <IconButton to={to} iconName="keyboard-backspace" /> : null}
-            {animated ? headerChildren : null}
-          </IconsContainer>
-        )}
-        {animated ? (
-          <Header
-            style={{
-              opacity: this.state.animatedValue.interpolate({
-                inputRange: [0, 40, 80],
-                outputRange: [0, 1, 1],
-              }),
-            }}>
-            <HeaderTitle>{title}</HeaderTitle>
-          </Header>
-        ) : null}
-        {this._renderContent()}
-      </LinearGradient>
-    );
-  }
-}
+  return (
+    <LinearGradient
+      start={{ x: 0.2, y: 0.2 }}
+      end={{ x: 1, y: 1 }}
+      colors={[
+        theme.backgroundColor,
+        color(theme.backgroundColor)
+          .darken(theme.type === 'dark' ? 0.3 : 0.1)
+          .rgb()
+          .string(),
+      ]}
+      style={[{ flex: 1, overflow: 'hidden' }, style]}
+      {...props}>
+      {back && (
+        <IconsContainer>
+          {back ? <IconButton to={to} iconName="keyboard-backspace" /> : null}
+          {animated ? headerChildren : null}
+        </IconsContainer>
+      )}
+      {animated ? (
+        <Header
+          style={{
+            opacity: animatedValue.current.interpolate({
+              inputRange: [0, 40, 80],
+              outputRange: [0, 1, 1],
+            }),
+          }}>
+          <HeaderTitle>{title}</HeaderTitle>
+        </Header>
+      ) : null}
+      {renderContent()}
+    </LinearGradient>
+  );
+};
+
+Screen.Header = (props) => <View {...props} />;
+Screen.Content = (props) => <View style={{ flex: 1 }} {...props} />;
 
 const TitleContainer = styled.View`
   padding: 16px;
@@ -184,7 +171,7 @@ const LoadingContainer = styled.View`
 const LoadingText = styled.Text`
   background-color: transparent;
   color: ${({ theme }) => theme.secondaryTextColor};
-  font-size: 13;
+  font-size: 13px;
   font-weight: 300;
   margin-right: 6px;
 `;
@@ -194,7 +181,7 @@ const Header = styled(Animated.View)`
   top: 0;
   left: 0;
   right: 0;
-  height: 56;
+  height: 56px;
   z-index: 2;
   justify-content: center;
   align-items: center;
@@ -207,7 +194,7 @@ const Header = styled(Animated.View)`
       : color(theme.backgroundColor).darken(0.1).rgb().string()};
 `;
 const HeaderTitle = styled.Text`
-  font-size: 18;
+  font-size: 18px;
   font-weight: 500;
   color: ${({ theme }) => theme.primaryTextColor};
 `;
@@ -225,4 +212,4 @@ const IconsContainer = styled.View`
   z-index: 4;
 `;
 
-export default withTheme(Screen);
+export default Screen;

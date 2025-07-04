@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import SmallCardLoading from './SmallCardLoading';
+
 import CardLoading from './CardLoading';
+import SmallCardLoading from './SmallCardLoading';
 
 export default () => (
   <View style={{ flex: 1 }}>

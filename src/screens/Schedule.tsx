@@ -1,25 +1,32 @@
-import React from 'react';
-import { withTheme } from 'styled-components/native';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import get from 'lodash.get';
 import capitalize from 'lodash.capitalize';
-import { graphql } from '@apollo/client/react/hoc';
-import compose from 'lodash.flowright';
+import get from 'lodash.get';
+import React from 'react';
+
 import { Screen, Section, Card, WithData, SequenceAnimator } from '../components';
-import { transformSchedule, graphqlCredentialsOptions } from '../utils';
-import type { Course } from '../types/Course';
+import { transformSchedule } from '../utils';
 
-type Props = {
-  data: {
-    loading: boolean;
-    networkStatus: number;
-    authenticatedStudent?: {
-      schedule: Array<Course>;
-    };
-  };
-};
+const GET_AUTH = gql`
+  {
+    auth @client {
+      token
+    }
+  }
+`;
 
-const Schedule = ({ data }: Props) => {
+const Schedule = () => {
+  const { data: authData } = useQuery(GET_AUTH);
+  const token = get(authData, 'auth.token');
+
+  const { data } = useQuery(QUERY, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      token,
+    },
+    skip: !token,
+  });
+
   return (
     <Screen>
       <Screen.Header title="Schedule" animated back />
@@ -68,9 +75,4 @@ const QUERY = gql`
   ${Card.fragment}
 `;
 
-export default compose(
-  withTheme,
-  graphql(QUERY, {
-    options: graphqlCredentialsOptions,
-  })
-)(Schedule);
+export default Schedule;

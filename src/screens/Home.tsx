@@ -1,9 +1,8 @@
-import React from 'react';
-import { withTheme } from 'styled-components/native';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { graphql } from '@apollo/client/react/hoc';
-import compose from 'lodash.flowright';
 import get from 'lodash.get';
+import React from 'react';
+
 import {
   SequenceAnimator,
   Chart,
@@ -14,9 +13,28 @@ import {
   Section,
   Actions,
 } from '../components';
-import { getSchedule, graphqlCredentialsOptions } from '../utils';
+import { getSchedule } from '../utils';
 
-const Home = ({ data, theme, toggleTheme }) => {
+const GET_AUTH = gql`
+  {
+    auth @client {
+      token
+    }
+  }
+`;
+
+const Home = () => {
+  const { data: authData } = useQuery(GET_AUTH);
+  const token = get(authData, 'auth.token');
+
+  const { data } = useQuery(QUERY, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      token,
+    },
+    skip: !token,
+  });
+
   return (
     <Screen>
       <Screen.Header title="Feed">
@@ -77,9 +95,4 @@ const QUERY = gql`
   ${Card.fragment}
 `;
 
-export default compose(
-  graphql(QUERY, {
-    options: graphqlCredentialsOptions,
-  }),
-  withTheme
-)(Home);
+export default Home;

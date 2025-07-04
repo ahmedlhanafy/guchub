@@ -1,7 +1,7 @@
+import get from 'lodash.get';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Navigate } from 'react-router-native';
-import get from 'lodash.get';
 
 type Props = {
   data: any;
@@ -16,6 +16,11 @@ const WithData = ({
   selector = 'authenticatedStudent.schedule',
   showLoadingIf = () => true,
 }: Props) => {
+  // Add null check for data
+  if (!data) {
+    return <ActivityIndicator color="rgba(98, 205, 199, 1)" size="large" />;
+  }
+
   const selectedData = get(data, selector);
   if (data.loading && showLoadingIf(data))
     return <ActivityIndicator color="rgba(98, 205, 199, 1)" size="large" />;

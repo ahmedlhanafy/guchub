@@ -1,7 +1,7 @@
-import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
 import color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { Platform, StyleSheet } from 'react-native';
 // import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
 
 export default () => (
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     paddingHorizontal: 16,
     height: Platform.select({ web: 160, ios: 140, android: 140 }),
-    borderRadius: 4,
+    borderRadius: '4px',
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowRadius: 4,
