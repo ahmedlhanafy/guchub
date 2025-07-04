@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 import ContentLoader from 'react-content-loader';
 
@@ -12,8 +12,8 @@ export default () => (
     style={styles.container}>
     <ContentLoader
       speed={2}
-      primaryColor="#bdbdbd"
-      secondaryColor="#a9a9a9"
+      backgroundColor="#bdbdbd"
+      foregroundColor="#a9a9a9"
       height="100%"
       style={{ height: '100%' }}>
       <rect x="0" y="15" rx="4" ry="4" width="150" height="10" />

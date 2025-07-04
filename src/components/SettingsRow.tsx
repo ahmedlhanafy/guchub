@@ -1,6 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { IconButton } from './';
+import IconButton from './IconButton';
+
+// Define prop interfaces for styled components
+interface ContainerProps {
+  first?: boolean;
+}
+
+interface TextProps {
+  danger?: boolean;
+}
 
 const Row = ({
   text,
@@ -15,11 +24,11 @@ const Row = ({
 }) => (
   <Container first={first} onPress={onPress}>
     <Text danger={danger}>{text}</Text>
-    <IconButton size={20} iconName="keyboard-arrow-right" />
+    <IconButton iconName="keyboard-arrow-right" />
   </Container>
 );
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableOpacity<ContainerProps>`
   padding: 4px 0px;
   border: 2px solid rgba(176, 176, 176, 0.1);
   border-top-width: ${({ first }) => (first ? '2px' : 0)};
@@ -30,7 +39,7 @@ const Container = styled.TouchableOpacity`
   /* text-decoration: underline; */
 `;
 
-const Text = styled.Text`
+const Text = styled.Text<TextProps>`
   color: ${({ theme, danger }) => (danger ? '#ff5858' : theme.sectionTitleColor)};
   font-size: 16px;
   font-weight: 500;

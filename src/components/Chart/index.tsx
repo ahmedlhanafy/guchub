@@ -28,7 +28,7 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
             <Line type="basis" dataKey="gpa" dot={false} stroke="url(#colorUv)" strokeWidth={2.8} />
             <XAxis
               tickLine={false}
-              padding={{ top: 100 }}
+              padding={{ left: 10, right: 10 }}
               tick={
                 <CustomizedAxisTick
                   //Rename me
@@ -41,7 +41,7 @@ export default withTheme(({ theme: { secondaryTextColor }, grades }) => {
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fill: labelsTextColor, fontSize: 13 }}
+              tick={{ fill: labelsTextColor, fontSize: "13px" }}
               tickLine={false}
               stroke={axesTextColor}
               interval={1}
@@ -65,7 +65,7 @@ const CustomizedAxisTick = (props: {
   const { x, y, payload, index, labelsTextColor, length } = props;
 
   return index === 0 || index === length ? (
-    <Text x={index === length ? x - 24 : x} y={y + 16} fill={labelsTextColor} fontSize={13}>
+    <Text x={index === length ? x - 24 : x} y={y + 16} fill={labelsTextColor} fontSize="13px">
       {payload.value}
     </Text>
   ) : null;

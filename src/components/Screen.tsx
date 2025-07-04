@@ -1,10 +1,10 @@
 //@TODO: Refactor this file
 
-import React, { Children, Component } from 'react';
+import React, { Component, Children } from 'react';
 import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 
 import IconButton from './IconButton';
@@ -20,6 +20,21 @@ type State = {
   animatedValue: any;
 };
 
+// Interface for header props
+interface HeaderProps {
+  animated?: boolean;
+  back?: boolean;
+  title?: string;
+  children?: any;
+  loadingState?: number;
+  to?: string;
+}
+
+// Helper function to check if a child is a React element
+const isReactElement = (child: any): child is React.ReactElement => {
+  return React.isValidElement(child);
+};
+
 class Screen extends Component<Props, State> {
   static defaultProps = {
     scrollable: true,
@@ -31,14 +46,17 @@ class Screen extends Component<Props, State> {
   _renderContent = () => {
     const { children, scrollable, theme } = this.props;
 
-    const header = Children.toArray(children).find((Comp) => Comp && Comp.type === Screen.Header);
+    const header = Children.toArray(children).find((Comp) => 
+      isReactElement(Comp) && Comp.type === Screen.Header
+    ) as React.ReactElement | undefined;
+    
     const {
       animated,
       back,
       title,
       children: headerChildren,
       loadingState = 7,
-    } = header ? header.props : {};
+    } = (header?.props || {}) as HeaderProps;
     let loadingText = '';
     if (loadingState === 1) loadingText = 'Loading...';
     else if (loadingState === 8) loadingText = 'Viewing outdated data';
@@ -77,12 +95,16 @@ class Screen extends Component<Props, State> {
           ])
         }>
         {staticTitle}
-        {Children.toArray(children).filter((Comp) => Comp && Comp.type === Screen.Content)}
+        {Children.toArray(children).filter((Comp) => 
+          isReactElement(Comp) && Comp.type === Screen.Content
+        )}
       </ScrollView>
     ) : (
       <View style={{ flex: 1 }}>
         {staticTitle}
-        {Children.toArray(children).filter((Comp) => Comp && Comp.type === Screen.Content)}
+        {Children.toArray(children).filter((Comp) => 
+          isReactElement(Comp) && Comp.type === Screen.Content
+        )}
       </View>
     );
   };
@@ -90,14 +112,17 @@ class Screen extends Component<Props, State> {
   render() {
     const { theme, children, style, ...props } = this.props;
 
-    const header = Children.toArray(children).find((Comp) => Comp && Comp.type === Screen.Header);
+    const header = Children.toArray(children).find((Comp) => 
+      isReactElement(Comp) && Comp.type === Screen.Header
+    ) as React.ReactElement | undefined;
+    
     const {
       animated,
       back,
       title,
       children: headerChildren,
       to = '/',
-    } = header ? header.props : {};
+    } = (header?.props || {}) as HeaderProps;
 
     return (
       <LinearGradient
@@ -144,7 +169,7 @@ const TitleContainer = styled.View`
 const Title = styled(Animated.Text)`
   background-color: transparent;
   color: ${({ theme }) => theme.primaryTextColor};
-  font-size: 34;
+  font-size: 34px;
   font-weight: bold;
 `;
 

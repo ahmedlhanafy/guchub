@@ -1,20 +1,37 @@
 import { Platform } from 'react-native';
-import { ApolloClient } from 'apollo-client';
-import { HttpLink, InMemoryCache, ApolloLink } from 'apollo-client-preset';
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { CachePersistor } from 'apollo-cache-persist';
-import { generateClientStateLink, getSchemaVersion, saveSchemaVersion } from './';
-import packageJson from '../../package.json';
+import generateClientState, { themeVar, authVar } from './apolloClientState';
+import { getSchemaVersion, saveSchemaVersion } from './cache';
 
 const currentSchemaVersion = '1.0';
-const cache = new InMemoryCache();
-
-const persistor = new CachePersistor({
-  cache,
-  storage: localStorage,
-  trigger: Platform.OS === 'web' ? 'write' : 'background',
-});
 
 export default async () => {
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          theme: {
+            read() {
+              return themeVar();
+            }
+          },
+          auth: {
+            read() {
+              return authVar();
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const persistor = new CachePersistor({
+    cache,
+    storage: Platform.OS === 'web' ? localStorage : require('@react-native-async-storage/async-storage').default,
+    trigger: Platform.OS === 'web' ? 'write' : 'background',
+  });
+
   const cacheSchemaVersion = (await getSchemaVersion()) || 0;
   if (currentSchemaVersion === cacheSchemaVersion) {
     await persistor.restore();
@@ -23,15 +40,16 @@ export default async () => {
     await saveSchemaVersion(currentSchemaVersion);
   }
 
-  const clientStateLink = await generateClientStateLink(cache);
+  // Initialize client state
+  const { typeDefs, resolvers } = await generateClientState(cache);
+
   return new ApolloClient({
     connectToDevTools: process.env.NODE_ENV === 'development',
-    link: ApolloLink.from([
-      clientStateLink,
-      new HttpLink({
-        uri: 'https://graphql-guc.now.sh/graphql',
-      }),
-    ]),
+    link: new HttpLink({
+      uri: 'https://graphql-guc.now.sh/graphql',
+    }),
     cache,
+    typeDefs,
+    resolvers,
   });
 };

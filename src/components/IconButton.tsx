@@ -2,11 +2,28 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Link } from 'react-router-native';
 import styled, { withTheme } from 'styled-components/native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const IconButtonContainer = styled(LinearGradient)`
+// Define prop interfaces for styled components
+interface IconButtonContainerProps {
+  center?: boolean;
+}
+
+// Define props interface for IconButton
+interface IconButtonProps {
+  onPress?: () => void;
+  theme: any;
+  hasIndicator?: boolean;
+  hasOutline?: boolean;
+  iconName: string;
+  style?: any;
+  to?: string;
+  size?: number;
+}
+
+const IconButtonContainer = styled(LinearGradient)<IconButtonContainerProps>`
   width: 40;
   height: 40;
   border-radius: 6;
@@ -31,57 +48,51 @@ const IconButtonIndicator = styled.View`
   border-color: ${({ theme }) => color(theme.backgroundColor).darken(0.25).rgb().string()};
 `;
 
-const IconButton = withTheme(
-  ({
-    onPress,
-    theme,
-    hasIndicator,
-    hasOutline,
-    iconName,
-    style,
-    to,
-    size = 28,
-  }: {
-    onPress?: () => void;
-    theme: any;
-    hasIndicator?: boolean;
-    hasOutline?: boolean;
-    iconName: string;
-    style: any;
-    to?: string;
-    size?: number;
-  }) => {
-    const content = (
-      <IconButtonContainer
-        center={hasOutline}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        colors={[
-          color(theme.cardBackgroundColor)
-            .darken(0.3)
-            .alpha(hasOutline ? 0.4 : 0)
-            .rgb()
-            .string(),
-          color(theme.cardBackgroundColor)
-            .darken(0.2)
-            .alpha(hasOutline ? 0.3 : 0)
-            .rgb()
-            .string(),
-        ]}>
-        <Icon size={hasOutline ? 22 : size} name={iconName} />
-        {hasIndicator ? <IconButtonIndicator /> : null}
-      </IconButtonContainer>
-    );
-    return to ? (
-      <Link component={TouchableOpacity} style={{ zIndex: 5 }} to={to}>
+const IconButtonComponent = ({
+  onPress,
+  theme,
+  hasIndicator,
+  hasOutline,
+  iconName,
+  style,
+  to,
+  size = 28,
+}: IconButtonProps) => {
+  const content = (
+    <IconButtonContainer
+      center={hasOutline}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      colors={[
+        color(theme.cardBackgroundColor)
+          .darken(0.3)
+          .alpha(hasOutline ? 0.4 : 0)
+          .rgb()
+          .string(),
+        color(theme.cardBackgroundColor)
+          .darken(0.2)
+          .alpha(hasOutline ? 0.3 : 0)
+          .rgb()
+          .string(),
+      ]}>
+      <Icon size={hasOutline ? 22 : size} name={iconName as any} />
+      {hasIndicator ? <IconButtonIndicator /> : null}
+    </IconButtonContainer>
+  );
+  return to ? (
+    <TouchableOpacity style={{ zIndex: 5 }}>
+      <Link to={to}>
         {content}
       </Link>
-    ) : (
-      <TouchableOpacity style={style} onPress={onPress}>
-        {content}
-      </TouchableOpacity>
-    );
-  }
-);
+    </TouchableOpacity>
+  ) : (
+    <TouchableOpacity style={style} onPress={onPress}>
+      {content}
+    </TouchableOpacity>
+  );
+};
+
+// Properly type the withTheme HOC
+const IconButton = withTheme(IconButtonComponent) as React.ComponentType<Omit<IconButtonProps, 'theme'>>;
 
 export default IconButton;

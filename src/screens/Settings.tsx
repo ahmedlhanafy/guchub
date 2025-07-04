@@ -3,7 +3,8 @@ import { Linking } from 'react-native';
 import styled, { withTheme } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from '@apollo/client/react/hoc';
+import compose from 'lodash.flowright';
 import { Screen, Section, SmallCard, SequenceAnimator, SettingsRow } from '../components';
 import { updateSettings } from '../utils';
 

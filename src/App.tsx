@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
-import { ApolloProvider, graphql } from 'react-apollo';
+import { ApolloProvider, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { NativeRouter as Router, Route } from 'react-router-native';
+import { NativeRouter as Router, Routes, Route } from 'react-router-native';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
 // import mixpanel from 'mixpanel-browser';
@@ -33,40 +33,48 @@ if (process.env.NODE_ENV !== 'development') {
 // });
 // const ErrorBoundary = bugsnagClient.use(createPlugin(React));
 
-const App = graphql(
-  gql`
-    {
-      theme @client {
-        type
-      }
-      auth @client {
-        token
-        isDemoUser
-      }
+const GET_LOCAL_STATE = gql`
+  {
+    theme @client {
+      type
     }
-  `
-)(({ data: { theme, auth } }) => (
-  <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
-    <Router>
-      <View style={{ flex: 1, height: '100vh' }}>
-        <StatusBar
-          barStyle={(theme ? theme.type : 'light') === 'light' ? 'dark-content' : 'light-content'}
-        />
-        <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/" component={Home} />
-        <PrivateRoute exact path="/attendance" component={Attendance} />
-        <PrivateRoute exact path="/transcript" component={Transcript} />
-        <PrivateRoute exact path="/schedule" component={Schedule} />
-        <PrivateRoute exact path="/settings" component={Settings} />
-        <PrivateRoute exact path="/about" component={About} />
-        <Route exact path="/why-guchub" component={WhyGUCHub} />
-        <DemoUserToast isDemoUser={auth.isDemoUser} />
-      </View>
-    </Router>
-  </ThemeProvider>
-));
+    auth @client {
+      token
+      isDemoUser
+    }
+  }
+`;
 
-export default class extends React.Component<
+const App = () => {
+  const { data } = useQuery(GET_LOCAL_STATE);
+  const theme = data?.theme;
+  const auth = data?.auth || { token: null, isDemoUser: false };
+  
+  return (
+    <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
+      <Router>
+        <View style={{ flex: 1 }}>
+          <StatusBar
+            barStyle={(theme ? theme.type : 'light') === 'light' ? 'dark-content' : 'light-content'}
+          />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+            <Route path="/attendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
+            <Route path="/transcript" element={<PrivateRoute><Transcript /></PrivateRoute>} />
+            <Route path="/schedule" element={<PrivateRoute><Schedule /></PrivateRoute>} />
+            <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+            <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+            <Route path="/why-guchub" element={<WhyGUCHub />} />
+          </Routes>
+          <DemoUserToast isDemoUser={auth.isDemoUser} />
+        </View>
+      </Router>
+    </ThemeProvider>
+  );
+};
+
+class AppContainer extends React.Component<
   null,
   {
     client: any | undefined | null;
@@ -79,7 +87,7 @@ export default class extends React.Component<
   }
   render() {
     const client = this.state.client;
-    const containerStyle: any = { flex: 1, height: '100vh' };
+    const containerStyle: any = { flex: 1 };
     return (
       // <ErrorBoundary>
       <View style={containerStyle}>
@@ -93,3 +101,5 @@ export default class extends React.Component<
     );
   }
 }
+
+export default AppContainer;

@@ -1,10 +1,19 @@
 import React, { Fragment } from 'react';
-import { Platform, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity, DimensionValue } from 'react-native';
 import { Link } from 'react-router-native';
 import styled, { withTheme } from 'styled-components/native';
 import color from 'color';
 
-const styles = ({ primary, theme }) => ({
+interface ButtonProps {
+  primary?: boolean;
+  theme: any;
+  submit?: boolean;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  onPress?: () => void | Promise<void>;
+}
+
+const styles = ({ primary, theme }: ButtonProps) => ({
   backgroundColor: primary
     ? 'rgba(98, 205, 199, 1)'
     : color('#767A80')
@@ -13,16 +22,16 @@ const styles = ({ primary, theme }) => ({
         .string(),
   margin: 0,
   height: 42,
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
+  width: '100%' as DimensionValue,
+  justifyContent: 'center' as const,
+  alignItems: 'center' as const,
   borderRadius: 4,
   marginBottom: 16,
   ...Platform.select({ web: { outline: 'none' } }),
 });
 
 // Beginning of super hacky stuff
-const Button = withTheme((props) =>
+const ButtonComponent = (props: ButtonProps) =>
   Platform.OS === 'web' && props.submit ? (
     <Fragment>
       <TouchableOpacity {...props} style={styles(props)}>
@@ -31,9 +40,12 @@ const Button = withTheme((props) =>
       <button type="submit" style={{ display: 'none' }} />
     </Fragment>
   ) : (
-    <TouchableOpacity {...props} style={styles(props)} />
-  )
-);
+    <TouchableOpacity {...props} style={styles(props)}>
+      {props.children}
+    </TouchableOpacity>
+  );
+
+const Button = withTheme(ButtonComponent) as React.ComponentType<Omit<ButtonProps, 'theme'>>;
 // End of super hacky stuff
 
 const Title = styled.Text`
@@ -76,9 +88,13 @@ export default ({
   );
 
   return to ? (
-    <Link component={() => <Button submit={submit} primary disabled={disabled} {...props} />} to={to}>
-      {content}
-    </Link>
+    <TouchableOpacity style={{ zIndex: 5 }}>
+      <Link to={to}>
+        <Button submit={submit} primary={primary} disabled={disabled} {...props}>
+          {content}
+        </Button>
+      </Link>
+    </TouchableOpacity>
   ) : (
     <Button submit={submit} onPress={onPress} primary={primary} disabled={disabled} {...props}>
       {content}

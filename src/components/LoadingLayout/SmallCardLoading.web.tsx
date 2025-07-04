@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo';
+import { Platform, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 import ContentLoader from 'react-content-loader';
 
@@ -11,12 +11,12 @@ export default () => (
     colors={['#767A80', color('#3B4149').alpha(0.7).rgb().string()]}
     style={styles.container}>
     <ContentLoader
-      speed={100}
-      primaryColor="#bdbdbd"
-      secondaryColor="#969696"
+      speed={2}
+      backgroundColor="#bdbdbd"
+      foregroundColor="#a9a9a9"
       height="100%"
       style={{ height: '100%' }}>
-      <rect x="0" y="70" rx="4" ry="4" width="80" height="10" />
+      <rect x="0" y="15" rx="4" ry="4" width="150" height="10" />
     </ContentLoader>
   </LinearGradient>
 );
@@ -24,9 +24,10 @@ export default () => (
 const styles = StyleSheet.create({
   container: {
     width: 180,
-    height: 100,
+    paddingVertical: 14,
     paddingBottom: 14,
     paddingHorizontal: 16,
+    height: Platform.select({ web: 100, ios: 100, android: 100 }),
     borderRadius: 4,
     shadowColor: 'black',
     shadowOpacity: 0.2,
@@ -36,6 +37,5 @@ const styles = StyleSheet.create({
       width: 0,
     },
     marginRight: 16,
-    justifyContent: 'flex-end',
   },
 });

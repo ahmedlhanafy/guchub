@@ -2,13 +2,13 @@ import React from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import { Link } from 'react-router-native';
 import styled from 'styled-components/native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 type Props = {
   title: string;
-  colors: string[];
+  colors: readonly [string, string, ...string[]];
   onPress?: () => void;
   index?: number;
   to?: string;
@@ -59,9 +59,11 @@ const SmallCard = ({ title, titleStyles, colors, onPress, to, children }: Props)
     </Container>
   );
   return to ? (
-    <Link to={to} component={TouchableOpacity}>
-      {element}
-    </Link>
+    <TouchableOpacity>
+      <Link to={to}>
+        {element}
+      </Link>
+    </TouchableOpacity>
   ) : (
     <TouchableOpacity onPress={onPress}>{element}</TouchableOpacity>
   );

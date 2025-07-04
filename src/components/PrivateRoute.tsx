@@ -1,26 +1,28 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql } from '@apollo/client/react/hoc';
 import gql from 'graphql-tag';
-import { Route, Redirect } from 'react-router-native';
+import { Navigate } from 'react-router-native';
 import get from 'lodash.get';
 
-const PrivateRoute = ({ data, component: Component, ...rest }: { data: any; component: any; exact?: boolean; path?: string; [key: string]: any }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      get(data, 'auth.token') ? (
-        <Component token={get(data, 'auth.token')} {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: props.location },
-          }}
-        />
-      )
-    }
-  />
-);
+interface PrivateRouteProps {
+  data: any;
+  children: React.ReactNode;
+}
+
+const PrivateRouteComponent = ({ data, children }: PrivateRouteProps) => {
+  const token = get(data, 'auth.token');
+  
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  // Pass token to children if they are React elements
+  if (React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<any>, { token });
+  }
+  
+  return <>{children}</>;
+};
 
 const QUERY = gql`
   {
@@ -30,4 +32,7 @@ const QUERY = gql`
   }
 `;
 
-export default graphql(QUERY)(PrivateRoute);
+// Properly type the HOC-wrapped component
+const PrivateRoute = graphql(QUERY)(PrivateRouteComponent) as React.ComponentType<{ children: React.ReactNode }>;
+
+export default PrivateRoute;

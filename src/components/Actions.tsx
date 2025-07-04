@@ -1,5 +1,7 @@
 import React from 'react';
-import { SequenceAnimator, SmallCard, Section } from '../components';
+import SequenceAnimator from './SequenceAnimator';
+import SmallCard from './SmallCard';
+import Section from './Section';
 
 const Actions = () => (
   <Section title="Actions">

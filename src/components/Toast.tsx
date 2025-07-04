@@ -17,6 +17,7 @@ type State = {
 };
 
 export default class Toast extends PureComponent<Props, State> {
+  static displayName = 'Toast';
   duration = 600;
   static defaultProps = {
     disappearing: true,
@@ -32,9 +33,9 @@ export default class Toast extends PureComponent<Props, State> {
   );
   state = { animatedValue: new Animated.Value(this.props.shown ? 1 : 0) };
 
-  componentWillReceiveProps(newProps: Props) {
-    if (newProps.shown !== this.props.shown) {
-      if (newProps.shown)
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.shown !== this.props.shown) {
+      if (this.props.shown)
         this.animate({ toValue: 1 }).start(() => {
           if (this.props.disappearing)
             this.animate({ delay: this.props.hideAfter, toValue: 0 }).start(

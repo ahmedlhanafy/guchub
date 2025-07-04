@@ -4,6 +4,15 @@ import color from 'color';
 import styled, { withTheme } from 'styled-components/native';
 import { Screen } from '../components';
 
+// Define prop interfaces for styled components
+interface TextProps {
+  center?: boolean;
+}
+
+interface SeperatorProps {
+  height?: string;
+}
+
 const About = ({ theme }) => (
   <Screen>
     <Screen.Header to="/settings" title="About" animated back />
@@ -72,14 +81,14 @@ const Container = styled.View`
   padding: 16px 24px;
 `;
 
-const Text = styled.Text`
+const Text = styled.Text<TextProps>`
   text-align: ${({ center = true }) => (center ? 'center' : 'start')};
   color: ${({ theme }) => color(theme.primaryTextColor).alpha(0.86).rgb().toString()};
   width: 100%;
   font-size: 16px;
 `;
 
-const Bold = styled.Text`
+const Bold = styled.Text<TextProps>`
   color: ${({ theme }) => color(theme.primaryTextColor).alpha(0.86).rgb().toString()};
   width: 100%;
   text-align: ${({ center = true }) => (center ? 'center' : 'start')};
@@ -98,7 +107,7 @@ const GithubIcon = styled.Image`
   height: 20px;
 `;
 
-const Seperator = styled.View`
+const Seperator = styled.View<SeperatorProps>`
   height: ${({ height = '16px' }) => height};
 `;
 

@@ -1,4 +1,7 @@
-// import { localStorage } from 'react-native';
+import { Platform } from 'react-native';
+
+// Platform-aware storage
+const storage = Platform.OS === 'web' ? localStorage : require('@react-native-async-storage/async-storage').default;
 
 const TOKEN_KEY = 'guc-token';
 const DEMOUSER_KEY = 'guc-is-demo-user';
@@ -6,14 +9,14 @@ const SCHEMA_VERSION_KEY = 'apollo-schema-version';
 const SETTINGS_KEY = 'guc-settings';
 
 /* Apollo Schema */
-const saveToken = (token: string) => localStorage.setItem(TOKEN_KEY, token);
-const getToken = () => localStorage.getItem(TOKEN_KEY);
+const saveToken = (token: string) => storage.setItem(TOKEN_KEY, token);
+const getToken = () => storage.getItem(TOKEN_KEY);
 
-const saveDemoUser = (isDemoUser: boolean) => localStorage.setItem(DEMOUSER_KEY, isDemoUser.toString());
+const saveDemoUser = (isDemoUser: boolean) => storage.setItem(DEMOUSER_KEY, isDemoUser.toString());
 const getDemoUser = async (): Promise<boolean> =>
-  (await localStorage.getItem(DEMOUSER_KEY)) === 'true';
+  (await storage.getItem(DEMOUSER_KEY)) === 'true';
 
-// localStorage multiset doesn't work for some reason
+// storage multiset doesn't work for some reason
 export const saveCredentials = ({
   token,
   isDemoUser = false,
@@ -31,9 +34,9 @@ export const getCredentials = async (): Promise<{
 };
 
 /* Apollo Schema */
-export const getSchemaVersion = () => localStorage.getItem(SCHEMA_VERSION_KEY);
+export const getSchemaVersion = () => storage.getItem(SCHEMA_VERSION_KEY);
 export const saveSchemaVersion = (schemaVersion: string) =>
-  localStorage.setItem(SCHEMA_VERSION_KEY, schemaVersion);
+  storage.setItem(SCHEMA_VERSION_KEY, schemaVersion);
 
 /* Settings */
 type Settings = {
@@ -48,11 +51,11 @@ const defaultSettings = {
 export const updateSettings = async (settings: Settings = defaultSettings) => {
   const oldSettings = await getSettings();
   const stringifiedSettings = JSON.stringify({ ...oldSettings, ...settings });
-  localStorage.setItem(SETTINGS_KEY, stringifiedSettings);
+  storage.setItem(SETTINGS_KEY, stringifiedSettings);
 };
 
 export const getSettings = async (): Promise<Settings> => {
-  const settings = await localStorage.getItem(SETTINGS_KEY);
+  const settings = await storage.getItem(SETTINGS_KEY);
 
   if (settings) return JSON.parse(settings);
   return defaultSettings;

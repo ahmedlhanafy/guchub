@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Platform, Animated } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Platform, Dimensions, TextInput as TextField } from 'react-native';
-import { withApollo, compose, graphql } from 'react-apollo';
+import { withApollo } from '@apollo/client/react/hoc';
+import { graphql } from '@apollo/client/react/hoc';
 import gql from 'graphql-tag';
 import get from 'lodash.get';
 // import { TextField } from 'react-native-material-textfield';
@@ -147,9 +148,9 @@ class Login extends React.PureComponent<Props, State> {
 const Form = (props) => (Platform.OS === 'web' ? <form {...props} /> : <View {...props} />);
 
 const Logo = styled.Image`
-  width: 120;
-  height: 120;
-  margin-bottom: 20;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
 `;
 
 const TextInput = withTheme((props) => (
@@ -196,6 +197,9 @@ const login = async ({ username, password }: { username: string; password: strin
 
   return await res.json();
 };
+
+// Helper function to compose HOCs
+const compose = (...funcs) => (component) => funcs.reduceRight((acc, func) => func(acc), component);
 
 export default compose(
   withTheme,

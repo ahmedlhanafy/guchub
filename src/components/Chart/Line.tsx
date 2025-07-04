@@ -1,11 +1,9 @@
 import React from 'react';
-import { Svg } from 'expo';
-
-const { Line: SvgLine } = Svg;
+import Svg, { Line as SvgLine } from 'react-native-svg';
 
 type Props = {
-  x: (a: number) => void;
-  y: (a: number) => void;
+  x: (a: number) => number;
+  y: (a: number) => number;
 };
 
 const Line =

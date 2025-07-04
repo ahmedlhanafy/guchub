@@ -13,5 +13,5 @@ export {
   updateSettings,
   getSettings,
 } from './cache';
-export { default as generateClientStateLink } from './apolloClientState';
+export { default as generateClientState } from './apolloClientState';
 export { default as setupApollo } from './setupApollo'; 

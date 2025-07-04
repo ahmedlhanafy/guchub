@@ -3,6 +3,15 @@ import color from 'color';
 import styled, { withTheme } from 'styled-components/native';
 import { Screen } from '../components';
 
+// Define prop interfaces for styled components
+interface TextProps {
+  paddingRight?: number;
+}
+
+interface SeperatorProps {
+  height?: string;
+}
+
 const WhyGUCHub = ({ theme }) => (
   <Screen>
     <Screen.Header to="/settings" title="Why Another GUC App?" animated back />
@@ -62,14 +71,14 @@ const TextContainer = styled.View`
   flex-direction: row;
 `;
 
-const Text = styled.Text`
+const Text = styled.Text<TextProps>`
   color: ${({ theme }) => color(theme.primaryTextColor).alpha(0.86).rgb().toString()};
   font-size: 18px;
   line-height: 24px;
   padding-right: ${({ paddingRight }) => paddingRight || 0}px;
 `;
 
-const Seperator = styled.View`
+const Seperator = styled.View<SeperatorProps>`
   height: ${({ height = '16px' }) => height};
 `;
 

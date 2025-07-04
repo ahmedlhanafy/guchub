@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 // import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
 

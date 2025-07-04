@@ -1,16 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-native';
+import { useNavigate } from 'react-router-native';
 import Toast from './Toast';
 
 interface Props {
   isDemoUser: boolean;
-  history: {
-    push: (path: string) => void;
-  };
 }
 
-const DemoUserToast = ({ isDemoUser, history }: Props) =>
-  isDemoUser ? (
+const DemoUserToast = ({ isDemoUser }: Props) => {
+  const navigate = useNavigate();
+  
+  return isDemoUser ? (
     <Toast
       shown
       text="You're viewing a demo user!"
@@ -18,7 +17,7 @@ const DemoUserToast = ({ isDemoUser, history }: Props) =>
         <Toast.Action
           key="login"
           onPress={() => {
-            history.push('/login');
+            navigate('/login');
           }}
           text="LOGIN"
         />,
@@ -26,5 +25,6 @@ const DemoUserToast = ({ isDemoUser, history }: Props) =>
       disappearing={false}
     />
   ) : null;
+};
 
-export default withRouter(DemoUserToast); 
+export default DemoUserToast; 

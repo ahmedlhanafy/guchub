@@ -1,8 +1,8 @@
 import React from 'react';
 import { withTheme } from 'styled-components/native';
 import gql from 'graphql-tag';
-import { compose } from 'react-apollo';
-import graphql from 'react-apollo/graphql';
+import { graphql } from '@apollo/client/react/hoc';
+import compose from 'lodash.flowright';
 import get from 'lodash.get';
 import {
   SequenceAnimator,

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { withTheme } from 'styled-components/native';
-import { LinearGradient } from 'expo';
+import { LinearGradient } from 'expo-linear-gradient';
 import color from 'color';
 
 type Props = {
@@ -10,42 +10,47 @@ type Props = {
   theme: any;
 };
 
-const Row = ({ title, severityLevel, alternate = false, theme }: Props) => (
-  <Container
-    start={{ x: 0, y: 0.5 }}
-    end={{ x: 1, y: 0.5 }}
-    colors={
-      alternate
-        ? [
-            color(theme.cardBackgroundColor)
-              .alpha(0.4)
-              .darken(theme.type === 'light' ? 0.16 : 0)
-              .rgb()
-              .string(),
-            color(theme.cardBackgroundColor)
-              .alpha(0.1)
-              .darken(theme.type === 'light' ? 0.16 : 0)
-              .rgb()
-              .string(),
-          ]
-        : ['transparent', 'transparent']
-    }>
-    <Avatar
+const RowComponent = ({ title, severityLevel, alternate = false, theme }: Props) => {
+  // Define colors as properly typed arrays
+  const containerColors: [string, string] = alternate
+    ? [
+        color(theme.cardBackgroundColor)
+          .alpha(0.4)
+          .darken(theme.type === 'light' ? 0.16 : 0)
+          .rgb()
+          .string(),
+        color(theme.cardBackgroundColor)
+          .alpha(0.1)
+          .darken(theme.type === 'light' ? 0.16 : 0)
+          .rgb()
+          .string(),
+      ]
+    : ['transparent', 'transparent'];
+
+  const avatarColorsMap: Record<string, [string, string]> = {
+    '0': ['#00ACCF', '#78ffd6'],
+    '1': ['#ffe259', '#ffa751'],
+    '2': ['#fe8c00', '#F86800'],
+    '3': ['#e43a15', '#e65245'],
+  };
+
+  const avatarColors = avatarColorsMap[severityLevel.toString()] || ['#00ACCF', '#78ffd6'];
+
+  return (
+    <Container
       start={{ x: 0, y: 0.5 }}
       end={{ x: 1, y: 0.5 }}
-      colors={
-        {
-          '0': ['#00ACCF', '#78ffd6'],
-          '1': ['#ffe259', '#ffa751'],
-          '2': ['#fe8c00', '#F86800'],
-          '3': ['#e43a15', '#e65245'],
-        }[severityLevel]
-      }>
-      <AvatarText>{severityLevel}</AvatarText>
-    </Avatar>
-    <Title>{title}</Title>
-  </Container>
-);
+      colors={containerColors}>
+      <Avatar
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        colors={avatarColors}>
+        <AvatarText>{severityLevel}</AvatarText>
+      </Avatar>
+      <Title>{title}</Title>
+    </Container>
+  );
+};
 
 const Container = styled(LinearGradient)`
   min-height: 72px;
@@ -78,4 +83,7 @@ const AvatarText = styled.Text`
   color: #ffffff;
 `;
 
-export default withTheme(Row);
+// Properly type the HOC-wrapped component
+const AttendanceRow = withTheme(RowComponent) as React.ComponentType<Omit<Props, 'theme'>>;
+
+export default AttendanceRow;

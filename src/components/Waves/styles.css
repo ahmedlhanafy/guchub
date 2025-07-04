@@ -1,5 +1,5 @@
 .waves {
-  background: url(../../assets/wave.svg) repeat-x;
+  background: url(/wave.svg) repeat-x;
   position: absolute;
   height: 198px;
   animation: wave 10s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
@@ -23,7 +23,7 @@
 
 .waves-4 {
   animation-duration: 12s;
-  background: url(../../assets/wave-alt.svg) repeat-x;  
+  background: url(/wave-alt.svg) repeat-x;  
   opacity: 0.4;
   bottom: -20;
 }

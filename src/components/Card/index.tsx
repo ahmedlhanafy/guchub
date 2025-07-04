@@ -72,7 +72,7 @@ class Card extends PureComponent<Props, State> {
   render() {
     const { theme, secondaryTitle, course } = this.props;
     const tags = [`Slot ${course.number}`, course.venue.room, course.type];
-    const colors = [
+    const colors: readonly [string, string][] = [
       ['#F2994A', '#F2C94C'],
       ['#00ACCF', '#78ffd6'],
       ['rgba(242, 153, 74, 1)', 'rgba(235, 87, 87, 1)'],
