@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, Children } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, Platform } from 'react-native';
 
 type Props = {
   delay: number;
@@ -15,7 +15,7 @@ const OpacityAnimation = ({ delay, delayMultiplier, children }: Props) => {
       toValue: 1,
       duration: 400,
       delay: delayMultiplier * delay,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
       easing: Easing.ease,
     }).start();
   }, [delay, delayMultiplier]);

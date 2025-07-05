@@ -50,7 +50,7 @@ export default async () => {
   return new ApolloClient({
     connectToDevTools: process.env.NODE_ENV === 'development',
     link: new HttpLink({
-      uri: 'https://graphql-guc.now.sh/graphql',
+      uri: 'https://graphql-guc.vercel.app/graphql',
     }),
     cache,
     typeDefs,

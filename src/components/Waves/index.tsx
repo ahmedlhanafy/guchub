@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Dimensions, Animated, ImageStyle } from 'react-native';
+import { Dimensions, Animated, ImageStyle, Platform } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -15,7 +15,7 @@ export default class Waves extends PureComponent<
       Animated.timing(this.state.value, {
         toValue: 1,
         duration: 10000,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
       })
     ).start();
   }

@@ -48,7 +48,7 @@ const Card = ({ secondaryTitle, course }: Props) => {
     Animated.timing(textAnimatedValue.current, {
       toValue: 1,
       duration: 1000,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
       easing: Easing.ease,
     }).start();
   }, []);

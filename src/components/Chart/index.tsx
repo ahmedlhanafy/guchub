@@ -1,6 +1,6 @@
 import color from 'color';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, Text } from 'recharts';
 import { useTheme } from 'styled-components/native';
 
@@ -12,6 +12,12 @@ interface ChartProps {
 
 const Chart = ({ grades }: ChartProps) => {
   const theme = useTheme();
+  
+  // Only render charts on web platform since recharts is web-only
+  if (Platform.OS !== 'web') {
+    return null;
+  }
+  
   const axesTextColor = color(theme.secondaryTextColor).alpha(0.1).rgb().string();
   const labelsTextColor = color(theme.secondaryTextColor).alpha(0.5).rgb().string();
 

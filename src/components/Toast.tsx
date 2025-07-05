@@ -1,6 +1,6 @@
 import color from 'color';
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { TouchableOpacity, Animated } from 'react-native';
+import { TouchableOpacity, Animated, Platform } from 'react-native';
 import styled from 'styled-components/native';
 
 type Props = {
@@ -29,7 +29,7 @@ const Toast = ({
       toValue,
       delay,
       duration,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     });
 
   useEffect(() => {
