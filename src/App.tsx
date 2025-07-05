@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import React, { useState, useEffect } from 'react';
 import { View, StatusBar, Platform } from 'react-native';
 import { NativeRouter as Router, Routes, Route } from 'react-router-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components/native';
 
 // import mixpanel from 'mixpanel-browser';
@@ -55,68 +56,75 @@ const App = () => {
   const auth = data?.auth || { token: null, isDemoUser: false };
 
   return (
-    <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
-      <Router>
-        <View style={{ flex: 1 }}>
-          <StatusBar
-            barStyle={(theme ? theme.type : 'light') === 'light' ? 'dark-content' : 'light-content'}
-          />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
+    <SafeAreaProvider>
+      <ThemeProvider theme={themes[theme ? theme.type : 'automatic']}>
+        <Router
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <StatusBar
+              barStyle={(theme ? theme.type : 'light') === 'light' ? 'dark-content' : 'light-content'}
             />
-            <Route
-              path="/attendance"
-              element={
-                <PrivateRoute>
-                  <Attendance />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/transcript"
-              element={
-                <PrivateRoute>
-                  <Transcript />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/schedule"
-              element={
-                <PrivateRoute>
-                  <Schedule />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <PrivateRoute>
-                  <Settings />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <PrivateRoute>
-                  <About />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/why-guchub" element={<WhyGUCHub />} />
-          </Routes>
-          <DemoUserToast isDemoUser={auth.isDemoUser} />
-        </View>
-      </Router>
-    </ThemeProvider>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/attendance"
+                element={
+                  <PrivateRoute>
+                    <Attendance />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/transcript"
+                element={
+                  <PrivateRoute>
+                    <Transcript />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/schedule"
+                element={
+                  <PrivateRoute>
+                    <Schedule />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <PrivateRoute>
+                    <Settings />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PrivateRoute>
+                    <About />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/why-guchub" element={<WhyGUCHub />} />
+            </Routes>
+            <DemoUserToast isDemoUser={auth.isDemoUser} />
+          </View>
+        </Router>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 };
 

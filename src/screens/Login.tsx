@@ -20,6 +20,35 @@ const SAVE_TOKEN_MUTATION = gql`
   }
 `;
 
+/* @FIXME: Should be done in Apollo, it's setup this way because apollo doesn't 
+    provide an API for blacklisting mutations from being stored in the cache
+*/
+const login = async ({ username, password }: { username: string; password: string }) => {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  const body = {
+    operationName: 'login',
+    variables: { username, password },
+    query: `
+    mutation login($username: String!, $password: String!) {
+      login(username: $username, password: $password) {
+        isAuthorized
+        token
+      }
+    }
+  `,
+  };
+
+  const res = await fetch('https://graphql-guc.vercel.app/graphql', {
+    body: JSON.stringify(body),
+    method: 'POST',
+    mode: 'cors',
+    headers,
+  });
+
+  return await res.json();
+};
+
 const Login = () => {
   const navigate = useNavigate();
   const [saveTokenMutation] = useMutation(SAVE_TOKEN_MUTATION);
@@ -117,7 +146,7 @@ const Login = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Screen style={{ paddingTop: 40 }}>
+      <Screen>
         <Screen.Content style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
           <Logo source={require('../assets/logo1-min.png')} />
           <Toast shown={error !== null} handleHiding={_hideToast} text={error || ''} />
@@ -177,33 +206,7 @@ const StyledTextInput = (props) => {
   );
 };
 
-/* @FIXME: Should be done in Apollo, it's setup this way because apollo doesn't 
-    provide an API for blacklisting mutations from being stored in the cache
-*/
-const login = async ({ username, password }: { username: string; password: string }) => {
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  const body = {
-    operationName: 'login',
-    variables: { username, password },
-    query: `
-    mutation login($username: String!, $password: String!) {
-      login(username: $username, password: $password) {
-        isAuthorized
-        token
-      }
-    }
-  `,
-  };
-
-  const res = await fetch('https://graphql-guc.now.sh/graphql', {
-    body: JSON.stringify(body),
-    method: 'POST',
-    mode: 'cors',
-    headers,
-  });
-
-  return await res.json();
-};
+// Add displayName for React DevTools
+Login.displayName = 'Login';
 
 export default Login;

@@ -4,7 +4,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { Children, useRef } from 'react';
-import { ActivityIndicator, Animated, View, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Animated, View, ScrollView, StyleSheet, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styled, { useTheme } from 'styled-components/native';
 
 import IconButton from './IconButton';
@@ -31,6 +32,7 @@ const isReactElement = (child: any): child is React.ReactElement => {
 
 const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
   const animatedValue = useRef(new Animated.Value(0));
 
   const renderContent = () => {
@@ -68,7 +70,7 @@ const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
       <ScrollView
         scrollEventThrottle={16}
         contentContainerStyle={{
-          paddingTop: back ? 32 : 32 - 24,
+          paddingTop: back ? insets.top + 56 : insets.top + 8,
         }}
         onScroll={
           animated &&
@@ -80,7 +82,7 @@ const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
                 },
               },
             },
-          ])
+          ], { useNativeDriver: Platform.OS !== 'web' })
         }>
         {staticTitle}
         {Children.toArray(children).filter(
@@ -88,7 +90,7 @@ const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
         )}
       </ScrollView>
     ) : (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, paddingTop: back ? insets.top + 56 : insets.top + 8 }}>
         {staticTitle}
         {Children.toArray(children).filter(
           (Comp) => isReactElement(Comp) && Comp.type === Screen.Content
@@ -123,13 +125,14 @@ const Screen = ({ scrollable = true, children, style, ...props }: Props) => {
       style={[{ flex: 1, overflow: 'hidden' }, style]}
       {...props}>
       {back && (
-        <IconsContainer>
+        <IconsContainer insets={insets}>
           {back ? <IconButton to={to} iconName="keyboard-backspace" /> : null}
           {animated ? headerChildren : null}
         </IconsContainer>
       )}
       {animated ? (
         <Header
+          insets={insets}
           style={{
             opacity: animatedValue.current.interpolate({
               inputRange: [0, 40, 80],
@@ -176,9 +179,13 @@ const LoadingText = styled.Text`
   margin-right: 6px;
 `;
 
-const Header = styled(Animated.View)`
+interface StyledHeaderProps {
+  insets: { top: number; bottom: number; left: number; right: number };
+}
+
+const Header = styled(Animated.View)<StyledHeaderProps>`
   position: absolute;
-  top: 0;
+  top: ${({ insets }) => insets.top}px;
   left: 0;
   right: 0;
   height: 56px;
@@ -199,11 +206,11 @@ const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.primaryTextColor};
 `;
 
-const IconsContainer = styled.View`
+const IconsContainer = styled.View<StyledHeaderProps>`
   padding: 0px 16px;
   height: 56px;
   position: absolute;
-  top: 0;
+  top: ${({ insets }) => insets.top}px;
   left: 0;
   right: 0;
   align-items: center;
